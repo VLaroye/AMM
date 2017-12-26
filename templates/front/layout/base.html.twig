@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <script defer src="https://use.fontawesome.com/releases/v5.0.1/js/all.js"></script>
+        <title>{% block title %} - Association Art Mass et Mess{% endblock %}</title>
+        {% block stylesheets %}
+            <link rel="stylesheet" href="{{ asset('css/main.css') }}">
+        {% endblock %}
+    </head>
+    <body>
+        <div class="container px-0 bg-white">
+            <header>
+                <img class="d-block w-100" src="holder.js/800x150&amp;bg=555&amp;fg=333" alt="">
+            </header>
+            {% block navbar %}
+                {{ include('front/layout/navbar.html.twig') }}
+            {% endblock %}
+
+            {% block content %} {% endblock %}
+
+            <footer>
+                <div class="row text-center">
+                    <div class="col-4  py-5">
+                        <i class="fab fa-facebook-square fa-3x"></i>
+                    </div>
+                    <div class="col-4  py-5">
+                        <i class="fab fa-instagram fa-3x"></i>
+                    </div>
+                    <div class="col-4  py-5">
+                        <i class="fab fab fa-twitter-square fa-3x"></i>
+                    </div>
+                </div>
+            </footer>
+        </div>
+        {% block javascripts %}
+            <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/holder/2.9.4/holder.min.js"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
+            <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
+        {% endblock %}
+    </body>
+</html>

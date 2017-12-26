@@ -1,0 +1,7 @@
+#homepage_social svg, footer svg {
+  color: #f04d64;
+
+  @include hover-focus-active {
+    color: darken(#f04d64, 5%);
+  }
+}

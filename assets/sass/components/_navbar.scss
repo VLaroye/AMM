@@ -1,0 +1,5 @@
+li.nav-item {
+  @include hover-focus-active {
+    @include gradient-directional(#f04d64, #f1bec5, 65deg);
+  }
+}
