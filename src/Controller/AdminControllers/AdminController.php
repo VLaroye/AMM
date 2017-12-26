@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\AdminControllers;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -12,6 +12,6 @@ class AdminController extends Controller
      */
     public function adminIndex()
     {
-        return $this->render("admin/layout/admin-base.html.twig");
+        return $this->render("admin/layout/admin_base.html.twig");
     }
 }

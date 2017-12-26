@@ -1,0 +1,27 @@
+{% extends 'admin/layout/admin_base.html.twig' %}
+
+{% block content %}
+
+    {% for artist in artists %}
+        <div class="container bg-light my-4">
+            <div class="media">
+                <img class="align-self-center m-3 w-25" src="{{ artist.image.url }}" alt="">
+                <div class="media-body my-3">
+                    <h5 class="mt-0"> {{ artist.name }}</h5>
+                    <h6>Style</h6>
+                    <p>{{ artist.style }}</p>
+                    <h6>Origine</h6>
+                    <p>{{ artist.origin }}</p>
+                    <h6>Description</h6>
+                    <p>{{ artist.description }}</p>
+
+                    <a href="{{ path('admin_artists_update', {'id' : artist.id}) }}"><button type="button" class="btn btn-primary rounded">Modifier</button></a>
+                    <a href="{{ path("admin_artists_delete", {'id' : artist.id}) }}"><button type="button" class="btn btn-danger rounded">Supprimer</button></a>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+
+
+
+{% endblock %}

@@ -56,10 +56,12 @@
         <nav class="sidebar-nav">
             <ul class="nav">
                 <li class="nav-item">
-                    <a class="nav-link" href="#"><i class="icon-speedometer"></i> Administration </a>
+                    <a class="nav-link" href="{{ path('admin_index') }}"><i class="icon-speedometer"></i> Administration </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="">...</a>
+                    <span class="navbar-text text-center w-100">Artistes</span>
+                    <a class="nav-link" href="{{ path('admin_artists_index') }}">Modifier/Supprimer</a>
+                    <a class="nav-link" href="{{ path('admin_artists_add') }}">Ajouter</a>
                 </li>
             </ul>
         </nav>
@@ -78,6 +80,7 @@
 
 <!-- Bootstrap and necessary plugins -->
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/holder/2.9.4/holder.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.3/js/tether.min.js" integrity="sha256-mIiWebTG82x+OcV3vUA49ffGDIAJ53uC9jflw5/+REs=" crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>

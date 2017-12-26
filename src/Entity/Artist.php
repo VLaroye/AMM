@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\ArtistRepository")
@@ -18,28 +19,43 @@ class Artist
 
     /**
      * @ORM\Column(type="string", length=255, nullable=false)
+     * @Assert\NotBlank()
+     * @Assert\Length(max=255)
      */
     private $name;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank()
+     * @Assert\Length(max=255)
      */
     private $description;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank()
+     * @Assert\Length(max=255)
      */
     private $style;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank()
+     * @Assert\Length(max=255)
      */
     private $origin;
 
     /**
      * @ORM\Column(type="string", length=255, name="youtubelink")
+     * @Assert\NotBlank()
+     * @Assert\Length(max=255)
      */
     private $youtubeLink;
+
+    /**
+     * @ORM\OneToOne(targetEntity="App\Entity\Image", cascade={"persist"})
+     */
+    private $image;
 
     /**
      * @return mixed
@@ -129,5 +145,13 @@ class Artist
         $this->youtubeLink = $youtubeLink;
     }
 
+    public function setImage(Image $image)
+    {
+        $this->image = $image;
+    }
 
+    public function getImage()
+    {
+        return $this->image;
+    }
 }
