@@ -28,7 +28,7 @@ class ArtistsController extends Controller
      */
     public function artistsIndex()
     {
-        $artists = $this->artistRepository->findAll();
+        $artists = $this->artistRepository->findAllArtistsByPriority();
 
         return $this->render("admin/admin_artists.html.twig", array(
             "artists" => $artists
@@ -52,6 +52,8 @@ class ArtistsController extends Controller
             $this->em->persist($artist);
 
             $this->em->flush();
+
+            return $this->redirectToRoute("admin_artists_index");
         }
 
         return $this->render('admin/admin_artists_add.html.twig', array(
@@ -62,16 +64,33 @@ class ArtistsController extends Controller
     /**
      * @Route("/delete/{id}", name="admin_artists_delete")
      */
-    public function artistsDelete($id)
+    public function artistsDelete(Artist $artist)
     {
+        $this->em->remove($artist);
+        $this->em->flush();
 
+        return $this->redirectToRoute("admin_artists_index");
     }
 
     /**
-     * @Route("/update/{id]", name="admin_artists_update")
+     * @Route("/update/{id}", name="admin_artists_update")
      */
-    public function artistsUpdate()
+    public function artistsUpdate(Artist $artist, Request $request)
     {
+        $form = $this->createForm(ArtistType::class, $artist);
 
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid()) {
+            $artist = $form->getData();
+
+            $this->em->flush();
+
+            return $this->redirectToRoute("admin_artists_index");
+        }
+
+        return $this->render("admin/admin_artists_add.html.twig", array(
+            'form' => $form->createView(),
+        ));
     }
 }

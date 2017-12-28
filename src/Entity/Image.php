@@ -25,6 +25,7 @@ class Image
     /**
      * @ORM\Column(type="string", length=255, nullable=false)
      * @Assert\NotBlank()
+     * @Assert\Url()
      */
     private $url;
 

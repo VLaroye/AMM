@@ -1,0 +1,9 @@
+.artist, #festival_lineup .artist img {
+  @include size(100%);
+}
+
+.artist-infos {
+  @include size(100%);
+  position: absolute;
+  top: 0;
+}

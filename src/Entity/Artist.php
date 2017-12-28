@@ -49,11 +49,20 @@ class Artist
      * @ORM\Column(type="string", length=255, name="youtubelink")
      * @Assert\NotBlank()
      * @Assert\Length(max=255)
+     * @Assert\Url()
      */
     private $youtubeLink;
 
     /**
-     * @ORM\OneToOne(targetEntity="App\Entity\Image", cascade={"persist"})
+     * @ORM\Column(type="integer")
+     * @Assert\NotBlank()
+     */
+    private $priority;
+
+    /**
+     * @ORM\OneToOne(targetEntity="App\Entity\Image", cascade={"persist", "remove"})
+     * @ORM\JoinColumn(nullable=false)
+     * @Assert\Valid()
      */
     private $image;
 
@@ -144,6 +153,23 @@ class Artist
     {
         $this->youtubeLink = $youtubeLink;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getPriority()
+    {
+        return $this->priority;
+    }
+
+    /**
+     * @param mixed $priority
+     */
+    public function setPriority($priority): void
+    {
+        $this->priority = $priority;
+    }
+
 
     public function setImage(Image $image)
     {

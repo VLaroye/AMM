@@ -8,21 +8,24 @@ use Symfony\Bridge\Doctrine\RegistryInterface;
 
 class ArtistRepository extends ServiceEntityRepository
 {
-    public function __construct(RegistryInterface $registry)
+    private $em;
+
+    public function __construct(RegistryInterface $registry, \Doctrine\ORM\EntityManagerInterface $em)
     {
         parent::__construct($registry, Artist::class);
+        $this->em = $em;
     }
 
-    /*
-    public function findBySomething($value)
+    public function findAllArtistsByPriority()
     {
-        return $this->createQueryBuilder('a')
-            ->where('a.something = :value')->setParameter('value', $value)
-            ->orderBy('a.id', 'ASC')
-            ->setMaxResults(10)
+        $qb = $this->em->createQueryBuilder();
+
+        $qb->select('a')
+            ->from('App:Artist', 'a')
+            ->orderBy('a.priority', 'DESC');
+
+        return $qb
             ->getQuery()
-            ->getResult()
-        ;
+            ->getResult();
     }
-    */
 }

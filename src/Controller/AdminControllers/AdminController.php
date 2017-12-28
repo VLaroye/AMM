@@ -12,6 +12,6 @@ class AdminController extends Controller
      */
     public function adminIndex()
     {
-        return $this->render("admin/layout/admin_base.html.twig");
+        return $this->render("admin/admin_homepage.html.twig");
     }
 }

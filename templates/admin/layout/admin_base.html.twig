@@ -16,7 +16,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/simple-line-icons/2.4.1/css/simple-line-icons.min.css" integrity="sha256-7O1DfUu4pybYI7uAATw34eDrgQaWGOfMV/8erfDQz/Q=" crossorigin="anonymous" />
 
     <!-- Main styles for this application -->
-    <link href="{{ asset('css/admin/style.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/admin.css') }}" rel="stylesheet">
 </head>
 
 <!-- BODY options, add following classes to body to change options
@@ -52,20 +52,34 @@
     </ul>
 </header>
 <div class="app-body">
-    <div class="sidebar">
-        <nav class="sidebar-nav">
+    {% block sidebar %}
+    <div class="sidebar ">
+        <nav class="sidebar-nav d-flex flex-column">
             <ul class="nav">
                 <li class="nav-item">
                     <a class="nav-link" href="{{ path('admin_index') }}"><i class="icon-speedometer"></i> Administration </a>
                 </li>
                 <li class="nav-item">
-                    <span class="navbar-text text-center w-100">Artistes</span>
-                    <a class="nav-link" href="{{ path('admin_artists_index') }}">Modifier/Supprimer</a>
-                    <a class="nav-link" href="{{ path('admin_artists_add') }}">Ajouter</a>
+                    <span class="navbar-text text-center w-100 bg-light text-dark">Artistes</span>
+                    <a class="nav-link" href="{{ path('admin_artists_index') }}">Liste des artistes</a>
+                    <a class="nav-link" href="{{ path('admin_artists_add') }}">Ajouter un artiste</a>
+                </li>
+                <li class="nav-item">
+                    <span class="navbar-text text-center w-100 bg-light text-dark">Utilisateurs</span>
+                </li>
+                <li class="nav-item">
+                    <span class="navbar-text text-center w-100 bg-light text-dark">Evenements</span>
+                </li>
+                <li class="nav-item">
+                    <span class="navbar-text text-center w-100 bg-light text-dark">Diaporama</span>
+                </li>
+                <li class="nav-item">
+                    <span class="navbar-text text-center w-100 bg-light text-dark">Gallerie</span>
                 </li>
             </ul>
         </nav>
     </div>
+    {% endblock %}
 
     <!-- Main content -->
     <main class="main">

@@ -7,30 +7,16 @@
             <h2>{{ "Line-Up"|upper }}</h2>
         </div>
         <div class="row no-gutters">
-            <div class="col-6 col-md-3">
-                <img class="d-block w-100" src="holder.js/200x200?auto=yes" alt="">
-            </div>
-            <div class="col-6 col-md-3">
-                <img class="d-block w-100" src="holder.js/200x200?auto=yes" alt="">
-            </div>
-            <div class="col-6 col-md-3">
-                <img class="d-block w-100" src="holder.js/200x200?auto=yes" alt="">
-            </div>
-            <div class="col-6 col-md-3">
-                <img class="d-block w-100" src="holder.js/200x200?auto=yes" alt="">
-            </div>
-            <div class="col-6 col-md-3">
-                <img class="d-block w-100" src="holder.js/200x200?auto=yes" alt="">
-            </div>
-            <div class="col-6 col-md-3">
-                <img class="d-block w-100" src="holder.js/200x200?auto=yes" alt="">
-            </div>
-            <div class="col-6 col-md-3">
-                <img class="d-block w-100" src="holder.js/200x200?auto=yes" alt="">
-            </div>
-            <div class="col-6 col-md-3">
-                <img class="d-block w-100" src="holder.js/200x200?auto=yes" alt="">
-            </div>
+            {% for artist in artists %}
+                <div class="col-6 col-md-4">
+                    <div class="artist">
+                        <img class="" src="{{ artist.image.url }}" alt="{{ artist.image.alt }}">
+                        <div class="artist-infos">
+                            <p>{{ artist.name }}</p>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
         </div>
     </section>
 

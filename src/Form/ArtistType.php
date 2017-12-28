@@ -10,6 +10,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 
 class ArtistType extends AbstractType
 {
@@ -18,6 +19,7 @@ class ArtistType extends AbstractType
         $builder
             ->add('name', TextType::class, array('label' => 'Nom'))
             ->add('description', TextType::class)
+            ->add('priority', IntegerType::class)
             ->add('style', TextType::class)
             ->add('origin', TextType::class, array('label' => 'Origine'))
             ->add('youtubeLink', TextType::class, array('label' => "Lien Youtube"))

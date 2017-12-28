@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Artist;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
@@ -20,7 +21,13 @@ class AppController extends Controller
      */
     public function festival()
     {
-        return $this->render("front/festival.html.twig");
+        $em = $this->getDoctrine()->getManager();
+
+        $artists = $em->getRepository(Artist::class)->findAllArtistsByPriority();
+
+        return $this->render("front/festival.html.twig", array(
+            "artists" => $artists
+        ));
     }
 
     /**
