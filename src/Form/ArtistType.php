@@ -24,7 +24,7 @@ class ArtistType extends AbstractType
             ->add('origin', TextType::class, array('label' => 'Origine'))
             ->add('youtubeLink', TextType::class, array('label' => "Lien Youtube"))
             ->add('image', ImageType::class)
-            ->add('submit', SubmitType::class, array('label' => "Ajouter l'artiste"));
+            ->add('submit', SubmitType::class, array('label' => "Valider"));
     }
 
     public function configureOptions(OptionsResolver $resolver)

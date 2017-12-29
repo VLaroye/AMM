@@ -3,26 +3,38 @@
 {% block content %}
 
     {% for artist in artists %}
-        <div class="container bg-light my-4">
-            <div class="media">
-                <div class="admin-artist-img">
-                    {% if artist.image is not null %}
-                        <img class="align-self-center m-3" src="{{ artist.image.url }}" alt="">
-                    {% endif %}
+        <div class="container bg-light my-4 py-3">
+            <div class="row">
+                <div class="col-12 col-md-5">
+                    <div class="admin-artist-img text-center">
+                        {% if artist.image is not null %}
+                            <img class="align-self-center" src="{{ artist.image.url }}" alt="">
+                        {% endif %}
+                    </div>
                 </div>
-                <div class="media-body my-3">
-                    <h5 class="mt-0"> {{ artist.name }}</h5>
+                <div class="col-12 col-md-7">
+                    <h5 class=""> {{ artist.name }}</h5>
                     <div class="row">
                         <div class="col-6">
-                            <h6>Style</h6>
+                            <h6>Style :</h6>
                             <p>{{ artist.style }}</p>
                         </div>
                         <div class="col-6">
-                            <h6>Origine</h6>
+                            <h6>Origine :</h6>
                             <p>{{ artist.origin }}</p>
                         </div>
                     </div>
-                    <h6>Description</h6>
+                    <div class="row">
+                        <div class="col-8">
+                            <p><a href="{{ artist.youtubeLink }}">Lien Youtube</a>
+                        </div>
+                        <div class="col-4">
+                            <h6 class="d-inline-block">Priorité : </h6>
+                            <p class="d-inline-block">{{ artist.priority }}</p>
+                        </div>
+                    </div>
+
+                    <h6>Description :</h6>
                     <p>{{ artist.description }}</p>
 
                     <a href="{{ path('admin_artists_update', {'id' : artist.id}) }}"><button type="button" class="btn btn-primary rounded">Modifier</button></a>

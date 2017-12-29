@@ -3,7 +3,6 @@
 namespace App\Controller\AdminControllers;
 
 use App\Form\ArtistType;
-use App\Form\ImageType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use App\Entity\Artist;
@@ -30,7 +29,7 @@ class ArtistsController extends Controller
     {
         $artists = $this->artistRepository->findAllArtistsByPriority();
 
-        return $this->render("admin/admin_artists.html.twig", array(
+        return $this->render("admin/artists/admin_artists.html.twig", array(
             "artists" => $artists
         ));
     }
@@ -56,7 +55,7 @@ class ArtistsController extends Controller
             return $this->redirectToRoute("admin_artists_index");
         }
 
-        return $this->render('admin/admin_artists_add.html.twig', array(
+        return $this->render('admin/artists/admin_artists_add.html.twig', array(
            'form' => $form->createView(),
         ));
     }
@@ -89,7 +88,7 @@ class ArtistsController extends Controller
             return $this->redirectToRoute("admin_artists_index");
         }
 
-        return $this->render("admin/admin_artists_add.html.twig", array(
+        return $this->render("admin/artists/admin_artists_add.html.twig", array(
             'form' => $form->createView(),
         ));
     }

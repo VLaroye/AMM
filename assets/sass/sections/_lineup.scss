@@ -1,9 +1,19 @@
 .artist, #festival_lineup .artist img {
   @include size(100%);
+  opacity: 0.6;
+}
+
+.artist, #festival_lineup .artist img:hover {
+  opacity: 1;
+  transition-duration: 0.5s;
+}
+
+.artist {
+  max-height: 20em;
 }
 
 .artist-infos {
-  @include size(100%);
+  @include size(100%, auto);
   position: absolute;
-  top: 0;
+  bottom: 0;
 }
