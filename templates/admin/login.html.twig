@@ -6,10 +6,10 @@
 <form action="{{ path('login') }}" method="post">
     <div class="form-group mt-5">
         <label for="username">Username:</label>
-        <input type="text" class="form-control" id="username" name="_username" value="{{ last_username }}" />
+        <input type="text" class="form-control" id="username" name="username" value="{{ last_username }}" />
 
         <label for="password">Password:</label>
-        <input type="password" class="form-control" id="password" name="_password" />
+        <input type="password" class="form-control" id="password" name="password" />
         <input type="hidden" name="_target_path" value="/admin" />
 
 

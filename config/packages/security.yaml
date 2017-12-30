@@ -17,9 +17,9 @@ security:
         main:
             anonymous: ~
 
-            form_login:
-                login_path: login
-                check_path: login
+            guard:
+                authenticators:
+                    - app.security.form_authenticator
 
             logout:
                 path: /logout
