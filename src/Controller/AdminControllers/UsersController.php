@@ -7,6 +7,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use App\Entity\User;
 use App\Form\UserType;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 /**
  * @Route("/admin/utilisateurs")
@@ -37,7 +38,7 @@ class UsersController extends Controller
     /**
      * @Route("/add", name="admin_users_add")
      */
-    public function userAdd(Request $request)
+    public function userAdd(Request $request, UserPasswordEncoderInterface $encoder)
     {
         $user = new User();
 
@@ -47,6 +48,10 @@ class UsersController extends Controller
 
         if ($form->isSubmitted() && $form->isValid()) {
             $user = $form->getData();
+
+            $encodedPassword = $encoder->encodePassword($user, $user->getPassword());
+
+            $user->setPassword($encodedPassword);
 
             $this->em->persist($user);
 

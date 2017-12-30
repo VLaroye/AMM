@@ -12,6 +12,11 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class User implements UserInterface
 {
+    public function __construct()
+    {
+        $this->roles = "ROLE_ADMIN";
+    }
+
     /**
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
@@ -26,13 +31,12 @@ class User implements UserInterface
     private $username;
 
     /**
-     * @ORM\Column(type="string", name="role")
-     * @Assert\NotBlank()
+     * @ORM\Column(type="string", name="role", options={"default": "ROLE_ADMIN"})
      */
     private $roles;
 
     /**
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="string", options={"default":"ROLE_ADMIN"})
      * @Assert\NotBlank()
      */
     private $password;
