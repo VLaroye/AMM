@@ -7,3 +7,9 @@
 ###< symfony/framework-bundle ###
 
 /assets/node_modules
+
+# Node
+npm-debug.log
+
+# WebStorm
+.idea/
