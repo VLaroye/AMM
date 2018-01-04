@@ -3,12 +3,12 @@
 namespace App\Security;
 
 use App\Entity\User;
+use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
-use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 use Symfony\Component\Security\Guard\Authenticator\AbstractFormLoginAuthenticator;
@@ -19,7 +19,7 @@ class FormAuthenticator extends AbstractFormLoginAuthenticator
     private $encoder;
     private $router;
 
-    public function __construct(\Doctrine\ORM\EntityManagerInterface $em, UserPasswordEncoderInterface $encoder, RouterInterface $router)
+    public function __construct(EntityManagerInterface $em, UserPasswordEncoderInterface $encoder, RouterInterface $router)
     {
         $this->em = $em;
         $this->encoder = $encoder;
@@ -73,8 +73,7 @@ class FormAuthenticator extends AbstractFormLoginAuthenticator
      */
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, $providerKey)
     {
-        // TODO : Rediriger vers la page demandée initialement. Pour le moment, redirige vers Login
-        return null;
+        return new RedirectResponse($this->router->generate('admin_index'));
     }
 
     /**

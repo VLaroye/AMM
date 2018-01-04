@@ -2,10 +2,14 @@
 
 namespace App\Controller\AdminControllers;
 
+use App\Entity\Image;
 use App\Form\ArtistType;
+use App\Service\ImageUploader;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use App\Entity\Artist;
+use Symfony\Component\HttpFoundation\File\File;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -37,7 +41,7 @@ class ArtistsController extends Controller
     /**
      * @Route("/add", name="admin_artists_add")
      */
-    public function artistsAdd(Request $request)
+    public function artistsAdd(Request $request, ImageUploader $imageUploader)
     {
         $artist = new Artist();
 
@@ -45,8 +49,15 @@ class ArtistsController extends Controller
 
         $form->handleRequest($request);
 
-        if($form->isSubmitted() && $form->isValid()) {
-            $artist = $form->getData();
+        if ($form->isSubmitted() && $form->isValid()) {
+            $image = new Image();
+
+            $uploadedImage = $imageUploader->upload($artist->getImageFile());
+
+            $image->setFilename($uploadedImage);
+            $image->setAlt($artist->getImageAlt());
+
+            $artist->setImage($image);
 
             $this->em->persist($artist);
 
@@ -65,6 +76,8 @@ class ArtistsController extends Controller
      */
     public function artistsDelete(Artist $artist)
     {
+        // TODO : Supprimer l'image du dossier /images/uploads ?
+
         $this->em->remove($artist);
         $this->em->flush();
 
@@ -80,7 +93,7 @@ class ArtistsController extends Controller
 
         $form->handleRequest($request);
 
-        if($form->isSubmitted() && $form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $artist = $form->getData();
 
             $this->em->flush();

@@ -11,7 +11,7 @@
                 <div class="col-6 col-md-4">
                     <div class="artist ">
                         <a href="">
-                            <img class="" src="{{ artist.image.url }}" alt="{{ artist.image.alt }}">
+                            <img class="" src="{{ asset('images/uploads/' ~  artist.image.file ) }}" alt="{{ artist.image.alt }}">
                             <div class="artist-infos pl-4 pb-4 text-pink">
                                 <h3 class="m-0 font-weight-bold">{{ artist.name }}</h3>
                                 <p class="m-0">{{ artist.style }} - {{ artist.origin }}</p>

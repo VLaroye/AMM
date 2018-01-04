@@ -8,7 +8,7 @@
                 <div class="col-12 col-md-5">
                     <div class="admin-artist-img text-center">
                         {% if artist.image is not null %}
-                            <img class="align-self-center" src="{{ artist.image.url }}" alt="">
+                            <img class="align-self-center" src="{{ asset('images/uploads/' ~  artist.image.file ) }}" alt="">
                         {% endif %}
                     </div>
                 </div>
@@ -38,13 +38,13 @@
                     <p>{{ artist.description }}</p>
 
                     <a href="{{ path('admin_artists_update', {'id' : artist.id}) }}"><button type="button" class="btn btn-primary rounded">Modifier</button></a>
-                    <button type="button" class="btn btn-danger rounded" data-toggle="modal" data-target="#deleteConfirm">Supprimer</button>
+                    <button type="button" class="btn btn-danger rounded" data-toggle="modal" data-target="#deleteConfirm{{ artist.id }}">Supprimer</button>
                 </div>
             </div>
         </div>
 
         <!-- Modal Confirmation Suppression -->
-        <div class="modal fade" id="deleteConfirm" tabindex="-1" role="dialog" aria-labelledby="deleteConfirmLabel" aria-hidden="true">
+        <div class="modal fade" id="deleteConfirm{{ artist.id }}" tabindex="-1" role="dialog" aria-labelledby="deleteConfirmLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">

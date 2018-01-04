@@ -6,6 +6,7 @@ namespace App\Form;
 
 use App\Entity\Artist;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -23,7 +24,8 @@ class ArtistType extends AbstractType
             ->add('style', TextType::class)
             ->add('origin', TextType::class, array('label' => 'Origine'))
             ->add('youtubeLink', TextType::class, array('label' => "Lien Youtube"))
-            ->add('image', ImageType::class)
+            ->add('imageFile', FileType::class, array('label' => 'Fichier image'))
+            ->add('imageAlt', TextType::class, array('label' => 'Image Alt'))
             ->add('submit', SubmitType::class, array('label' => "Valider"));
     }
 

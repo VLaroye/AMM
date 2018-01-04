@@ -144,4 +144,8 @@ function init(url) {
   /* ---------- Popover ---------- */
   $('[rel="popover"],[data-rel="popover"],[data-toggle="popover"]').popover();
 
+    $('#sandbox-container .input-group.date').datepicker({
+        language: "fr",
+        todayHighlight: true
+    });
 }

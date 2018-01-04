@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -11,6 +12,17 @@ use Symfony\Component\Validator\Constraints as Assert;
 class Artist
 {
     /**
+     * @var UploadedFile
+     */
+    private $imageFile;
+
+    /**
+     * @var string
+     */
+    private $imageAlt;
+
+    /**
+     * @var int
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
@@ -18,6 +30,8 @@ class Artist
     private $id;
 
     /**
+     * @var string
+     *
      * @ORM\Column(type="string", length=255, nullable=false)
      * @Assert\NotBlank()
      * @Assert\Length(max=255)
@@ -25,6 +39,8 @@ class Artist
     private $name;
 
     /**
+     * @var string
+     *
      * @ORM\Column(type="string", length=255)
      * @Assert\NotBlank()
      * @Assert\Length(max=255)
@@ -32,6 +48,8 @@ class Artist
     private $description;
 
     /**
+     * @var string
+     *
      * @ORM\Column(type="string", length=255)
      * @Assert\NotBlank()
      * @Assert\Length(max=255)
@@ -39,6 +57,8 @@ class Artist
     private $style;
 
     /**
+     * @var string
+     *
      * @ORM\Column(type="string", length=255)
      * @Assert\NotBlank()
      * @Assert\Length(max=255)
@@ -46,6 +66,8 @@ class Artist
     private $origin;
 
     /**
+     * @var string
+     *
      * @ORM\Column(type="string", length=255, name="youtubelink")
      * @Assert\NotBlank()
      * @Assert\Length(max=255)
@@ -54,12 +76,16 @@ class Artist
     private $youtubeLink;
 
     /**
+     * @var int
+     *
      * @ORM\Column(type="integer")
      * @Assert\NotBlank()
      */
     private $priority;
 
     /**
+     * @var Image
+     *
      * @ORM\OneToOne(targetEntity="App\Entity\Image", cascade={"persist", "remove"})
      * @ORM\JoinColumn(nullable=false)
      * @Assert\Valid()
@@ -67,15 +93,23 @@ class Artist
     private $image;
 
     /**
-     * @return mixed
+     * @return int
      */
-    public function getId()
+    public function getId(): int
     {
         return $this->id;
     }
 
     /**
-     * @return mixed
+     * @param int $id
+     */
+    public function setId(int $id): void
+    {
+        $this->id = $id;
+    }
+
+    /**
+     * @return string
      */
     public function getName()
     {
@@ -83,15 +117,15 @@ class Artist
     }
 
     /**
-     * @param mixed $name
+     * @param string $name
      */
-    public function setName($name): void
+    public function setName(string $name): void
     {
         $this->name = $name;
     }
 
     /**
-     * @return mixed
+     * @return string
      */
     public function getDescription()
     {
@@ -99,15 +133,15 @@ class Artist
     }
 
     /**
-     * @param mixed $description
+     * @param string $description
      */
-    public function setDescription($description): void
+    public function setDescription(string $description): void
     {
         $this->description = $description;
     }
 
     /**
-     * @return mixed
+     * @return string
      */
     public function getStyle()
     {
@@ -115,15 +149,15 @@ class Artist
     }
 
     /**
-     * @param mixed $style
+     * @param string $style
      */
-    public function setStyle($style): void
+    public function setStyle(string $style): void
     {
         $this->style = $style;
     }
 
     /**
-     * @return mixed
+     * @return string
      */
     public function getOrigin()
     {
@@ -131,15 +165,15 @@ class Artist
     }
 
     /**
-     * @param mixed $origin
+     * @param string $origin
      */
-    public function setOrigin($origin): void
+    public function setOrigin(string $origin): void
     {
         $this->origin = $origin;
     }
 
     /**
-     * @return mixed
+     * @return string
      */
     public function getYoutubeLink()
     {
@@ -147,15 +181,15 @@ class Artist
     }
 
     /**
-     * @param mixed $youtubeLink
+     * @param string $youtubeLink
      */
-    public function setYoutubeLink($youtubeLink): void
+    public function setYoutubeLink(string $youtubeLink): void
     {
         $this->youtubeLink = $youtubeLink;
     }
 
     /**
-     * @return mixed
+     * @return int
      */
     public function getPriority()
     {
@@ -163,21 +197,59 @@ class Artist
     }
 
     /**
-     * @param mixed $priority
+     * @param int $priority
      */
-    public function setPriority($priority): void
+    public function setPriority(int $priority): void
     {
         $this->priority = $priority;
     }
 
-
-    public function setImage(Image $image)
-    {
-        $this->image = $image;
-    }
-
+    /**
+     * @return Image
+     */
     public function getImage()
     {
         return $this->image;
     }
+
+    /**
+     * @param Image $image
+     */
+    public function setImage(Image $image): void
+    {
+        $this->image = $image;
+    }
+
+    /**
+     * @return UploadedFile
+     */
+    public function getImageFile()
+    {
+        return $this->imageFile;
+    }
+
+    /**
+     * @param UploadedFile $imageFile
+     */
+    public function setImageFile(UploadedFile $imageFile): void
+    {
+        $this->imageFile = $imageFile;
+    }
+
+    /**
+     * @return string
+     */
+    public function getImageAlt()
+    {
+        return $this->imageAlt;
+    }
+
+    /**
+     * @param string $imageAlt
+     */
+    public function setImageAlt(string $imageAlt): void
+    {
+        $this->imageAlt = $imageAlt;
+    }
+
 }

@@ -17,6 +17,7 @@
 
     <!-- Main styles for this application -->
     <link href="{{ asset('css/admin.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/css/bootstrap-datepicker.min.css" integrity="sha256-I4gvabvvRivuPAYFqevVhZl88+vNf2NksupoBxMQi04=" crossorigin="anonymous" />
 </head>
 
 <!-- BODY options, add following classes to body to change options
@@ -64,13 +65,17 @@
                     <a class="nav-link" href="{{ path('admin_artists_index') }}">Liste des artistes</a>
                     <a class="nav-link" href="{{ path('admin_artists_add') }}">Ajouter un artiste</a>
                 </li>
+                {% if is_granted('ROLE_SUPER_ADMIN') %}
                 <li class="nav-item">
                     <span class="navbar-text text-center w-100 bg-light text-dark">Utilisateurs</span>
                     <a class="nav-link" href="{{ path('admin_users_index') }}">Liste des utilisateurs</a>
                     <a class="nav-link" href="{{ path('admin_users_add') }}">Ajouter un utilisateur</a>
                 </li>
+                {% endif %}
                 <li class="nav-item">
                     <span class="navbar-text text-center w-100 bg-light text-dark">Evenements</span>
+                    <a class="nav-link" href="{{ path('admin_events_index') }}">Liste des evenements</a>
+                    <a class="nav-link" href="{{ path('admin_events_add') }}">Ajouter un evenement</a>
                 </li>
                 <li class="nav-item">
                     <span class="navbar-text text-center w-100 bg-light text-dark">Diaporama</span>
@@ -101,6 +106,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.3/js/tether.min.js" integrity="sha256-mIiWebTG82x+OcV3vUA49ffGDIAJ53uC9jflw5/+REs=" crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/pace.min.js" integrity="sha256-EPrkNjGEmCWyazb3A/Epj+W7Qm2pB9vnfXw+X6LImPM=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.7.1/locales/bootstrap-datepicker.fr.min.js" integrity="sha256-IRibTuqtDv2uUUN/0iTrhnrvvygNczxRRAbPgCbs+LE=" crossorigin="anonymous"></script>
 
 <!-- Main scripts -->
 <script src="{{ asset('js/admin/app.js') }}"></script>

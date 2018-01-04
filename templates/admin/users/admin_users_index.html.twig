@@ -6,11 +6,11 @@
             <p class="font-weight-bold">Nom d'utilisateur : {{ user.username }}</p>
             <p>Role : {{ user.roles[0] }}</p>
             <a href=""><button class="btn btn-primary rounded">Modifier</button></a>
-            <button type="button" class="btn btn-danger rounded" data-toggle="modal" data-target="#deleteConfirm">Supprimer</button>
+            <button type="button" class="btn btn-danger rounded" data-toggle="modal" data-target="#deleteConfirm{{ user.id }}">Supprimer</button>
         </div>
 
         <!-- Modal Confirmation Suppression -->
-        <div class="modal fade" id="deleteConfirm" tabindex="-1" role="dialog" aria-labelledby="deleteConfirmLabel" aria-hidden="true">
+        <div class="modal fade" id="deleteConfirm{{ user.id }}" tabindex="-1" role="dialog" aria-labelledby="deleteConfirmLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">

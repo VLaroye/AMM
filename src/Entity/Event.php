@@ -11,6 +11,8 @@ use Symfony\Component\Validator\Constraints as Assert;
 class Event
 {
     /**
+     * @var int
+     *
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
@@ -18,37 +20,80 @@ class Event
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=false)
+     * @var string
+     *
+     * @ORM\Column(type="string", nullable=false)
      * @Assert\NotBlank()
      * @Assert\Length(max=255)
      */
     private $name;
 
     /**
-     * @ORM\Column(type="datetime")
-     * @Assert\DateTime()
+     * @var \DateTime
+     *
+     * @ORM\Column(type="date")
+     * @Assert\Date()
      */
     private $date;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @var \DateTime
+     *
+     * @ORM\Column(type="time")
+     * @Assert\Time()
+     */
+    private $beginningTime;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(type="time")
+     * @Assert\Time()
+     * @Assert\GreaterThan(propertyPath="beginningTime")
+     */
+    private $endingTime;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(type="string")
      */
     private $location;
 
     /**
+     * @var int
+     *
      * @ORM\Column(type="integer")
      * @Assert\Type(type="integer")
      */
     private $price;
 
     /**
-     * @ORM\Column(type="string", length=255, name="facebooklink")
+     * @var string
+     *
+     * @ORM\Column(type="string")
      * @Assert\Url()
      */
     private $facebookLink;
 
     /**
-     * @return mixed
+     * @return int
+     */
+    public function getId(): int
+    {
+        return $this->id;
+    }
+
+    /**
+     * @param int $id
+     */
+    public function setId(int $id): void
+    {
+        $this->id = $id;
+    }
+
+    /**
+     * @return string
      */
     public function getName()
     {
@@ -56,15 +101,15 @@ class Event
     }
 
     /**
-     * @param mixed $name
+     * @param string $name
      */
-    public function setName($name): void
+    public function setName(string $name): void
     {
         $this->name = $name;
     }
 
     /**
-     * @return mixed
+     * @return \Datetime
      */
     public function getDate()
     {
@@ -72,15 +117,15 @@ class Event
     }
 
     /**
-     * @param mixed $date
+     * @param \Datetime $date
      */
-    public function setDate($date): void
+    public function setDate(\Datetime $date): void
     {
         $this->date = $date;
     }
 
     /**
-     * @return mixed
+     * @return string
      */
     public function getLocation()
     {
@@ -88,15 +133,15 @@ class Event
     }
 
     /**
-     * @param mixed $location
+     * @param string $location
      */
-    public function setLocation($location): void
+    public function setLocation(string $location): void
     {
         $this->location = $location;
     }
 
     /**
-     * @return mixed
+     * @return int
      */
     public function getPrice()
     {
@@ -104,15 +149,15 @@ class Event
     }
 
     /**
-     * @param mixed $price
+     * @param int $price
      */
-    public function setPrice($price): void
+    public function setPrice(int $price): void
     {
         $this->price = $price;
     }
 
     /**
-     * @return mixed
+     * @return string
      */
     public function getFacebookLink()
     {
@@ -120,11 +165,43 @@ class Event
     }
 
     /**
-     * @param mixed $facebookLink
+     * @param string $facebookLink
      */
-    public function setFacebookLink($facebookLink): void
+    public function setFacebookLink(string $facebookLink): void
     {
         $this->facebookLink = $facebookLink;
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getBeginningTime()
+    {
+        return $this->beginningTime;
+    }
+
+    /**
+     * @param \DateTime $beginningTime
+     */
+    public function setBeginningTime(\DateTime $beginningTime): void
+    {
+        $this->beginningTime = $beginningTime;
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getEndingTime()
+    {
+        return $this->endingTime;
+    }
+
+    /**
+     * @param \DateTime $endingTime
+     */
+    public function setEndingTime(\DateTime $endingTime): void
+    {
+        $this->endingTime = $endingTime;
     }
 
 

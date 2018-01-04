@@ -3,10 +3,13 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\ImageRepository")
+ *
+ * @ORM\HasLifecycleCallbacks()
  */
 class Image
 {
@@ -16,6 +19,8 @@ class Image
     }
 
     /**
+     * @var int
+     *
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
@@ -23,40 +28,62 @@ class Image
     private $id;
 
     /**
+     * @var string
+     *
      * @ORM\Column(type="string", length=255, nullable=false)
-     * @Assert\NotBlank()
-     * @Assert\Url()
      */
-    private $url;
+    private $file;
+
 
     /**
+     * @var string
+     *
      * @ORM\Column(type="string", length=255)
      */
     private $alt;
 
     /**
+     * @var bool
+     *
      * @ORM\Column(type="boolean")
      */
     private $inGallery;
 
+
     /**
-     * @return mixed
+     * @return int
      */
-    public function getUrl()
+    public function getId(): int
     {
-        return $this->url;
+        return $this->id;
     }
 
     /**
-     * @param mixed $url
+     * @param int $id
      */
-    public function setUrl($url): void
+    public function setId(int $id): void
     {
-        $this->url = $url;
+        $this->id = $id;
     }
 
     /**
-     * @return mixed
+     * @return string
+     */
+    public function getFile()
+    {
+        return $this->file;
+    }
+
+    /**
+     * @param string $file
+     */
+    public function setFilename(string $file): void
+    {
+        $this->file = $file;
+    }
+
+    /**
+     * @return string
      */
     public function getAlt()
     {
@@ -64,28 +91,28 @@ class Image
     }
 
     /**
-     * @param mixed $alt
+     * @param string $alt
      */
-    public function setAlt($alt): void
+    public function setAlt(string $alt): void
     {
         $this->alt = $alt;
     }
 
     /**
-     * @return mixed
+     * @return bool
      */
-    public function isInGallery()
+    public function isInGallery(): bool
     {
         return $this->inGallery;
     }
 
     /**
-     * @param mixed $inGallery
+     * @param bool $inGallery
      */
-    public function setInGallery($inGallery): void
+    public function setInGallery(bool $inGallery): void
     {
         $this->inGallery = $inGallery;
     }
 
-
 }
+

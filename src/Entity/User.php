@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -14,10 +15,12 @@ class User implements UserInterface
 {
     public function __construct()
     {
-        $this->roles = "ROLE_ADMIN";
+        $this->roles = array("ROLE_ADMIN");
     }
 
     /**
+     * @var int
+     *
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      * @ORM\Column(type="integer")
@@ -25,63 +28,88 @@ class User implements UserInterface
     private $id;
 
     /**
+     * @var string
+     *
      * @ORM\Column(type="string", unique=true)
      * @Assert\NotBlank()
      */
     private $username;
 
     /**
-     * @ORM\Column(type="string", name="role", options={"default": "ROLE_ADMIN"})
-     */
-    private $roles;
-
-    /**
-     * @ORM\Column(type="string", options={"default":"ROLE_ADMIN"})
+     * @var string
+     *
+     * @ORM\Column(type="string")
      * @Assert\NotBlank()
      */
     private $password;
 
+    /**
+     * @var array
+     *
+     * @ORM\Column(type="simple_array")
+     */
+    private $roles;
+
+    /**
+     * @inheritDoc
+     */
+    public function getSalt()
+    {
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function eraseCredentials()
+    {
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getRoles()
+    {
+        return $this->roles;
+    }
+
+    /**
+     * @return int
+     */
     public function getId()
     {
         return $this->id;
     }
 
+
+    /**
+     * @return string
+     */
     public function getUsername()
     {
         return $this->username;
     }
 
-    public function setUsername($username)
+    /**
+     * @param string $username
+     */
+    public function setUsername(string $username): void
     {
         $this->username = $username;
     }
 
-    public function getRoles()
-    {
-        return array($this->roles);
-    }
-
-    public function setRoles($roles)
-    {
-        $this->roles = $roles;
-    }
-
-
+    /**
+     * @return string
+     */
     public function getPassword()
     {
         return $this->password;
     }
 
-    public function setPassword($password)
+    /**
+     * @param string $password
+     */
+    public function setPassword(string $password): void
     {
         $this->password = $password;
-    }
-
-    public function getSalt()
-    {
-    }
-
-    public function eraseCredentials()
-    {
     }
 }
