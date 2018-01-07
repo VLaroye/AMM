@@ -4,13 +4,18 @@ namespace App\Repository;
 
 use App\Entity\Artist;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
+/**
+ * Class ArtistRepository
+ * @package App\Repository
+ */
 class ArtistRepository extends ServiceEntityRepository
 {
     private $em;
 
-    public function __construct(RegistryInterface $registry, \Doctrine\ORM\EntityManagerInterface $em)
+    public function __construct(RegistryInterface $registry, EntityManagerInterface $em)
     {
         parent::__construct($registry, Artist::class);
         $this->em = $em;

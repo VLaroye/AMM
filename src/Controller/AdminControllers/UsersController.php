@@ -2,14 +2,18 @@
 
 namespace App\Controller\AdminControllers;
 
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route as Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use App\Entity\User;
 use App\Form\UserType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 /**
+ * Class UsersController
+ * @package App\Controller\AdminControllers
+ *
  * @Route("/admin/utilisateurs")
  */
 class UsersController extends Controller
@@ -24,6 +28,8 @@ class UsersController extends Controller
     }
 
     /**
+     * @return \Symfony\Component\HttpFoundation\Response
+     *
      * @Route("/", name="admin_users_index")
      */
     public function usersIndex()
@@ -36,6 +42,10 @@ class UsersController extends Controller
     }
 
     /**
+     * @param Request $request
+     * @param UserPasswordEncoderInterface $encoder
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     *
      * @Route("/add", name="admin_users_add")
      */
     public function userAdd(Request $request, UserPasswordEncoderInterface $encoder)
@@ -66,10 +76,17 @@ class UsersController extends Controller
     }
 
     /**
+     * @param User $user
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     *
      * @Route("/delete/{id}", name="admin_users_delete")
      */
     public function userDelete(User $user)
     {
+        if (in_array("ROLE_SUPER_ADMIN", $user->getRoles())) {
+            throw new AccessDeniedException("Can't delete SUPER_ADMIN user");
+        }
+
         $this->em->remove($user);
 
         $this->em->flush();
@@ -82,5 +99,6 @@ class UsersController extends Controller
      */
     public function userUpdate()
     {
+        // TODO : Implement userUpdate
     }
 }

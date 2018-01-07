@@ -6,6 +6,10 @@ use App\Entity\ImageCategory;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
+/**
+ * Class ImageCategoryRepository
+ * @package App\Repository
+ */
 class ImageCategoryRepository extends ServiceEntityRepository
 {
     public function __construct(RegistryInterface $registry)

@@ -1,6 +1,7 @@
 {% extends 'admin/layout/admin_base.html.twig' %}
 
 {% block content %}
+
     {% for event in events %}
         <div class="container bg-light my-4 py-3">
             <div class="row">
@@ -8,16 +9,32 @@
                     <h5>{{ event.name }}</h5>
                 </div>
                 <div class="col-6">
-                    <p>Le {{ event.date|date("d/m/Y à G:i:s") }}</p>
+                    {% if event.date is not null %}
+                        <p>Le {{ event.date|date("d/m/Y") }} de {{ event.beginningTime|date("H:i") }} à {{ event.endingTime|date("H:i") }}</p>
+                        {% else %}
+                            <p>Pas encore de date</p>
+                    {% endif %}
                 </div>
                 <div class="col-6">
-                    <p>A : {{ event.location }}</p>
+                    {% if event.location is not null %}
+                        <p>A : {{ event.location }}</p>
+                        {% else %}
+                            <p>Lieux à définir</p>
+                    {% endif %}
                 </div>
                 <div class="col-6">
-                    <p>Prix : {{ event.price }} euros</p>
+                    {% if event.price is not null %}
+                        <p>Prix : {{ event.price }} euros</p>
+                        {% else %}
+                            <p>Prix à définir</p>
+                    {% endif %}
                 </div>
                 <div class="col-6">
-                    <a href="{{ event.facebookLink }}">Lien Facebook de l'evenement</a>
+                    {% if event.facebookLink is not null %}
+                        <a href="{{ event.facebookLink }}">Lien Facebook de l'evenement</a>
+                        {% else %}
+                            <p>Pas d'évènement Facebook</p>
+                    {% endif %}
                 </div>
                 <div class="col-12">
                     <a href="{{ path('admin_events_update', {'id' : event.id}) }}"><button type="button" class="btn btn-primary rounded">Modifier</button></a>

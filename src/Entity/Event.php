@@ -6,6 +6,9 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
+ * Class Event
+ * @package App\Entity
+ *
  * @ORM\Entity(repositoryClass="App\Repository\EventRepository")
  */
 class Event
@@ -22,7 +25,7 @@ class Event
     /**
      * @var string
      *
-     * @ORM\Column(type="string", nullable=false)
+     * @ORM\Column(type="string")
      * @Assert\NotBlank()
      * @Assert\Length(max=255)
      */
@@ -31,7 +34,7 @@ class Event
     /**
      * @var \DateTime
      *
-     * @ORM\Column(type="date")
+     * @ORM\Column(type="date", nullable=true)
      * @Assert\Date()
      */
     private $date;
@@ -39,7 +42,7 @@ class Event
     /**
      * @var \DateTime
      *
-     * @ORM\Column(type="time")
+     * @ORM\Column(type="time", nullable=true)
      * @Assert\Time()
      */
     private $beginningTime;
@@ -47,23 +50,23 @@ class Event
     /**
      * @var \DateTime
      *
-     * @ORM\Column(type="time")
+     * @ORM\Column(type="time", nullable=true)
      * @Assert\Time()
-     * @Assert\GreaterThan(propertyPath="beginningTime")
+     * @Assert\GreaterThanOrEqual(propertyPath="beginningTime")
      */
     private $endingTime;
 
     /**
      * @var string
      *
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="string", nullable=true)
      */
     private $location;
 
     /**
      * @var int
      *
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="integer", nullable=true)
      * @Assert\Type(type="integer")
      */
     private $price;
@@ -71,10 +74,18 @@ class Event
     /**
      * @var string
      *
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="string", nullable=true)
      * @Assert\Url()
      */
     private $facebookLink;
+
+    /**
+    * @var EventCategory
+    *
+    * @ORM\ManyToOne(targetEntity="App\Entity\EventCategory")
+    * @ORM\JoinColumn(nullable=false)
+    */
+    private $category;
 
     /**
      * @return int
@@ -87,7 +98,7 @@ class Event
     /**
      * @param int $id
      */
-    public function setId(int $id): void
+    public function setId(int $id = null)
     {
         $this->id = $id;
     }
@@ -103,7 +114,7 @@ class Event
     /**
      * @param string $name
      */
-    public function setName(string $name): void
+    public function setName(string $name)
     {
         $this->name = $name;
     }
@@ -119,7 +130,7 @@ class Event
     /**
      * @param \Datetime $date
      */
-    public function setDate(\Datetime $date): void
+    public function setDate(\Datetime $date = null)
     {
         $this->date = $date;
     }
@@ -135,7 +146,7 @@ class Event
     /**
      * @param string $location
      */
-    public function setLocation(string $location): void
+    public function setLocation(string $location = null)
     {
         $this->location = $location;
     }
@@ -151,7 +162,7 @@ class Event
     /**
      * @param int $price
      */
-    public function setPrice(int $price): void
+    public function setPrice(int $price = null)
     {
         $this->price = $price;
     }
@@ -167,7 +178,7 @@ class Event
     /**
      * @param string $facebookLink
      */
-    public function setFacebookLink(string $facebookLink): void
+    public function setFacebookLink(string $facebookLink = null)
     {
         $this->facebookLink = $facebookLink;
     }
@@ -183,7 +194,7 @@ class Event
     /**
      * @param \DateTime $beginningTime
      */
-    public function setBeginningTime(\DateTime $beginningTime): void
+    public function setBeginningTime(\DateTime $beginningTime = null)
     {
         $this->beginningTime = $beginningTime;
     }
@@ -199,10 +210,25 @@ class Event
     /**
      * @param \DateTime $endingTime
      */
-    public function setEndingTime(\DateTime $endingTime): void
+    public function setEndingTime(\DateTime $endingTime = null)
     {
         $this->endingTime = $endingTime;
     }
 
+    /**
+     * @return EventCategory
+     */
+    public function getCategory()
+    {
+        return $this->category;
+    }
 
+    /**
+     * @param EventCategory $category
+     */
+    public function setCategory(EventCategory $category)
+    {
+        $this->category = $category;
+    }
 }
+

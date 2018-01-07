@@ -5,14 +5,15 @@ namespace App\Controller\AdminControllers;
 use App\Entity\Image;
 use App\Form\ArtistType;
 use App\Service\ImageUploader;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use App\Entity\Artist;
-use Symfony\Component\HttpFoundation\File\File;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route as Route;
 
 /**
+ * Class ArtistsController
+ * @package App\Controller\AdminControllers
+ *
  * @Route("/admin/artistes")
  */
 class ArtistsController extends Controller
@@ -27,6 +28,8 @@ class ArtistsController extends Controller
     }
 
     /**
+     * @return \Symfony\Component\HttpFoundation\Response
+     *
      * @Route("/", name="admin_artists_index")
      */
     public function artistsIndex()
@@ -39,6 +42,10 @@ class ArtistsController extends Controller
     }
 
     /**
+     * @param Request $request
+     * @param ImageUploader $imageUploader
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     *
      * @Route("/add", name="admin_artists_add")
      */
     public function artistsAdd(Request $request, ImageUploader $imageUploader)
@@ -72,6 +79,9 @@ class ArtistsController extends Controller
     }
 
     /**
+     * @param Artist $artist
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     *
      * @Route("/delete/{id}", name="admin_artists_delete")
      */
     public function artistsDelete(Artist $artist)
@@ -85,6 +95,10 @@ class ArtistsController extends Controller
     }
 
     /**
+     * @param Artist $artist
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     *
      * @Route("/update/{id}", name="admin_artists_update")
      */
     public function artistsUpdate(Artist $artist, Request $request)

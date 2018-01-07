@@ -7,16 +7,16 @@
  */
 
 // Override Boostrap variables
-@import "back/lib/admin-bootstrap-variables";
+@import "lib/admin-bootstrap-variables";
 
 // Import Bootstrap source files
-@import "node_modules/bootstrap/scss/bootstrap";
+@import "../../node_modules/bootstrap/scss/bootstrap";
 
 // Override core variables
-@import "back/lib/_admin-core-variables";
+@import "lib/_admin-core-variables";
 
 // Import core styles
-@import "back/sections/core/core";
+@import "sections/core/core";
 
 // Custom styles
-@import "back/sections/artists-list";
+@import "sections/artists-list";

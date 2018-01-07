@@ -1,0 +1,10 @@
+{% extends 'admin/layout/admin_base.html.twig' %}
+
+{% block content %}
+    {% for message in app.session.flashbag.get('info') %}
+        <p>{{ message }}</p>
+    {% endfor %}
+
+    {{ form_start(form) }}
+    {{ form_end(form) }}
+{% endblock %}

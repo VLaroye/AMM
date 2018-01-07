@@ -3,8 +3,12 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
+ * Class EventCategory
+ * @package App\Entity
+ *
  * @ORM\Entity(repositoryClass="App\Repository\EventCategoryRepository")
  */
 class EventCategory
@@ -22,13 +26,14 @@ class EventCategory
      * @var string
      *
      * @ORM\Column(type="string", length=255, nullable=false)
+     * @Assert\NotBlank()
      */
     private $name;
 
     /**
      * @return int
      */
-    public function getId(): int
+    public function getId()
     {
         return $this->id;
     }
@@ -44,7 +49,7 @@ class EventCategory
     /**
      * @return string
      */
-    public function getName(): string
+    public function getName()
     {
         return $this->name;
     }

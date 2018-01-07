@@ -13,6 +13,10 @@ use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 use Symfony\Component\Security\Guard\Authenticator\AbstractFormLoginAuthenticator;
 
+/**
+ * Class FormAuthenticator
+ * @package App\Security
+ */
 class FormAuthenticator extends AbstractFormLoginAuthenticator
 {
     private $em;

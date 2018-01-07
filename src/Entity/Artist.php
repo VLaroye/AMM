@@ -7,20 +7,13 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
+ * Class Artist
+ * @package App\Entity
+ *
  * @ORM\Entity(repositoryClass="App\Repository\ArtistRepository")
  */
 class Artist
 {
-    /**
-     * @var UploadedFile
-     */
-    private $imageFile;
-
-    /**
-     * @var string
-     */
-    private $imageAlt;
-
     /**
      * @var int
      * @ORM\Id
@@ -91,6 +84,23 @@ class Artist
      * @Assert\Valid()
      */
     private $image;
+
+    /**
+     * Used to temporary store the image file when "Add Artist"'s form is submitted. No need to persist it to the DB
+     *
+     * @var UploadedFile
+     *
+     * @Assert\NotBlank()
+     * @Assert\Image()
+     */
+    private $imageFile;
+
+    /**
+     * Used to temporary store the image Alt when "Add Artist"'s form is submitted. No need to persist it to the DB
+     *
+     * @var string
+     */
+    private $imageAlt;
 
     /**
      * @return int

@@ -5,6 +5,8 @@
 namespace App\Form;
 
 use App\Entity\Event;
+use App\Entity\EventCategory;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\TimeType;
@@ -15,21 +17,48 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 
+/**
+ * Class EventType
+ * @package App\Form
+ */
 class EventType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
             ->add('name', TextType::class, array('label' => 'Nom'))
-            ->add('location', TextType::class, array('label' => 'Lieux'))
-            ->add('price', IntegerType::class, array('label' => 'Prix'))
-            ->add('facebookLink', UrlType::class, array('label' => 'Lien évènement Facebook'))
+            ->add('location', TextType::class, array(
+                'label' => 'Lieux',
+                'required' => false
+            ))
+            ->add('price', IntegerType::class, array(
+                'label' => 'Prix',
+                'required' => false
+            ))
+            ->add('facebookLink', UrlType::class, array(
+                'label' => 'Lien évènement Facebook',
+                'required' => false
+            ))
             ->add('date', DateType::class, array(
                 'label' => 'Date',
-                'widget' => 'single_text'
+                'widget' => 'single_text',
+                'required' => false
                 ))
-            ->add('beginningTime', TimeType::class, array('label' => 'Heure de début'))
-            ->add('endingTime', TimeType::class, array('label' => 'Heure de fin'))
+            ->add('category', EntityType::class, array(
+                'label' => 'Catégorie',
+                'class' => EventCategory::class,
+                'choice_label' => 'name',
+                'placeholder' => 'Choisir une catégorie',
+                'required' => false
+            ))
+            ->add('beginningTime', TimeType::class, array(
+                'label' => 'Heure de début',
+                'required' => false
+            ))
+            ->add('endingTime', TimeType::class, array(
+                'label' => 'Heure de fin',
+                'required' => false
+            ))
             ->add('submit', SubmitType::class, array('label' => "Valider"));
     }
 

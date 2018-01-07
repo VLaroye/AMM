@@ -13,6 +13,10 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 
+/**
+ * Class ArtistType
+ * @package App\Form
+ */
 class ArtistType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
