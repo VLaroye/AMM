@@ -6,17 +6,13 @@ use App\Entity\Event;
 use App\Entity\EventCategory;
 use App\Form\EventCategoryType;
 use App\Form\EventType;
-use Doctrine\DBAL\DBALException;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route as Route;
 
-// TODO : Inclure l'ajout et la suppression de catégories sur Index des evenements
-
 /**
  * Class EventsController
- * @package App\Controller\AdminControllers
  *
  * @Route("/admin/evenements")
  */
@@ -41,14 +37,17 @@ class EventsController extends Controller
     public function eventsIndex()
     {
         $events = $this->eventsRepository->findAll();
+        $category = $this->eventsCategoryRepository->findAll();
 
-        return $this->render("admin/events/admin_events_index.html.twig", array(
-            "events" => $events
-        ));
+        return $this->render('admin/events/admin_events_index.html.twig', [
+            'events' => $events,
+            'category' => $category,
+        ]);
     }
 
     /**
      * @param Request $request
+     *
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      *
      * @Route ("/add", name="admin_events_add")
@@ -68,16 +67,17 @@ class EventsController extends Controller
 
             $this->em->flush();
 
-            return $this->redirectToRoute("admin_events_index");
+            return $this->redirectToRoute('admin_events_index');
         }
 
-        return $this->render('admin/events/admin_events_add.html.twig', array(
+        return $this->render('admin/events/admin_events_add.html.twig', [
             'form' => $form->createView(),
-        ));
+        ]);
     }
 
     /**
      * @param Event $event
+     *
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      *
      * @Route("/delete/{id}", name="admin_events_delete")
@@ -87,12 +87,13 @@ class EventsController extends Controller
         $this->em->remove($event);
         $this->em->flush();
 
-        return $this->redirectToRoute("admin_events_index");
+        return $this->redirectToRoute('admin_events_index');
     }
 
     /**
-     * @param Event $event
+     * @param Event   $event
      * @param Request $request
+     *
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      *
      * @Route("/update/{id}", name="admin_events_update")
@@ -104,19 +105,19 @@ class EventsController extends Controller
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-
             $this->em->flush();
 
-            return $this->redirectToRoute("admin_events_index");
+            return $this->redirectToRoute('admin_events_index');
         }
 
-        return $this->render("admin/events/admin_events_add.html.twig", array(
+        return $this->render('admin/events/admin_events_add.html.twig', [
             'form' => $form->createView(),
-        ));
+        ]);
     }
 
     /**
      * @param Request $request
+     *
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      *
      * @Route("/category/add", name="admin_eventsCategory_add")
@@ -125,31 +126,31 @@ class EventsController extends Controller
     {
         $category = new EventCategory();
 
-        $form = $this->createForm(EventCategoryType::class, $category);
+        $form = $this->createForm(EventCategoryType::class, $category, [
+            'action' => $this->generateUrl('admin_eventsCategory_add'),
+        ]);
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-
-            // TODO : Ajouter FlashBag pour annoncer création de la catégorie
             $this->em->persist($category);
 
             $this->em->flush();
 
-            $this->addFlash('info', 'La catégorie a été ajoutée !');
+            $this->addFlash('success', 'La catégorie a été ajoutée !');
 
-            return $this->redirectToRoute('admin_eventsCategory_add');
+            return $this->redirectToRoute('admin_events_index');
         }
 
-        return $this->render('admin/events/admin_events_category.html.twig', array(
-            'form' => $form->createView()
-        ));
+        return $this->render('admin/events/admin_events_category_add.html.twig', [
+            'form' => $form->createView(),
+        ]);
     }
 
     /**
      * @param EventCategory $category
+     *
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
-     * @throws DBALException
      *
      * @Route("/category/delete/{id}", name="admin_eventsCategory_delete")
      */
@@ -158,13 +159,16 @@ class EventsController extends Controller
         $events = $this->eventsRepository->findEventsByCategory($category->getId());
 
         if ($events != null) {
-            // TODO : Rediriger vers les catégories avec flashbag "Il y a des evenenements ayant cette catégorie, les modifier avant de la supprimer"
-            throw new DBALException("Impossible de supprimer cette catégorie");
+            $this->addFlash('warning', 'Impossible de supprimer une catégorie déjà associée à des évènements. Modifier la catégorie de ces évènements avant de supprimer la catégorie.');
+
+            return $this->redirectToRoute('admin_events_index');
         }
+
+        $this->addFlash('success', 'Catégorie supprimée !');
 
         $this->em->remove($category);
         $this->em->flush();
 
-        return $this->redirectToRoute("admin_events_index");
+        return $this->redirectToRoute('admin_events_index');
     }
 }

@@ -2,8 +2,6 @@
 
 namespace App\Service;
 
-use Psr\Container\ContainerInterface;
-use Symfony\Component\DependencyInjection\Container;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class ImageUploader
@@ -20,7 +18,7 @@ class ImageUploader
 
     public function upload(UploadedFile $file)
     {
-        $fileName = md5(uniqid() .'.'. $file->guessExtension());
+        $fileName = md5(uniqid().'.'.$file->guessExtension());
 
         $file->move($this->getTargetDir(), $fileName);
 

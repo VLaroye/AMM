@@ -15,28 +15,27 @@ use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 
 /**
  * Class ArtistType
- * @package App\Form
  */
 class ArtistType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('name', TextType::class, array('label' => 'Nom'))
+            ->add('name', TextType::class, ['label' => 'Nom'])
             ->add('description', TextType::class)
             ->add('priority', IntegerType::class)
             ->add('style', TextType::class)
-            ->add('origin', TextType::class, array('label' => 'Origine'))
-            ->add('youtubeLink', TextType::class, array('label' => "Lien Youtube"))
-            ->add('imageFile', FileType::class, array('label' => 'Fichier image'))
-            ->add('imageAlt', TextType::class, array('label' => 'Image Alt'))
-            ->add('submit', SubmitType::class, array('label' => "Valider"));
+            ->add('origin', TextType::class, ['label' => 'Origine'])
+            ->add('youtubeLink', TextType::class, ['label' => 'Lien Youtube'])
+            ->add('imageFile', FileType::class, ['label' => 'Fichier image'])
+            ->add('imageAlt', TextType::class, ['label' => 'Image Alt'])
+            ->add('submit', SubmitType::class, ['label' => 'Valider']);
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'data_class' => Artist::class,
-        ));
+        ]);
     }
 }

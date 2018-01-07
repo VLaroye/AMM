@@ -7,7 +7,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 /**
  * Class AdminController
- * @package App\Controller\AdminControllers
  *
  * @Route("/admin")
  */
@@ -20,7 +19,6 @@ class AdminController extends Controller
      */
     public function adminIndex()
     {
-        return $this->render("admin/admin_homepage.html.twig");
+        return $this->render('admin/admin_homepage.html.twig');
     }
 }
-

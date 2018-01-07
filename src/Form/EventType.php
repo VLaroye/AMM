@@ -19,53 +19,52 @@ use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 
 /**
  * Class EventType
- * @package App\Form
  */
 class EventType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('name', TextType::class, array('label' => 'Nom'))
-            ->add('location', TextType::class, array(
+            ->add('name', TextType::class, ['label' => 'Nom'])
+            ->add('location', TextType::class, [
                 'label' => 'Lieux',
-                'required' => false
-            ))
-            ->add('price', IntegerType::class, array(
+                'required' => false,
+            ])
+            ->add('price', IntegerType::class, [
                 'label' => 'Prix',
-                'required' => false
-            ))
-            ->add('facebookLink', UrlType::class, array(
+                'required' => false,
+            ])
+            ->add('facebookLink', UrlType::class, [
                 'label' => 'Lien évènement Facebook',
-                'required' => false
-            ))
-            ->add('date', DateType::class, array(
+                'required' => false,
+            ])
+            ->add('date', DateType::class, [
                 'label' => 'Date',
                 'widget' => 'single_text',
-                'required' => false
-                ))
-            ->add('category', EntityType::class, array(
+                'required' => false,
+                ])
+            ->add('category', EntityType::class, [
                 'label' => 'Catégorie',
                 'class' => EventCategory::class,
                 'choice_label' => 'name',
                 'placeholder' => 'Choisir une catégorie',
-                'required' => false
-            ))
-            ->add('beginningTime', TimeType::class, array(
+                'required' => false,
+            ])
+            ->add('beginningTime', TimeType::class, [
                 'label' => 'Heure de début',
-                'required' => false
-            ))
-            ->add('endingTime', TimeType::class, array(
+                'required' => false,
+            ])
+            ->add('endingTime', TimeType::class, [
                 'label' => 'Heure de fin',
-                'required' => false
-            ))
-            ->add('submit', SubmitType::class, array('label' => "Valider"));
+                'required' => false,
+            ])
+            ->add('submit', SubmitType::class, ['label' => 'Valider']);
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'data_class' => Event::class,
-        ));
+        ]);
     }
 }

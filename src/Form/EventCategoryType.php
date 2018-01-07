@@ -13,26 +13,24 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
  * Class EventCategoryType
- * @package App\Form
  */
 class EventCategoryType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('name', TextType::class, array(
-                'label' => 'Nom de la catégorie'
-            ))
-            ->add('submit', SubmitType::class, array(
-                'label' => 'Valider'
-            ));
-
+            ->add('name', TextType::class, [
+                'label' => 'Nom de la catégorie',
+            ])
+            ->add('submit', SubmitType::class, [
+                'label' => 'Valider',
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'data_class' => EventCategory::class,
-        ));
+        ]);
     }
 }

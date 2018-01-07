@@ -9,7 +9,6 @@ use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
  * Class EventRepository
- * @package App\Repository
  */
 class EventRepository extends ServiceEntityRepository
 {

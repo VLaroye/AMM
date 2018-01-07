@@ -1,0 +1,9 @@
+{% block content %}
+    {{ form_start(form) }}
+        {{ form_label(form.name) }}
+        {{ form_widget(form.name, {'attr' : {'class' : 'form-control'}}) }}
+        {{ form_errors(form.name, {'attr' : {'class' : 'text-danger'}}) }}
+
+        {{ form_widget(form.submit, {'attr' : {'class' : 'btn btn-dark mt-3'}}) }}
+    {{ form_end(form) }}
+{% endblock %}

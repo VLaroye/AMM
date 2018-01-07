@@ -15,7 +15,6 @@ use Symfony\Component\Security\Guard\Authenticator\AbstractFormLoginAuthenticato
 
 /**
  * Class FormAuthenticator
- * @package App\Security
  */
 class FormAuthenticator extends AbstractFormLoginAuthenticator
 {
@@ -31,49 +30,51 @@ class FormAuthenticator extends AbstractFormLoginAuthenticator
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function supports(Request $request)
     {
-        if ($request->getPathInfo() == "/login" && $request->isMethod("POST")) {
+        if ($request->getPathInfo() == '/login' && $request->isMethod('POST')) {
             return true;
         }
+
         return;
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function getCredentials(Request $request)
     {
-        return array(
-            "username" => $request->request->get("username"),
-            "password" => $request->request->get("password"),
-        );
+        return [
+            'username' => $request->request->get('username'),
+            'password' => $request->request->get('password'),
+        ];
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function getUser($credentials, UserProviderInterface $userProvider)
     {
         return $this->em->getRepository(User::class)
-            ->findOneBy(array("username" => $credentials["username"]));
+            ->findOneBy(['username' => $credentials['username']]);
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function checkCredentials($credentials, UserInterface $user)
     {
         if ($this->encoder->isPasswordValid($user, $credentials['password'])) {
             return true;
         }
+
         return false;
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, $providerKey)
     {
@@ -81,7 +82,7 @@ class FormAuthenticator extends AbstractFormLoginAuthenticator
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     protected function getLoginUrl()
     {

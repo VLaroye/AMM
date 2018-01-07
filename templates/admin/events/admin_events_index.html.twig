@@ -1,67 +1,94 @@
 {% extends 'admin/layout/admin_base.html.twig' %}
 
 {% block content %}
+    <div class="row">
+        <div class="col-12 col-md-9 order-12 order-md-first">
+            {% for event in events %}
+                <div class="container bg-light my-4 py-3">
+                    <div class="row">
+                        <div class="col-12">
+                            <h5>{{ event.name }}</h5>
+                        </div>
+                        <div class="col-6">
+                            {% if event.date is not null %}
+                                <p>Le {{ event.date|date("d/m/Y") }} de {{ event.beginningTime|date("H:i") }} à {{ event.endingTime|date("H:i") }}</p>
+                            {% else %}
+                                <p>Pas encore de date</p>
+                            {% endif %}
+                        </div>
+                        <div class="col-6">
+                            {% if event.location is not null %}
+                                <p>A : {{ event.location }}</p>
+                            {% else %}
+                                <p>Lieux à définir</p>
+                            {% endif %}
+                        </div>
+                        <div class="col-6">
+                            {% if event.price is not null %}
+                                <p>Prix : {{ event.price }} euros</p>
+                            {% else %}
+                                <p>Prix à définir</p>
+                            {% endif %}
+                        </div>
+                        <div class="col-6">
+                            {% if event.facebookLink is not null %}
+                                <a href="{{ event.facebookLink }}">Lien Facebook de l'evenement</a>
+                            {% else %}
+                                <p>Pas d'évènement Facebook</p>
+                            {% endif %}
+                        </div>
+                        <div class="col-12">
+                            <a href="{{ path('admin_events_update', {'id' : event.id}) }}"><button type="button" class="btn btn-primary rounded">Modifier</button></a>
+                            <button type="button" class="btn btn-danger rounded" data-toggle="modal" data-target="#deleteConfirm{{ event.id }}">Supprimer</button>
+                        </div>
+                    </div>
+                </div>
 
-    {% for event in events %}
-        <div class="container bg-light my-4 py-3">
-            <div class="row">
-                <div class="col-12">
-                    <h5>{{ event.name }}</h5>
+                <!-- Modal Confirmation Suppression -->
+                <div class="modal fade" id="deleteConfirm{{ event.id }}" tabindex="-1" role="dialog" aria-labelledby="deleteConfirmLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="deleteConfirmLabel">Confirmation de la suppression</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                Etes-vous sûr de vouloir supprimer définitivement cet evenement ?
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-primary" data-dismiss="modal">Annuler</button>
+                                <a href="{{ path("admin_events_delete", {'id' : event.id}) }}"><button type="button" class="btn btn-danger">Confirmer</button></a>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="col-6">
-                    {% if event.date is not null %}
-                        <p>Le {{ event.date|date("d/m/Y") }} de {{ event.beginningTime|date("H:i") }} à {{ event.endingTime|date("H:i") }}</p>
-                        {% else %}
-                            <p>Pas encore de date</p>
-                    {% endif %}
-                </div>
-                <div class="col-6">
-                    {% if event.location is not null %}
-                        <p>A : {{ event.location }}</p>
-                        {% else %}
-                            <p>Lieux à définir</p>
-                    {% endif %}
-                </div>
-                <div class="col-6">
-                    {% if event.price is not null %}
-                        <p>Prix : {{ event.price }} euros</p>
-                        {% else %}
-                            <p>Prix à définir</p>
-                    {% endif %}
-                </div>
-                <div class="col-6">
-                    {% if event.facebookLink is not null %}
-                        <a href="{{ event.facebookLink }}">Lien Facebook de l'evenement</a>
-                        {% else %}
-                            <p>Pas d'évènement Facebook</p>
-                    {% endif %}
-                </div>
-                <div class="col-12">
-                    <a href="{{ path('admin_events_update', {'id' : event.id}) }}"><button type="button" class="btn btn-primary rounded">Modifier</button></a>
-                    <button type="button" class="btn btn-danger rounded" data-toggle="modal" data-target="#deleteConfirm{{ event.id }}">Supprimer</button>
-                </div>
+            {% endfor %}
+        </div>
+        <div class="col-12 col-md-3 order-1">
+            <div class="container bg-light my-4 py-3">
+                <h5 class="text-center">Catégories</h5>
+                {% for message in app.session.flashbag.get('success') %}
+                    <p class="text-success">{{ message }}</p>
+                {% endfor %}
+                {% for message in app.session.flashbag.get('warning') %}
+                    <p class="text-danger">{{ message }}</p>
+                {% endfor %}
+                <ul>
+                    {% for category in category %}
+                        <li class="text-uppercase">
+                            {{ category.name }}
+                            <a href="{{ path('admin_eventsCategory_delete', {'id' : category.id}) }}" class="float-right text-danger"><i class="fa fa-times" aria-hidden="true"></i></a>
+                        </li>
+                    {% endfor %}
+                </ul>
+
+                {{ render(controller('App\\Controller\\AdminControllers\\EventsController::eventsCategoryAdd')) }}
             </div>
         </div>
+    </div>
 
-        <!-- Modal Confirmation Suppression -->
-        <div class="modal fade" id="deleteConfirm{{ event.id }}" tabindex="-1" role="dialog" aria-labelledby="deleteConfirmLabel" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="deleteConfirmLabel">Confirmation de la suppression</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        Etes-vous sûr de vouloir supprimer définitivement cet evenement ?
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-primary" data-dismiss="modal">Annuler</button>
-                        <a href="{{ path("admin_events_delete", {'id' : event.id}) }}"><button type="button" class="btn btn-danger">Confirmer</button></a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    {% endfor %}
+
+
 {% endblock %}

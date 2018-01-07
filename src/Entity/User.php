@@ -2,14 +2,12 @@
 
 namespace App\Entity;
 
-use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Class User
- * @package App\Entity
  *
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
  */
@@ -17,7 +15,7 @@ class User implements UserInterface
 {
     public function __construct()
     {
-        $this->roles = array("ROLE_ADMIN");
+        $this->roles = ['ROLE_ADMIN'];
     }
 
     /**
@@ -53,21 +51,21 @@ class User implements UserInterface
     private $roles;
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function getSalt()
     {
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function eraseCredentials()
     {
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function getRoles()
     {
@@ -81,7 +79,6 @@ class User implements UserInterface
     {
         return $this->id;
     }
-
 
     /**
      * @return string

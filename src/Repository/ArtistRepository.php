@@ -9,7 +9,6 @@ use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
  * Class ArtistRepository
- * @package App\Repository
  */
 class ArtistRepository extends ServiceEntityRepository
 {

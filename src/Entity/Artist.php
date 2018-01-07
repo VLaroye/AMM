@@ -7,15 +7,13 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * Class Artist
- * @package App\Entity
- *
  * @ORM\Entity(repositoryClass="App\Repository\ArtistRepository")
  */
 class Artist
 {
     /**
      * @var int
+     *
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
@@ -25,7 +23,8 @@ class Artist
     /**
      * @var string
      *
-     * @ORM\Column(type="string", length=255, nullable=false)
+     * @ORM\Column(type="string", length=255)
+     *
      * @Assert\NotBlank()
      * @Assert\Length(max=255)
      */
@@ -35,6 +34,7 @@ class Artist
      * @var string
      *
      * @ORM\Column(type="string", length=255)
+     *
      * @Assert\NotBlank()
      * @Assert\Length(max=255)
      */
@@ -44,6 +44,7 @@ class Artist
      * @var string
      *
      * @ORM\Column(type="string", length=255)
+     *
      * @Assert\NotBlank()
      * @Assert\Length(max=255)
      */
@@ -53,6 +54,7 @@ class Artist
      * @var string
      *
      * @ORM\Column(type="string", length=255)
+     *
      * @Assert\NotBlank()
      * @Assert\Length(max=255)
      */
@@ -62,6 +64,7 @@ class Artist
      * @var string
      *
      * @ORM\Column(type="string", length=255, name="youtubelink")
+     *
      * @Assert\NotBlank()
      * @Assert\Length(max=255)
      * @Assert\Url()
@@ -72,6 +75,7 @@ class Artist
      * @var int
      *
      * @ORM\Column(type="integer")
+     *
      * @Assert\NotBlank()
      */
     private $priority;
@@ -81,6 +85,7 @@ class Artist
      *
      * @ORM\OneToOne(targetEntity="App\Entity\Image", cascade={"persist", "remove"})
      * @ORM\JoinColumn(nullable=false)
+     *
      * @Assert\Valid()
      */
     private $image;
@@ -121,7 +126,7 @@ class Artist
     /**
      * @return string
      */
-    public function getName()
+    public function getName(): ?string
     {
         return $this->name;
     }
@@ -261,5 +266,4 @@ class Artist
     {
         $this->imageAlt = $imageAlt;
     }
-
 }

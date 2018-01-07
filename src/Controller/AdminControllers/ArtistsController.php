@@ -12,7 +12,6 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route as Route;
 
 /**
  * Class ArtistsController
- * @package App\Controller\AdminControllers
  *
  * @Route("/admin/artistes")
  */
@@ -36,14 +35,15 @@ class ArtistsController extends Controller
     {
         $artists = $this->artistRepository->findAllArtistsByPriority();
 
-        return $this->render("admin/artists/admin_artists.html.twig", array(
-            "artists" => $artists
-        ));
+        return $this->render('admin/artists/admin_artists.html.twig', [
+            'artists' => $artists,
+        ]);
     }
 
     /**
-     * @param Request $request
+     * @param Request       $request
      * @param ImageUploader $imageUploader
+     *
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      *
      * @Route("/add", name="admin_artists_add")
@@ -70,16 +70,17 @@ class ArtistsController extends Controller
 
             $this->em->flush();
 
-            return $this->redirectToRoute("admin_artists_index");
+            return $this->redirectToRoute('admin_artists_index');
         }
 
-        return $this->render('admin/artists/admin_artists_add.html.twig', array(
+        return $this->render('admin/artists/admin_artists_add.html.twig', [
            'form' => $form->createView(),
-        ));
+        ]);
     }
 
     /**
      * @param Artist $artist
+     *
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      *
      * @Route("/delete/{id}", name="admin_artists_delete")
@@ -91,12 +92,13 @@ class ArtistsController extends Controller
         $this->em->remove($artist);
         $this->em->flush();
 
-        return $this->redirectToRoute("admin_artists_index");
+        return $this->redirectToRoute('admin_artists_index');
     }
 
     /**
-     * @param Artist $artist
+     * @param Artist  $artist
      * @param Request $request
+     *
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      *
      * @Route("/update/{id}", name="admin_artists_update")
@@ -112,11 +114,11 @@ class ArtistsController extends Controller
 
             $this->em->flush();
 
-            return $this->redirectToRoute("admin_artists_index");
+            return $this->redirectToRoute('admin_artists_index');
         }
 
-        return $this->render("admin/artists/admin_artists_add.html.twig", array(
+        return $this->render('admin/artists/admin_artists_add.html.twig', [
             'form' => $form->createView(),
-        ));
+        ]);
     }
 }

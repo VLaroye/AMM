@@ -7,7 +7,6 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Class EventCategory
- * @package App\Entity
  *
  * @ORM\Entity(repositoryClass="App\Repository\EventCategoryRepository")
  */

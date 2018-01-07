@@ -9,13 +9,13 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 /**
  * Class SecurityController
- * @package App\Controller
  */
 class SecurityController extends Controller
 {
     /**
-     * @param Request $request
+     * @param Request             $request
      * @param AuthenticationUtils $authUtils
+     *
      * @return \Symfony\Component\HttpFoundation\Response
      *
      * @Route("/login", name="login")
@@ -26,10 +26,10 @@ class SecurityController extends Controller
 
         $lastUsername = $authUtils->getLastUsername();
 
-        return $this->render('admin/login.html.twig', array(
+        return $this->render('admin/login.html.twig', [
             'last_username' => $lastUsername,
-            'error'         => $error,
-        ));
+            'error' => $error,
+        ]);
     }
 
     /**

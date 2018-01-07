@@ -9,12 +9,12 @@ use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Class AppController
- * @package App\Controller
  */
 class AppController extends Controller
 {
     /**
      * @param Request $request
+     *
      * @return \Symfony\Component\HttpFoundation\Response
      *
      * @Route("/", name="homepage")
@@ -35,9 +35,9 @@ class AppController extends Controller
 
         $artists = $em->getRepository(Artist::class)->findAllArtistsByPriority();
 
-        return $this->render("front/festival.html.twig", array(
-            "artists" => $artists
-        ));
+        return $this->render('front/festival.html.twig', [
+            'artists' => $artists,
+        ]);
     }
 
     /**
@@ -47,7 +47,7 @@ class AppController extends Controller
      */
     public function events()
     {
-        return $this->render("front/events.html.twig");
+        return $this->render('front/events.html.twig');
     }
 
     /**
@@ -57,6 +57,6 @@ class AppController extends Controller
      */
     public function gallery()
     {
-        return $this->render("front/gallery.html.twig");
+        return $this->render('front/gallery.html.twig');
     }
 }

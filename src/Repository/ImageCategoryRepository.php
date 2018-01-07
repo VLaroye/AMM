@@ -8,7 +8,6 @@ use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
  * Class ImageCategoryRepository
- * @package App\Repository
  */
 class ImageCategoryRepository extends ServiceEntityRepository
 {

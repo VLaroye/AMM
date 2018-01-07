@@ -8,12 +8,8 @@ use App\Entity\User;
 use App\Form\UserType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
-use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 /**
- * Class UsersController
- * @package App\Controller\AdminControllers
- *
  * @Route("/admin/utilisateurs")
  */
 class UsersController extends Controller
@@ -36,14 +32,15 @@ class UsersController extends Controller
     {
         $users = $this->userRepository->findAll();
 
-        return $this->render('admin/users/admin_users_index.html.twig', array(
-            'users' => $users
-        ));
+        return $this->render('admin/users/admin_users_index.html.twig', [
+            'users' => $users,
+        ]);
     }
 
     /**
-     * @param Request $request
+     * @param Request                      $request
      * @param UserPasswordEncoderInterface $encoder
+     *
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      *
      * @Route("/add", name="admin_users_add")
@@ -70,22 +67,21 @@ class UsersController extends Controller
             return $this->redirectToRoute('admin_users_index');
         }
 
-        return $this->render('admin/users/admin_users_add.html.twig', array(
-            'form' => $form->createView()
-        ));
+        return $this->render('admin/users/admin_users_add.html.twig', [
+            'form' => $form->createView(),
+        ]);
     }
 
     /**
      * @param User $user
+     *
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      *
      * @Route("/delete/{id}", name="admin_users_delete")
      */
     public function userDelete(User $user)
     {
-        if (in_array("ROLE_SUPER_ADMIN", $user->getRoles())) {
-            throw new AccessDeniedException("Can't delete SUPER_ADMIN user");
-        }
+        $this->denyAccessUnlessGranted('ROLE_SUPER_ADMIN');
 
         $this->em->remove($user);
 

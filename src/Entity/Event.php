@@ -7,7 +7,6 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Class Event
- * @package App\Entity
  *
  * @ORM\Entity(repositoryClass="App\Repository\EventRepository")
  */
@@ -80,11 +79,11 @@ class Event
     private $facebookLink;
 
     /**
-    * @var EventCategory
-    *
-    * @ORM\ManyToOne(targetEntity="App\Entity\EventCategory")
-    * @ORM\JoinColumn(nullable=false)
-    */
+     * @var EventCategory
+     *
+     * @ORM\ManyToOne(targetEntity="App\Entity\EventCategory")
+     * @ORM\JoinColumn(nullable=false)
+     */
     private $category;
 
     /**
@@ -231,4 +230,3 @@ class Event
         $this->category = $category;
     }
 }
-

@@ -15,28 +15,27 @@ use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 
 /**
  * Class UserType
- * @package App\Form
  */
 class UserType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('username', TextType::class, array('label' => "Nom d'utilisateur"))
-            ->add('password', RepeatedType::class, array(
+            ->add('username', TextType::class, ['label' => "Nom d'utilisateur"])
+            ->add('password', RepeatedType::class, [
                 'type' => PasswordType::class,
-                'invalid_message' => "Les champs de correspondent pas",
+                'invalid_message' => 'Les champs de correspondent pas',
                 'required' => true,
-                'first_options' => array('label' => 'Mot de passe'),
-                'second_options' => array('label' => 'Confirmation du mot de passe')
-                ))
-            ->add('submit', SubmitType::class, array('label' => "Valider"));
+                'first_options' => ['label' => 'Mot de passe'],
+                'second_options' => ['label' => 'Confirmation du mot de passe'],
+                ])
+            ->add('submit', SubmitType::class, ['label' => 'Valider']);
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'data_class' => User::class,
-        ));
+        ]);
     }
 }

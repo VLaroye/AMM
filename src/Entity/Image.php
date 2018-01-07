@@ -3,12 +3,9 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
-use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Class Image
- * @package App\Entity
  *
  * @ORM\Entity(repositoryClass="App\Repository\ImageRepository")
  */
@@ -35,7 +32,6 @@ class Image
      */
     private $file;
 
-
     /**
      * @var string
      *
@@ -49,7 +45,6 @@ class Image
      * @ORM\Column(type="boolean")
      */
     private $inGallery;
-
 
     /**
      * @return int
@@ -114,6 +109,4 @@ class Image
     {
         $this->inGallery = $inGallery;
     }
-
 }
-

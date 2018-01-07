@@ -7,7 +7,6 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Class ImageCategory
- * @package App\Entity
  *
  * @ORM\Entity(repositoryClass="App\Repository\ImageCategoryRepository")
  */
