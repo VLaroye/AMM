@@ -2,12 +2,13 @@
 
 namespace App\Controller\AdminControllers;
 
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route as Route;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use App\Entity\User;
 use App\Form\UserType;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route as Route;
 
 /**
  * @Route("/admin/utilisateurs")
@@ -24,11 +25,11 @@ class UsersController extends Controller
     }
 
     /**
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @return Response
      *
      * @Route("/", name="admin_users_index")
      */
-    public function usersIndex()
+    public function usersIndex(): Response
     {
         $users = $this->userRepository->findAll();
 
@@ -41,11 +42,11 @@ class UsersController extends Controller
      * @param Request                      $request
      * @param UserPasswordEncoderInterface $encoder
      *
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     * @return Response
      *
      * @Route("/add", name="admin_users_add")
      */
-    public function userAdd(Request $request, UserPasswordEncoderInterface $encoder)
+    public function userAdd(Request $request, UserPasswordEncoderInterface $encoder): Response
     {
         $user = new User();
 
@@ -75,11 +76,11 @@ class UsersController extends Controller
     /**
      * @param User $user
      *
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     * @return Response
      *
      * @Route("/delete/{id}", name="admin_users_delete")
      */
-    public function userDelete(User $user)
+    public function userDelete(User $user): Response
     {
         $this->denyAccessUnlessGranted('ROLE_SUPER_ADMIN');
 
@@ -88,13 +89,5 @@ class UsersController extends Controller
         $this->em->flush();
 
         return $this->redirectToRoute('admin_users_index');
-    }
-
-    /**
-     * @Route("/update/{id}", name="admin_users_update")
-     */
-    public function userUpdate()
-    {
-        // TODO : Implement userUpdate
     }
 }

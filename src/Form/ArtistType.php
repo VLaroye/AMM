@@ -27,8 +27,7 @@ class ArtistType extends AbstractType
             ->add('style', TextType::class)
             ->add('origin', TextType::class, ['label' => 'Origine'])
             ->add('youtubeLink', TextType::class, ['label' => 'Lien Youtube'])
-            ->add('imageFile', FileType::class, ['label' => 'Fichier image'])
-            ->add('imageAlt', TextType::class, ['label' => 'Image Alt'])
+            ->add('image', ImageType::class, ['label' => 'Image'])
             ->add('submit', SubmitType::class, ['label' => 'Valider']);
     }
 

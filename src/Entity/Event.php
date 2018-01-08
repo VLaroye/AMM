@@ -6,8 +6,6 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * Class Event
- *
  * @ORM\Entity(repositoryClass="App\Repository\EventRepository")
  */
 class Event
@@ -25,6 +23,7 @@ class Event
      * @var string
      *
      * @ORM\Column(type="string")
+     *
      * @Assert\NotBlank()
      * @Assert\Length(max=255)
      */
@@ -34,6 +33,7 @@ class Event
      * @var \DateTime
      *
      * @ORM\Column(type="date", nullable=true)
+     *
      * @Assert\Date()
      */
     private $date;
@@ -42,6 +42,7 @@ class Event
      * @var \DateTime
      *
      * @ORM\Column(type="time", nullable=true)
+     *
      * @Assert\Time()
      */
     private $beginningTime;
@@ -50,6 +51,7 @@ class Event
      * @var \DateTime
      *
      * @ORM\Column(type="time", nullable=true)
+     *
      * @Assert\Time()
      * @Assert\GreaterThanOrEqual(propertyPath="beginningTime")
      */
@@ -66,6 +68,7 @@ class Event
      * @var int
      *
      * @ORM\Column(type="integer", nullable=true)
+     *
      * @Assert\Type(type="integer")
      */
     private $price;
@@ -74,6 +77,7 @@ class Event
      * @var string
      *
      * @ORM\Column(type="string", nullable=true)
+     *
      * @Assert\Url()
      */
     private $facebookLink;
@@ -89,7 +93,7 @@ class Event
     /**
      * @return int
      */
-    public function getId(): int
+    public function getId(): ?int
     {
         return $this->id;
     }
@@ -97,7 +101,7 @@ class Event
     /**
      * @param int $id
      */
-    public function setId(int $id = null)
+    public function setId(int $id): void
     {
         $this->id = $id;
     }
@@ -105,7 +109,7 @@ class Event
     /**
      * @return string
      */
-    public function getName()
+    public function getName(): ?string
     {
         return $this->name;
     }
@@ -113,7 +117,7 @@ class Event
     /**
      * @param string $name
      */
-    public function setName(string $name)
+    public function setName(string $name): void
     {
         $this->name = $name;
     }
@@ -121,7 +125,7 @@ class Event
     /**
      * @return \Datetime
      */
-    public function getDate()
+    public function getDate(): ?\DateTime
     {
         return $this->date;
     }
@@ -129,7 +133,7 @@ class Event
     /**
      * @param \Datetime $date
      */
-    public function setDate(\Datetime $date = null)
+    public function setDate(?\Datetime $date): void
     {
         $this->date = $date;
     }
@@ -137,7 +141,7 @@ class Event
     /**
      * @return string
      */
-    public function getLocation()
+    public function getLocation(): ?string
     {
         return $this->location;
     }
@@ -145,7 +149,7 @@ class Event
     /**
      * @param string $location
      */
-    public function setLocation(string $location = null)
+    public function setLocation(?string $location): void
     {
         $this->location = $location;
     }
@@ -153,7 +157,7 @@ class Event
     /**
      * @return int
      */
-    public function getPrice()
+    public function getPrice(): ?int
     {
         return $this->price;
     }
@@ -161,7 +165,7 @@ class Event
     /**
      * @param int $price
      */
-    public function setPrice(int $price = null)
+    public function setPrice(?int $price): void
     {
         $this->price = $price;
     }
@@ -169,7 +173,7 @@ class Event
     /**
      * @return string
      */
-    public function getFacebookLink()
+    public function getFacebookLink(): ?string
     {
         return $this->facebookLink;
     }
@@ -177,7 +181,7 @@ class Event
     /**
      * @param string $facebookLink
      */
-    public function setFacebookLink(string $facebookLink = null)
+    public function setFacebookLink(?string $facebookLink): void
     {
         $this->facebookLink = $facebookLink;
     }
@@ -185,7 +189,7 @@ class Event
     /**
      * @return \DateTime
      */
-    public function getBeginningTime()
+    public function getBeginningTime(): ?\DateTime
     {
         return $this->beginningTime;
     }
@@ -193,7 +197,7 @@ class Event
     /**
      * @param \DateTime $beginningTime
      */
-    public function setBeginningTime(\DateTime $beginningTime = null)
+    public function setBeginningTime(?\DateTime $beginningTime): void
     {
         $this->beginningTime = $beginningTime;
     }
@@ -201,7 +205,7 @@ class Event
     /**
      * @return \DateTime
      */
-    public function getEndingTime()
+    public function getEndingTime(): ?\DateTime
     {
         return $this->endingTime;
     }
@@ -209,7 +213,7 @@ class Event
     /**
      * @param \DateTime $endingTime
      */
-    public function setEndingTime(\DateTime $endingTime = null)
+    public function setEndingTime(?\DateTime $endingTime): void
     {
         $this->endingTime = $endingTime;
     }
@@ -217,7 +221,7 @@ class Event
     /**
      * @return EventCategory
      */
-    public function getCategory()
+    public function getCategory(): ?EventCategory
     {
         return $this->category;
     }
@@ -225,7 +229,7 @@ class Event
     /**
      * @param EventCategory $category
      */
-    public function setCategory(EventCategory $category)
+    public function setCategory(EventCategory $category): void
     {
         $this->category = $category;
     }

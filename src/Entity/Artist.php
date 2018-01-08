@@ -2,8 +2,8 @@
 
 namespace App\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -91,26 +91,9 @@ class Artist
     private $image;
 
     /**
-     * Used to temporary store the image file when "Add Artist"'s form is submitted. No need to persist it to the DB
-     *
-     * @var UploadedFile
-     *
-     * @Assert\NotBlank()
-     * @Assert\Image()
-     */
-    private $imageFile;
-
-    /**
-     * Used to temporary store the image Alt when "Add Artist"'s form is submitted. No need to persist it to the DB
-     *
-     * @var string
-     */
-    private $imageAlt;
-
-    /**
      * @return int
      */
-    public function getId(): int
+    public function getId(): ?int
     {
         return $this->id;
     }
@@ -142,7 +125,7 @@ class Artist
     /**
      * @return string
      */
-    public function getDescription()
+    public function getDescription(): ?string
     {
         return $this->description;
     }
@@ -158,7 +141,7 @@ class Artist
     /**
      * @return string
      */
-    public function getStyle()
+    public function getStyle(): ?string
     {
         return $this->style;
     }
@@ -174,7 +157,7 @@ class Artist
     /**
      * @return string
      */
-    public function getOrigin()
+    public function getOrigin(): ?string
     {
         return $this->origin;
     }
@@ -190,7 +173,7 @@ class Artist
     /**
      * @return string
      */
-    public function getYoutubeLink()
+    public function getYoutubeLink(): ?string
     {
         return $this->youtubeLink;
     }
@@ -206,7 +189,7 @@ class Artist
     /**
      * @return int
      */
-    public function getPriority()
+    public function getPriority(): ?int
     {
         return $this->priority;
     }
@@ -222,7 +205,7 @@ class Artist
     /**
      * @return Image
      */
-    public function getImage()
+    public function getImage(): ?Image
     {
         return $this->image;
     }
@@ -234,36 +217,5 @@ class Artist
     {
         $this->image = $image;
     }
-
-    /**
-     * @return UploadedFile
-     */
-    public function getImageFile()
-    {
-        return $this->imageFile;
-    }
-
-    /**
-     * @param UploadedFile $imageFile
-     */
-    public function setImageFile(UploadedFile $imageFile): void
-    {
-        $this->imageFile = $imageFile;
-    }
-
-    /**
-     * @return string
-     */
-    public function getImageAlt()
-    {
-        return $this->imageAlt;
-    }
-
-    /**
-     * @param string $imageAlt
-     */
-    public function setImageAlt(string $imageAlt): void
-    {
-        $this->imageAlt = $imageAlt;
-    }
 }
+

@@ -1,0 +1,8 @@
+{% extends 'admin/layout/admin_base.html.twig' %}
+
+{% block content %}
+    <h2 class="text-center">Gestion du diaporama de page d'accueil</h2>
+    {% for slider in sliders %}
+        {{ render(controller('App\\Controller\\AdminControllers\\SliderController::sliderImageAdd', {'sliderId' : slider.id})) }}
+    {% endfor %}
+{% endblock %}

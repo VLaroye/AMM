@@ -8,7 +8,7 @@
                 <div class="col-12 col-md-5">
                     <div class="admin-artist-img text-center">
                         {% if artist.image is not null %}
-                            <img class="align-self-center" src="{{ asset('images/uploads/' ~  artist.image.file ) }}" alt="">
+                            <img class="align-self-center" src="{{ asset('images/uploads/' ~  artist.image.fileName ) }}" alt="">
                         {% endif %}
                     </div>
                 </div>

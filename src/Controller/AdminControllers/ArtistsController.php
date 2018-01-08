@@ -2,17 +2,17 @@
 
 namespace App\Controller\AdminControllers;
 
-use App\Entity\Image;
+use App\Entity\Artist;
 use App\Form\ArtistType;
 use App\Service\ImageUploader;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use App\Entity\Artist;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route as Route;
 
 /**
- * Class ArtistsController
- *
  * @Route("/admin/artistes")
  */
 class ArtistsController extends Controller
@@ -20,18 +20,18 @@ class ArtistsController extends Controller
     private $em;
     private $artistRepository;
 
-    public function __construct(\Doctrine\ORM\EntityManagerInterface $em)
+    public function __construct(EntityManagerInterface $em)
     {
         $this->em = $em;
         $this->artistRepository = $em->getRepository(Artist::class);
     }
 
     /**
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @return Response
      *
      * @Route("/", name="admin_artists_index")
      */
-    public function artistsIndex()
+    public function artistsIndex(): Response
     {
         $artists = $this->artistRepository->findAllArtistsByPriority();
 
@@ -44,11 +44,11 @@ class ArtistsController extends Controller
      * @param Request       $request
      * @param ImageUploader $imageUploader
      *
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     * @return Response
      *
      * @Route("/add", name="admin_artists_add")
      */
-    public function artistsAdd(Request $request, ImageUploader $imageUploader)
+    public function artistsAdd(Request $request, ImageUploader $imageUploader): Response
     {
         $artist = new Artist();
 
@@ -57,14 +57,10 @@ class ArtistsController extends Controller
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $image = new Image();
 
-            $uploadedImage = $imageUploader->upload($artist->getImageFile());
+            $fileName = $imageUploader->upload($artist->getImage()->getFile());
 
-            $image->setFilename($uploadedImage);
-            $image->setAlt($artist->getImageAlt());
-
-            $artist->setImage($image);
+            $artist->getImage()->setFileName($fileName);
 
             $this->em->persist($artist);
 
@@ -81,13 +77,14 @@ class ArtistsController extends Controller
     /**
      * @param Artist $artist
      *
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     * @return RedirectResponse
      *
      * @Route("/delete/{id}", name="admin_artists_delete")
      */
-    public function artistsDelete(Artist $artist)
+    public function artistsDelete(Artist $artist): RedirectResponse
     {
         // TODO : Supprimer l'image du dossier /images/uploads ?
+
 
         $this->em->remove($artist);
         $this->em->flush();
@@ -99,11 +96,11 @@ class ArtistsController extends Controller
      * @param Artist  $artist
      * @param Request $request
      *
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     * @return Response
      *
      * @Route("/update/{id}", name="admin_artists_update")
      */
-    public function artistsUpdate(Artist $artist, Request $request)
+    public function artistsUpdate(Artist $artist, Request $request): Response
     {
         $form = $this->createForm(ArtistType::class, $artist);
 

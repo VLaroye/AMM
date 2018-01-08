@@ -41,15 +41,15 @@
 
         <h3 class="text-center">Image</h3>
         <div class="form-group">
-            {{ form_label(form.imageFile) }}
-            {{ form_widget(form.imageFile, {'attr' : {'class' : 'form-control'}}) }}
-            {{ form_errors(form.imageFile) }}
+            {{ form_label(form.image.file) }}
+            {{ form_widget(form.image.file, {'attr' : {'class' : 'form-control'}}) }}
+            {{ form_errors(form.image.file) }}
         </div>
 
         <div class="form-group">
-            {{ form_label(form.imageAlt) }}
-            {{ form_widget(form.imageAlt, {'attr' : {'class' : 'form-control'}}) }}
-            {{ form_errors(form.imageAlt) }}
+            {{ form_label(form.image.alt) }}
+            {{ form_widget(form.image.alt, {'attr' : {'class' : 'form-control'}}) }}
+            {{ form_errors(form.image.alt) }}
         </div>
 
 

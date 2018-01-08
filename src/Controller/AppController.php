@@ -3,33 +3,31 @@
 namespace App\Controller;
 
 use App\Entity\Artist;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route as Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route as Route;
 
-/**
- * Class AppController
- */
 class AppController extends Controller
 {
     /**
      * @param Request $request
      *
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @return Response
      *
      * @Route("/", name="homepage")
      */
-    public function homepage(Request $request)
+    public function homepage(Request $request): Response
     {
         return $this->render('front/homepage.html.twig');
     }
 
     /**
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @return Response
      *
      * @Route("/festival", name="festival")
      */
-    public function festival()
+    public function festival(): Response
     {
         $em = $this->getDoctrine()->getManager();
 
@@ -41,21 +39,21 @@ class AppController extends Controller
     }
 
     /**
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @return Response
      *
      * @Route("/autres-evenements", name="events")
      */
-    public function events()
+    public function events(): Response
     {
         return $this->render('front/events.html.twig');
     }
 
     /**
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @return Response
      *
      * @Route("/galerie", name="gallery")
      */
-    public function gallery()
+    public function gallery(): Response
     {
         return $this->render('front/gallery.html.twig');
     }

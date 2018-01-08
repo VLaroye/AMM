@@ -9,11 +9,10 @@ use App\Form\EventType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route as Route;
 
 /**
- * Class EventsController
- *
  * @Route("/admin/evenements")
  */
 class EventsController extends Controller
@@ -30,11 +29,11 @@ class EventsController extends Controller
     }
 
     /**
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @return Response
      *
      * @Route("/", name="admin_events_index")
      */
-    public function eventsIndex()
+    public function eventsIndex(): Response
     {
         $events = $this->eventsRepository->findAll();
         $category = $this->eventsCategoryRepository->findAll();
@@ -48,11 +47,11 @@ class EventsController extends Controller
     /**
      * @param Request $request
      *
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     * @return Response
      *
      * @Route ("/add", name="admin_events_add")
      */
-    public function eventsAdd(Request $request)
+    public function eventsAdd(Request $request): Response
     {
         $event = new Event();
 
@@ -78,11 +77,11 @@ class EventsController extends Controller
     /**
      * @param Event $event
      *
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     * @return Response
      *
      * @Route("/delete/{id}", name="admin_events_delete")
      */
-    public function eventsDelete(Event $event)
+    public function eventsDelete(Event $event): Response
     {
         $this->em->remove($event);
         $this->em->flush();
@@ -94,11 +93,11 @@ class EventsController extends Controller
      * @param Event   $event
      * @param Request $request
      *
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     * @return Response
      *
      * @Route("/update/{id}", name="admin_events_update")
      */
-    public function eventsUpdate(Event $event, Request $request)
+    public function eventsUpdate(Event $event, Request $request): Response
     {
         $form = $this->createForm(EventType::class, $event);
 
@@ -118,11 +117,11 @@ class EventsController extends Controller
     /**
      * @param Request $request
      *
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     * @return Response
      *
      * @Route("/category/add", name="admin_eventsCategory_add")
      */
-    public function eventsCategoryAdd(Request $request)
+    public function eventsCategoryAdd(Request $request): Response
     {
         $category = new EventCategory();
 
@@ -150,11 +149,11 @@ class EventsController extends Controller
     /**
      * @param EventCategory $category
      *
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     * @return Response
      *
      * @Route("/category/delete/{id}", name="admin_eventsCategory_delete")
      */
-    public function eventsCategoryDelete(EventCategory $category)
+    public function eventsCategoryDelete(EventCategory $category): Response
     {
         $events = $this->eventsRepository->findEventsByCategory($category->getId());
 
@@ -172,3 +171,4 @@ class EventsController extends Controller
         return $this->redirectToRoute('admin_events_index');
     }
 }
+

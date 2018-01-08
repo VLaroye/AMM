@@ -2,21 +2,16 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * Class Image
- *
- * @ORM\Entity(repositoryClass="App\Repository\ImageRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\SliderImageRepository")
  */
-class Image
+class SliderImage
 {
-    public function __construct()
-    {
-        $this->inGallery = false;
-    }
-
     /**
      * @var int
      *
@@ -37,25 +32,30 @@ class Image
      * @var string
      *
      * @ORM\Column(type="string")
+     *
+     * @Assert\NotBlank()
      */
     private $alt;
 
     /**
-     * @var bool
+     * @var int
      *
-     * @ORM\Column(type="boolean")
+     * @ORM\Column(type="integer")
      */
-    private $inGallery;
+    private $position;
 
     /**
      * @var UploadedFile
+     *
+     * @Assert\NotBlank()
+     * @Assert\Image()
      */
     private $file;
 
     /**
      * @return int
      */
-    public function getId(): int
+    public function getId(): ?int
     {
         return $this->id;
     }
@@ -63,7 +63,7 @@ class Image
     /**
      * @param int $id
      */
-    public function setId(int $id): void
+    public function setId(?int $id): void
     {
         $this->id = $id;
     }
@@ -79,7 +79,7 @@ class Image
     /**
      * @param string $fileName
      */
-    public function setFileName(string $fileName): void
+    public function setFileName(?string $fileName): void
     {
         $this->fileName = $fileName;
     }
@@ -95,25 +95,9 @@ class Image
     /**
      * @param string $alt
      */
-    public function setAlt(string $alt): void
+    public function setAlt(?string $alt): void
     {
         $this->alt = $alt;
-    }
-
-    /**
-     * @return bool
-     */
-    public function isInGallery(): bool
-    {
-        return $this->inGallery;
-    }
-
-    /**
-     * @param bool $inGallery
-     */
-    public function setInGallery(bool $inGallery): void
-    {
-        $this->inGallery = $inGallery;
     }
 
     /**
@@ -127,8 +111,26 @@ class Image
     /**
      * @param UploadedFile $file
      */
-    public function setFile(UploadedFile $file): void
+    public function setFile(?UploadedFile $file): void
     {
         $this->file = $file;
     }
+
+    /**
+     * @return int
+     */
+    public function getPosition(): ?int
+    {
+        return $this->position;
+    }
+
+    /**
+     * @param int $position
+     */
+    public function setPosition(?int $position): void
+    {
+        $this->position = $position;
+    }
+
+
 }
