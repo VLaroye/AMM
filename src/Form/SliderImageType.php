@@ -20,7 +20,7 @@ class SliderImageType extends AbstractType
         $builder
             ->add('file', FileType::class)
             ->add('alt', TextType::class, ['label' => 'Texte alternatif'])
-            ->add('position', IntegerType::class, ['label' => 'Position'])
+            ->add('position', IntegerType::class, ['label' => 'Position', 'required' => false])
             ->add('submit', SubmitType::class, ['label' => 'Valider']);
     }
 

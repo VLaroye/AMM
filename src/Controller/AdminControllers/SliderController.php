@@ -2,14 +2,17 @@
 
 namespace App\Controller\AdminControllers;
 
+use App\Entity\Slider;
 use App\Entity\SliderImage;
 use App\Form\ImageType;
 use App\Form\SliderImageType;
 use App\Repository\SliderRepository;
 use App\Service\ImageUploader;
 use Doctrine\ORM\EntityManagerInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route as Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -30,12 +33,12 @@ class SliderController extends Controller
     /**
      * @Route("/", name="admin_slider_index")
      */
-    public function adminSliderManagement()
+    public function adminSliderManagement(Request $request)
     {
-        $sliders = $this->sliderRepository->findAll();
+        $slider = $this->sliderRepository->find(1);
 
         return $this->render("admin/slider/admin_slider_index.html.twig", [
-            'sliders' => $sliders
+            'slider' => $slider
         ]);
     }
 
@@ -78,5 +81,29 @@ class SliderController extends Controller
             'form' => $form->createView()
         ]);
     }
+
+    /**
+     * @param Slider $slider
+     * @param SliderImage $sliderImage
+     *
+     * @return Response
+     *
+     * @Route("/deleteImage/{sliderId}/{imageId}", name="admin_slider_image_delete")
+     * @ParamConverter("slider", options={"mapping": {"sliderId": "id"}})
+     * @ParamConverter("sliderImage", options={"mapping": {"imageId": "id"}})
+     */
+    public function sliderImageDelete(Slider $slider, SliderImage $sliderImage): Response
+    {
+        // TODO : Supprimer le fichier image du serveur
+        $slider->removeImage($sliderImage);
+
+        $this->em->remove($sliderImage);
+
+        $this->em->flush();
+
+        return $this->redirectToRoute('admin_slider_index');
+    }
+
+
 }
 

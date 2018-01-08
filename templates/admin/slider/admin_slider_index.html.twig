@@ -2,7 +2,22 @@
 
 {% block content %}
     <h2 class="text-center">Gestion du diaporama de page d'accueil</h2>
-    {% for slider in sliders %}
-        {{ render(controller('App\\Controller\\AdminControllers\\SliderController::sliderImageAdd', {'sliderId' : slider.id})) }}
-    {% endfor %}
+    <div class="row">
+        <div class="col-12 col-md-9">
+
+            {% for image in slider.images %}
+
+                <div>
+                    <img class="img-fluid" src="{{ asset('images/uploads/' ~ image.filename) }}" alt="{{ image.alt }}">
+                    <a href="{{ path('admin_slider_image_delete', {'sliderId' : slider.id, 'imageId': image.id}) }}" class="float-right text-danger"><i class="fa fa-times" aria-hidden="true"></i></a>
+                </div>
+            {% endfor %}
+        </div>
+        <div class="col-12 col-md-3">
+            {{ render(controller('App\\Controller\\AdminControllers\\SliderController::sliderImageAdd', {'sliderId' : 1})) }}
+        </div>
+    </div>
+
+
+
 {% endblock %}
