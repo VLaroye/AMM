@@ -3,18 +3,18 @@
 {% block title %}AMM Fest 4 {{ parent() }}{% endblock %}
 {% block content %}
     <section id="festival_lineup">
-        <div class="text-center bg-secondary py-2">
+        <div class="text-center bg-secondary py-4">
             <h2>{{ "Line-Up"|upper }}</h2>
         </div>
         <div class="row no-gutters">
             {% for artist in artists %}
-                <div class="col-6 col-md-4">
+                <div class="col-6 col-md-3">
                     <div class="artist ">
                         <a href="">
-                            <img class="" src="{{ asset('images/uploads/' ~  artist.image.file ) }}" alt="{{ artist.image.alt }}">
-                            <div class="artist-infos pl-4 pb-4 text-pink">
+                            <img class="" src="{{ asset('images/uploads/' ~  artist.image.fileName ) }}" alt="{{ artist.image.alt }}">
+                            <div class="artist-infos ml-1 mb-1 ml-md-4 mb-md-4 p-2">
                                 <h3 class="m-0 font-weight-bold">{{ artist.name }}</h3>
-                                <p class="m-0">{{ artist.style }} - {{ artist.origin }}</p>
+                                <p class="m-0">{{ artist.style }}</p>
                             </div>
                         </a>
                     </div>
@@ -24,43 +24,50 @@
     </section>
 
     <section id="festival_infos">
-        <div class="text-center bg-secondary py-2">
+        <div class="text-center bg-secondary py-4">
             <h2>{{ "Infos"|upper }}</h2>
         </div>
-        <div class="row my-5">
+        <div class="row mt-5">
             <div class="col-12 col-md-6 text-center">
-                <div class="row">
-                    <div class="col-12">
-                        <img class="mw-100" src="holder.js/400x300" alt="">
-                    </div>
+                <h3 class="text-uppercase  my-3">Le site</h3>
+                <adress>Terrain des Archers <br/> 59114, <span class="text-uppercase">Steenvoorde</span></adress>
+                <p>Accès: A25, Sortie 13 <span class="text-uppercase">Steenvoorde</span></p>
+                <button class="btn btn-secondary mt-3 mb-5 font-weight-bold"><a href="">Google Map</a></button>
 
-                    <div class="col-12 text-center pt-4">
-                        <button type="button" class="btn btn-lg btn-pink">Google Map</button>
+                <h3 class="text-uppercase my-3">Entrée</h3>
+                <div class="text-uppercase mb-5">
+                    <p>
+                        Ouverture des portes : 15h
+                        <br/>
+                        Garden Party : 15h00 - 19h30
+                        <br/>
+                        Concert : 19h30 - 3h00
+                    </p>
+                    <p>
+                        Pass Journée : 12 euros*
+                        <br/>
+                        Pass soirée : 9euros*
+                    </p>
+                </div>
+                <div class="my-5">
+                    <h3 class="text-uppercase  my-3">Sur place</h3>
+                    <div class="text-uppercase">
+                        <p>
+                            Coin cinéma
+                            <br/>
+                            Camping gratuit
+                            <br/>
+                            Bar
+                            <br/>
+                            Restauration
+                        </p>
                     </div>
                 </div>
+
             </div>
-            <div class="col-12 col-md-6">
-                <ul>
-                    <li>
-                        <h2>Entrée</h2>
-                        <p>Ouverture des portes : 14h</p>
-                        <p>Pass journée : 13euros</p>
-                        <p>*Gratuit pour les moins de 12ans</p>
-                    </li>
-                    <li>
-                        <h2>Le site</h2>
-                        <p>Terrain des Archers</p>
-                        <p>59114, Steenvoorde</p>
-                        <p>Accès : A25, Sortie 13 -> Steenvoorde</p>
-                    </li>
-                    <li>
-                        <h2>Sur place</h2>
-                        <p>Coin ciné</p>
-                        <p>Camping gratuit</p>
-                        <p>Bar</p>
-                        <p>Restauration</p>
-                    </li>
-                </ul
+            <div class="col-md-6 d-none d-md-block text-right">
+                <img class="mr-5" src="{{ asset('images/map-infos-fest') }}" alt="Vue satellite du site du festival et des alentours, avec le logo de l'association à l'endroit du site du festival">
+                <img src="{{ asset('images/picto-infos-fest.png') }}" alt="Pictogrammes représentants les services disponibles sur le site du festival. Boisson, nourriture, camping">
             </div>
         </div>
     </section>

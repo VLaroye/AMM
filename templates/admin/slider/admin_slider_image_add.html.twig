@@ -8,10 +8,6 @@
         {{ form_widget(form.alt, {'attr' : {'class' : 'form-control'}}) }}
         {{ form_errors(form.alt, {'attr' : {'class' : 'text-danger'}}) }}
 
-        {{ form_label(form.position) }}
-        {{ form_widget(form.position, {'attr' : {'class' : 'form-control'}}) }}
-        {{ form_errors(form.position, {'attr' : {'class' : 'text-danger'}}) }}
-
         {{ form_widget(form.submit, {'attr' : {'class' : 'btn btn-dark mt-3'}}) }}
     {{ form_end(form) }}
 {% endblock %}

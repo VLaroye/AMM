@@ -13,6 +13,17 @@ class SliderRepository extends ServiceEntityRepository
         parent::__construct($registry, Slider::class);
     }
 
+    public function getMaxImagePosition()
+    {
+        return $this->createQueryBuilder('slider')
+            ->select('img.position')
+            ->join('slider.images', 'img')
+            ->orderBy('img.position', 'DESC')
+            ->setMaxResults(1)
+            ->getQuery()
+            ->getResult();
+    }
+
     /*
     public function findBySomething($value)
     {

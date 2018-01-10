@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Artist;
+use App\Entity\Event;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -45,7 +46,13 @@ class AppController extends Controller
      */
     public function events(): Response
     {
-        return $this->render('front/events.html.twig');
+        $em = $this->getDoctrine()->getManager();
+
+        $events = $em->getRepository(Event::class)->findAll();
+
+        return $this->render('front/events.html.twig', [
+            'events' => $events
+        ]);
     }
 
     /**

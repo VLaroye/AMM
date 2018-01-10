@@ -5,31 +5,56 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <script defer src="https://use.fontawesome.com/releases/v5.0.1/js/all.js"></script>
         <title>{% block title %} - Association Art Mass et Mess{% endblock %}</title>
+
+        <!-- FONTS -->
+        <link href="https://fonts.googleapis.com/css?family=Ubuntu:500,700" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet">
+
         {% block stylesheets %}
             <link rel="stylesheet" href="{{ asset('css/main.css') }}">
         {% endblock %}
     </head>
     <body>
-        <div id="content-container" class="container px-0 bg-white">
-            <header>
-                <img class="d-block w-100" src="holder.js/800x150&amp;bg=555&amp;fg=333" alt="">
-            </header>
+    <div id="content-container" class="px-0 bg-white">
+
             {% block navbar %}
                 {{ include('front/layout/navbar.html.twig') }}
             {% endblock %}
 
             {% block content %} {% endblock %}
 
-            <footer>
-                <div class="row text-center">
-                    <div class="col-4  py-5">
-                        <i class="fab fa-facebook-square fa-3x"></i>
+            <footer class="mt-1">
+                <div id="logoFooter" class="row justify-content-center">
+                    <div class="col-6 text-center pt-2">
+                        <img src="{{ asset('images/logo-footer.png') }}" alt="" style="max-width: 200px; max-height: 200px">
                     </div>
-                    <div class="col-4  py-5">
-                        <i class="fab fa-instagram fa-3x"></i>
+                </div>
+                <div class="row align-content-end pb-3">
+                    <div class="col-4">
+                        <div class="row">
+                            <div class="col-2">
+                                <i class="fa fa-facebook-square fa-2x text-light" aria-hidden="true"></i>
+                            </div>
+                            <div class="col-2">
+                                <i class="fa fa-instagram  fa-2x text-light" aria-hidden="true"></i>
+                            </div>
+                            <div class="col-2">
+                                <i class="fa fa-user-plus fa-2x text-light" aria-hidden="true"></i>
+                            </div>
+                        </div>
                     </div>
-                    <div class="col-4  py-5">
-                        <i class="fab fab fa-twitter-square fa-3x"></i>
+                    <div class="col-4">
+                        <div class="row text-center">
+                            <div class="col-4">
+                                SPONSORS
+                            </div>
+                            <div class="col-4 border-black">
+                                CONTACTS
+                            </div>
+                            <div class="col-4">
+                                TERMS OF USE
+                            </div>
+                        </div>
                     </div>
                 </div>
             </footer>

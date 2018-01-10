@@ -1,4 +1,8 @@
+@import "lib/colors";
+@import "lib/fonts";
 @import "lib/variables";
+@import "lib/navbar-variables";
+@import "lib/events-variables";
 
 /* Imports Bootstrap */
 @import "node_modules/bootstrap/scss/mixins";
@@ -17,9 +21,13 @@
 @import "../../node_modules/bootstrap/scss/transitions";
 @import "../../node_modules/bootstrap/scss/utilities";
 
+
+
 /* Imports custom scss */
 @import "sections/global";
 @import "sections/homepage";
-@import "sections/lineup";
+@import "sections/festival";
+@import "sections/events";
+@import "components/lineup";
 @import "components/carousel";
 @import "components/navbar";

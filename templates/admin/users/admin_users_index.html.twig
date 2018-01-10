@@ -1,7 +1,7 @@
 {% extends 'admin/layout/admin_base.html.twig' %}
 
 {% block content %}
-    {% for user in users if user.roles == "ROLE_ADMIN" %}
+    {% for user in users %}
         <div class="container bg-light mt-3">
             <p class="font-weight-bold">Nom d'utilisateur : {{ user.username }}</p>
             <p>Role : {{ user.roles[0] }}</p>

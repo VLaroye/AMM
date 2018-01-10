@@ -1,0 +1,14 @@
+{% extends 'admin/layout/admin_base.html.twig' %}
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            {% for image in images %}
+                <div class="col-4">
+                    <img class="img-fluid" src="{{ asset('images/uploads/') ~ image.fileName }}" alt="{{ image.alt }}">
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+{% endblock %}

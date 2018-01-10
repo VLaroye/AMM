@@ -5,3 +5,10 @@
     color: darken(#f04d64, 5%);
   }
 }
+
+footer {
+  @include gradient-directional(#f04d64, #f1bec5, 65deg);
+}
+#logoFooter {
+  min-height: 15em;
+}

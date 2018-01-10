@@ -1,5 +1,19 @@
+.navbar-collapse {
+  height: $navbar-height;
+}
+
+.navbar-collapse.show {
+  height: auto;
+}
+
 li.nav-item {
   @include hover-focus-active {
     @include gradient-directional(#f04d64, #f1bec5, 65deg);
   }
+
+  @include border-radius(20px)
+}
+
+li.nav-item > a {
+  font-size: $nav-link-font-size;
 }

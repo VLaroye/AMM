@@ -1,0 +1,7 @@
+div.event {
+  @include size(100%, $event-height);
+}
+
+.eventTitle, .eventContent {
+  @include size(100%);
+}
