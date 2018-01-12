@@ -2,14 +2,17 @@
 
 namespace App\Controller\AdminControllers;
 
-use App\Entity\{Slider, SliderImage};
+use App\Entity\Slider;
+use App\Entity\SliderImage;
 use App\Form\SliderImageType;
 use App\Repository\SliderRepository;
 use App\Service\ImageUploader;
 use Doctrine\ORM\EntityManagerInterface;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\{ParamConverter, Route as Route};
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route as Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpFoundation\{Request, Response};
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * @Route("/admin/slider")
@@ -30,15 +33,16 @@ class SliderController extends Controller
      */
     public function adminSliderManagement(Request $request, Slider $slider)
     {
-        return $this->render("admin/slider/admin_slider_index.html.twig", [
+        return $this->render('admin/slider/admin_slider_index.html.twig', [
             'slider' => $slider,
         ]);
     }
 
     /**
-     * @param int $sliderId
-     * @param Request $request
+     * @param int           $sliderId
+     * @param Request       $request
      * @param ImageUploader $imageUploader
+     *
      * @return Response
      *
      * @Route("/addImage/{sliderId}", name="admin_slider_image_add")
@@ -48,22 +52,21 @@ class SliderController extends Controller
         $sliderImage = new SliderImage();
 
         $form = $this->createForm(SliderImageType::class, $sliderImage, [
-            'action' => $this->generateUrl('admin_slider_image_add', ['sliderId' => $sliderId])
+            'action' => $this->generateUrl('admin_slider_image_add', ['sliderId' => $sliderId]),
         ]);
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            /** @var Slider $slider **/
             $slider = $this->sliderRepository->find($sliderId);
 
             $imageFileName = $imageUploader->upload($sliderImage->getFile());
             $sliderImage->setFileName($imageFileName);
 
-            $position = $this->sliderRepository->getMaxImagePosition()[0]['position'] += 1;
-
-            $sliderImage->setPosition($position);
-
             $slider->addImage($sliderImage);
+
+            $slider->updateImagesPositions();
 
             $this->em->persist($sliderImage);
 
@@ -71,16 +74,18 @@ class SliderController extends Controller
 
             $this->addFlash('succes', 'L\'image a bien été ajoutée au diaporama');
 
-            return $this->redirectToRoute('admin_slider_index');
+            return $this->redirectToRoute('admin_slider_index', [
+                'id' => $slider->getId(),
+            ]);
         }
 
         return $this->render('admin/slider/admin_slider_image_add.html.twig', [
-            'form' => $form->createView()
+            'form' => $form->createView(),
         ]);
     }
 
     /**
-     * @param Slider $slider
+     * @param Slider      $slider
      * @param SliderImage $sliderImage
      *
      * @return Response
@@ -93,15 +98,18 @@ class SliderController extends Controller
     public function sliderImageDelete(Slider $slider, SliderImage $sliderImage): Response
     {
         // TODO : Supprimer le fichier image du serveur
+
         $slider->removeImage($sliderImage);
+
+        $slider->updateImagesPositions();
 
         $this->em->remove($sliderImage);
 
         $this->em->flush();
 
+
         return $this->redirectToRoute('admin_slider_index', [
-            'id' => $slider->getId()
+            'id' => $slider->getId(),
         ]);
     }
 }
-

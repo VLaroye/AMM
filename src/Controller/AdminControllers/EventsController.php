@@ -2,11 +2,14 @@
 
 namespace App\Controller\AdminControllers;
 
-use App\Entity\{Event, EventCategory};
-use App\Form\{EventType, EventCategoryType};
+use App\Entity\Event;
+use App\Entity\EventCategory;
+use App\Form\EventType;
+use App\Form\EventCategoryType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpFoundation\{Request, Response};
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route as Route;
 
 /**
@@ -168,4 +171,3 @@ class EventsController extends Controller
         return $this->redirectToRoute('admin_events_index');
     }
 }
-

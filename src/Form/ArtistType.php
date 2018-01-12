@@ -5,9 +5,12 @@
 namespace App\Form;
 
 use App\Entity\Artist;
-use Symfony\Component\Form\{FormBuilderInterface, AbstractType};
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\AbstractType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\{TextType, IntegerType, SubmitType};
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 class ArtistType extends AbstractType
 {

@@ -2,7 +2,9 @@
 
 namespace App\Entity;
 
-use Doctrine\Common\Collections\{Collection, ArrayCollection};
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -10,11 +12,6 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Slider
 {
-    public function __construct()
-    {
-        $this->images = new ArrayCollection();
-    }
-
     /**
      * @var int
      *
@@ -30,6 +27,11 @@ class Slider
      * @ORM\ManyToMany(targetEntity="App\Entity\SliderImage", cascade={"persist"})
      */
     private $images;
+
+    public function __construct()
+    {
+        $this->images = new ArrayCollection();
+    }
 
     /**
      * @return int
@@ -71,7 +73,20 @@ class Slider
         $this->images->removeElement($image);
     }
 
+    /**
+     * After attaching a new image, we need to update images positions
+     */
+    public function updateImagesPositions(): void
+    {
+        $slides = $this->getImages()->toArray();
 
+        $slides = array_values($slides);
 
-
+        /**
+         * @var  SliderImage $slide
+         */
+        foreach ($slides as $index => $slide) {
+            $slide->setPosition($index + 1);
+        }
+    }
 }

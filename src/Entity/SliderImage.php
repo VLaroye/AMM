@@ -39,7 +39,7 @@ class SliderImage
     /**
      * @var int
      *
-     * @ORM\Column(type="integer", nullable=true)
+     * @ORM\Column(type="integer")
      */
     private $position;
 
@@ -130,6 +130,4 @@ class SliderImage
     {
         $this->position = $position;
     }
-
-
 }

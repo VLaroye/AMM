@@ -217,4 +217,3 @@ class Artist
         $this->image = $image;
     }
 }
-

@@ -7,7 +7,9 @@ use App\Form\ArtistType;
 use App\Service\ImageUploader;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpFoundation\{RedirectResponse, Request, Response};
+use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route as Route;
 
 /**
@@ -55,7 +57,6 @@ class ArtistsController extends Controller
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-
             $fileName = $imageUploader->upload($artist->getImage()->getFile());
 
             $artist->getImage()->setFileName($fileName);
@@ -82,7 +83,6 @@ class ArtistsController extends Controller
     public function artistsDelete(Artist $artist): RedirectResponse
     {
         // TODO : Supprimer l'image du dossier /images/uploads ?
-
 
         $this->em->remove($artist);
         $this->em->flush();

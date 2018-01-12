@@ -12,7 +12,7 @@
     <title>{% block title %}Administration - Art Mass et Mess{% endblock %}</title>
 
     <!-- Icons -->
-    <script defer src="https://use.fontawesome.com/releases/v5.0.1/js/all.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" integrity="sha256-NuCn4IvuZXdBaFKJOAcsU2Q3ZpwbdFisd5dux4jkQ5w=" crossorigin="anonymous" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/simple-line-icons/2.4.1/css/simple-line-icons.min.css" integrity="sha256-7O1DfUu4pybYI7uAATw34eDrgQaWGOfMV/8erfDQz/Q=" crossorigin="anonymous" />
 
     <!-- Main styles for this application -->
@@ -58,28 +58,28 @@
         <nav class="sidebar-nav d-flex flex-column">
             <ul class="nav">
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ path('admin_index') }}"><i class="icon-speedometer"></i> Administration </a>
+                    <a class="nav-link" href="{{ path('admin_index') }}"><i class="fa fa-columns" aria-hidden="true"></i>Administration </a>
                 </li>
                 <li class="nav-item">
                     <span class="navbar-text text-center w-100 bg-light text-dark">Artistes</span>
-                    <a class="nav-link" href="{{ path('admin_artists_index') }}">Liste des artistes</a>
-                    <a class="nav-link" href="{{ path('admin_artists_add') }}">Ajouter un artiste</a>
+                    <a class="nav-link" href="{{ path('admin_artists_index') }}"><i class="fa fa-list" aria-hidden="true"></i>Liste des artistes</a>
+                    <a class="nav-link" href="{{ path('admin_artists_add') }}"><i class="fa fa-plus" aria-hidden="true"></i>Ajouter un artiste</a>
                 </li>
                 {% if is_granted('ROLE_SUPER_ADMIN') %}
                     <li class="nav-item">
                         <span class="navbar-text text-center w-100 bg-light text-dark">Utilisateurs</span>
-                        <a class="nav-link" href="{{ path('admin_users_index') }}">Liste des utilisateurs</a>
-                        <a class="nav-link" href="{{ path('admin_users_add') }}">Ajouter un utilisateur</a>
+                        <a class="nav-link" href="{{ path('admin_users_index') }}"><i class="fa fa-list" aria-hidden="true"></i>Liste des utilisateurs</a>
+                        <a class="nav-link" href="{{ path('admin_users_add') }}"><i class="fa fa-plus" aria-hidden="true"></i>Ajouter un utilisateur</a>
                     </li>
                 {% endif %}
                 <li class="nav-item">
                     <span class="navbar-text text-center w-100 bg-light text-dark">Evenements</span>
-                    <a class="nav-link" href="{{ path('admin_events_index') }}">Liste des evenements</a>
-                    <a class="nav-link" href="{{ path('admin_events_add') }}">Ajouter un evenement</a>
+                    <a class="nav-link" href="{{ path('admin_events_index') }}"><i class="fa fa-list" aria-hidden="true"></i>Liste des evenements</a>
+                    <a class="nav-link" href="{{ path('admin_events_add') }}"><i class="fa fa-plus" aria-hidden="true"></i>Ajouter un evenement</a>
                 </li>
                 <li class="nav-item">
                     <span class="navbar-text text-center w-100 bg-light text-dark">Diaporama</span>
-                    <a class="nav-link" href="{{ path('admin_slider_index', {'id' : 1}) }}">Gestion du diaporama de page d'accueil</a>
+                    <a class="nav-link" href="{{ path('admin_slider_index', {'id' : 1}) }}"><i class="fa fa-sliders" aria-hidden="true"></i>Gestion du diaporama de page d'accueil</a>
                 </li>
                 <li class="nav-item">
                     <span class="navbar-text text-center w-100 bg-light text-dark">Gallerie</span>

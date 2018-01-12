@@ -2,10 +2,12 @@
 
 namespace App\Controller;
 
-use App\Entity\{Artist, Event};
+use App\Entity\Artist;
+use App\Entity\Event;
 use App\Form\ContactType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpFoundation\{Request, Response};
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route as Route;
 
 class AppController extends Controller
@@ -50,7 +52,7 @@ class AppController extends Controller
         $events = $em->getRepository(Event::class)->findAll();
 
         return $this->render('front/events.html.twig', [
-            'events' => $events
+            'events' => $events,
         ]);
     }
 
@@ -101,7 +103,7 @@ class AppController extends Controller
         }
 
         return $this->render('front/contact.html.twig', [
-            'form' => $form->createView()
+            'form' => $form->createView(),
         ]);
     }
 }

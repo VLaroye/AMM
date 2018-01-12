@@ -29,7 +29,7 @@ class GalleryController extends Controller
         $images = $this->imageRepository->findBy(['inGallery' => true]);
 
         return $this->render('admin/gallery/admin_gallery_index.html.twig', [
-            'images' => $images
+            'images' => $images,
         ]);
     }
 }

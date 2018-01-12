@@ -10,8 +10,8 @@
                     </div>
                     <div class="card-body">
                         <ul>
-                            <li><a href="">Listes des artistes (+ Modification / Suppression)</a></li>
-                            <li><a href="">Ajout d'un artiste</a></li>
+                            <li><a href="{{ path('admin_artists_index') }}">Listes des artistes (+ Modification / Suppression)</a></li>
+                            <li><a href="{{ path('admin_artists_add') }}">Ajout d'un artiste</a></li>
                         </ul>
                     </div>
                     <div class="card-footer"></div>
@@ -24,8 +24,8 @@
                     </div>
                     <div class="card-body">
                         <ul>
-                            <li><a href="">Listes des admin (+ Suppression)</a></li>
-                            <li><a href="">Ajout d'un admin</a></li>
+                            <li><a href="{{ path('admin_users_index') }}">Listes des admin (+ Suppression)</a></li>
+                            <li><a href="{{ path('admin_users_add') }}">Ajout d'un admin</a></li>
                         </ul>
                     </div>
                     <div class="card-footer"></div>
@@ -38,8 +38,8 @@
                     </div>
                     <div class="card-body">
                         <ul>
-                            <li><a href="">Listes des évènements (+ Modification/Suppression)</a></li>
-                            <li><a href="">Ajout d'un évènement</a></li>
+                            <li><a href="{{ path('admin_events_index') }}">Listes des évènements (+ Modification/Suppression)</a></li>
+                            <li><a href="{{ path('admin_events_add') }}">Ajout d'un évènement</a></li>
                         </ul>
                     </div>
                     <div class="card-footer"></div>
@@ -52,7 +52,7 @@
                     </div>
                     <div class="card-body">
                         <ul>
-                            <li><a href="">Gestion du diaporama</a></li>
+                            <li><a href="{{ path('admin_slider_index', {'id' : 1}) }}">Gestion du diaporama</a></li>
                         </ul>
                     </div>
                     <div class="card-footer"></div>
