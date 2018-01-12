@@ -7,9 +7,6 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
-/**
- * Class EventRepository
- */
 class EventRepository extends ServiceEntityRepository
 {
     private $em;

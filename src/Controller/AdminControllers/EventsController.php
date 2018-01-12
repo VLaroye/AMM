@@ -2,14 +2,11 @@
 
 namespace App\Controller\AdminControllers;
 
-use App\Entity\Event;
-use App\Entity\EventCategory;
-use App\Form\EventCategoryType;
-use App\Form\EventType;
+use App\Entity\{Event, EventCategory};
+use App\Form\{EventType, EventCategoryType};
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\{Request, Response};
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route as Route;
 
 /**

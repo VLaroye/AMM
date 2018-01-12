@@ -3,23 +3,63 @@
 {% block title %}Les autres evenements {{ parent() }}{% endblock %}
 {% block content %}
     {% for event in events %}
-        <div class="event">
-            <div class="eventTitle">
+
+        <div class="event d-flex position-relative" data-event ="event-{{ event.id }}">
+            <div class="eventTitle position-relative">
                 <div class="row h-100">
                     <div class="col-9 d-flex justify-content-center align-items-center">
                         <h3 class="text-uppercase ">{{ event.name }}</h3>
                     </div>
                     <div class="col-3 d-flex justify-content-end align-items-center">
-                        <a href=""><i class="fa fa-chevron-right fa-4x mr-5" aria-hidden="true"></i></a>
+                        <a class="toggleEvent" href="" data-target="event-{{ event.id }}"><i class="fa fa-chevron-left fa-4x mr-5" aria-hidden="true"></i></a>
                     </div>
                 </div>
             </div>
             <div class="eventContent">
-                <p>COucou</p>
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-5">
+                            <p>Photo Event</p>
+                        </div>
+                        <div class="col-7">
+                            <h4 class="text-uppercase text-center">{{ event.name }}</h4>
+                            {% if event.location is not null%}
+                                <p>Lieux : {{ event.location }}</p>
+                                {% else %}
+                                    <p>Lieux non annoncé</p>
+                            {% endif %}
+                            {% if event.price is not null%}
+                                {% if event.price == 0 %}
+                                <p>Prix : Gratuit</p>
+                                    {% else %}
+                                        <p>Prix : {{ event.price }}</p>
+                                {% endif %}
+                            {% else %}
+                                <p>Prix non annoncé</p>
+                            {% endif %}
+                            {% if event.date is not null %}
+                                <p>Le {{ event.date| date('d/m/Y')}} de </p>
+                                {% else %}
+                                    <p>Date non annoncé</p>
+                            {% endif %}
+                            {% if event.beginningTime and event.endingTime is not null %}
+                                <p>De {{ event.beginningTime| date('H:i') }} à {{ event.endingTime| date('H:i') }}</p>
+                            {% endif %}
+                            {% if event.facebookLink is not null %}
+                                <a href="{{ event.facebookLink }}"><i class="fa fa-facebook-square fa-4x text-pink" aria-hidden="true"></i></a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </div>
+
     {% endfor %}
 
 
 {% endblock %}
-
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('js/front/events.js') }}"></script>
+{% endblock %}

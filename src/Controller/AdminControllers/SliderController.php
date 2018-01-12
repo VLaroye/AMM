@@ -2,19 +2,14 @@
 
 namespace App\Controller\AdminControllers;
 
-use App\Entity\Slider;
-use App\Entity\SliderImage;
+use App\Entity\{Slider, SliderImage};
 use App\Form\SliderImageType;
 use App\Repository\SliderRepository;
 use App\Service\ImageUploader;
 use Doctrine\ORM\EntityManagerInterface;
-use function MongoDB\BSON\toJSON;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route as Route;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\{ParamConverter, Route as Route};
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\{Request, Response};
 
 /**
  * @Route("/admin/slider")
@@ -91,6 +86,7 @@ class SliderController extends Controller
      * @return Response
      *
      * @Route("/deleteImage/{sliderId}/{imageId}", name="admin_slider_image_delete")
+     *
      * @ParamConverter("slider", options={"mapping": {"sliderId": "id"}})
      * @ParamConverter("sliderImage", options={"mapping": {"imageId": "id"}})
      */
@@ -103,7 +99,9 @@ class SliderController extends Controller
 
         $this->em->flush();
 
-        return $this->redirectToRoute('admin_slider_index');
+        return $this->redirectToRoute('admin_slider_index', [
+            'id' => $slider->getId()
+        ]);
     }
 }
 

@@ -1,0 +1,21 @@
+#contact-header {
+  @include size(100%, $contact-header-height);
+  background-image: url($contact-header-background-image);
+  background-repeat: no-repeat;
+  background-size: 100% auto;
+}
+
+#contact-header button {
+  background-color: $contact-header-button-color;
+  border-radius: 0;
+}
+
+#contact-header button span {
+  opacity: initial;
+}
+
+#contact-form {
+  background-image: url($contact-form-background-image);
+  background-repeat: no-repeat;
+  background-size: 100% auto;
+}

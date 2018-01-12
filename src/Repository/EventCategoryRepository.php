@@ -6,9 +6,6 @@ use App\Entity\EventCategory;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
-/**
- * Class EventCategoryRepository
- */
 class EventCategoryRepository extends ServiceEntityRepository
 {
     public function __construct(RegistryInterface $registry)

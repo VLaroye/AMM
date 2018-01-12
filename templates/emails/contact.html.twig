@@ -1,0 +1,29 @@
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+</head>
+<body>
+<div>
+
+    {% block content %}
+
+        <h3>Nouveau message du formulaire de contact !</h3>
+
+        <p>De : {{ data.firstName }} - {{ data.secondName }}</p>
+
+        <p>Mail : {{ data.mail }}</p>
+
+        <p>Sujet : {{ data.subject }}</p>
+
+        <p>Message : {{ data.message }}</p>
+
+    {% endblock %}
+
+</div>
+
+</body>
+</html>

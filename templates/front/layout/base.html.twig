@@ -3,9 +3,12 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <script defer src="https://use.fontawesome.com/releases/v5.0.1/js/all.js"></script>
-        <title>{% block title %} - Association Art Mass et Mess{% endblock %}</title>
 
+        <!-- FONT AWESOME -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" integrity="sha256-NuCn4IvuZXdBaFKJOAcsU2Q3ZpwbdFisd5dux4jkQ5w=" crossorigin="anonymous" />        <title>{% block title %} - Association Art Mass et Mess{% endblock %}</title>
+
+        <!-- BOOTSTRAP -->
+        <link rel="stylesheet" href="{{ asset('css/bootstrap.css') }}">
         <!-- FONTS -->
         <link href="https://fonts.googleapis.com/css?family=Ubuntu:500,700" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet">
@@ -23,44 +26,12 @@
 
             {% block content %} {% endblock %}
 
-            <footer class="mt-1">
-                <div id="logoFooter" class="row justify-content-center">
-                    <div class="col-6 text-center pt-2">
-                        <img src="{{ asset('images/logo-footer.png') }}" alt="" style="max-width: 200px; max-height: 200px">
-                    </div>
-                </div>
-                <div class="row align-content-end pb-3">
-                    <div class="col-4">
-                        <div class="row">
-                            <div class="col-2">
-                                <i class="fa fa-facebook-square fa-2x text-light" aria-hidden="true"></i>
-                            </div>
-                            <div class="col-2">
-                                <i class="fa fa-instagram  fa-2x text-light" aria-hidden="true"></i>
-                            </div>
-                            <div class="col-2">
-                                <i class="fa fa-user-plus fa-2x text-light" aria-hidden="true"></i>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-4">
-                        <div class="row text-center">
-                            <div class="col-4">
-                                SPONSORS
-                            </div>
-                            <div class="col-4 border-black">
-                                CONTACTS
-                            </div>
-                            <div class="col-4">
-                                TERMS OF USE
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </footer>
+            {% block footer %}
+                {{ include('front/layout/footer.html.twig') }}
+            {% endblock %}
         </div>
         {% block javascripts %}
-            <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
             <script src="https://cdnjs.cloudflare.com/ajax/libs/holder/2.9.4/holder.min.js"></script>
             <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
             <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>

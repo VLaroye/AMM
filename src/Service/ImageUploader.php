@@ -16,7 +16,7 @@ class ImageUploader
      */
     private $targetDir;
 
-    public function upload(UploadedFile $file)
+    public function upload(UploadedFile $file): string
     {
         $fileName = md5(uniqid().'.'.$file->guessExtension());
 
@@ -28,7 +28,7 @@ class ImageUploader
     /**
      * @return string
      */
-    public function getTargetDir()
+    public function getTargetDir(): string
     {
         return $this->targetDir;
     }

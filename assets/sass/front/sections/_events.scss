@@ -1,7 +1,8 @@
 div.event {
-  @include size(100%, $event-height);
+  @include size(200%, $event-height);
 }
 
 .eventTitle, .eventContent {
-  @include size(100%);
+  @include size(50%, 100%);
+  display: inline-block;
 }

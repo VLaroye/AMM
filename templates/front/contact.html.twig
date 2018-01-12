@@ -1,0 +1,49 @@
+{% extends 'front/layout/base.html.twig' %}
+
+{% block content %}
+
+        <header id="contact-header">
+            <div class="row h-100 justify-content-center align-items-center">
+                <div class="col-12 col-md-10 text-center">
+                    <button class="btn text-uppercase font-weight-bold p-3"><span>rejoins l'équipe</span></button>
+                    <button class="btn text-uppercase font-weight-bold p-3">contactes-nous !</button>
+                </div>
+            </div>
+        </header>
+
+        <section id="team">
+            <div class="row justify-content-center text-center">
+                <div class="col-12 col-md-10">
+                    <div class="row">
+                        <div class="col-6 col-md-4">
+                            <img src="" alt="" class="rounded-circle">
+                        </div>
+                        <div class="col-6 col-md-4">
+                            Secrétaire
+                        </div>
+                        <div class="col-6 col-md-4">
+                            Vice président
+                        </div>
+                        <div class="col-6 col-md-4">
+                            Trésorier
+                        </div>
+                        <div class="col-6 col-md-4">
+                            Tout les bénévoles
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="contact-form">
+            {% for message in app.session.flashbag.get('success') %}
+                    <div class="success-flash bg-success p-3 rounded">
+                        <h4 class="text-center">Message envoyé !</h4>
+                        <p>{{ message }}</p>
+                    </div>
+            {% endfor %}
+            <h3 class="text-center text-uppercase text-light">get <span class="font-italic">in </span> touch</h3>
+            {{ form_start(form) }}
+            {{ form_end(form) }}
+        </section>
+{% endblock %}
