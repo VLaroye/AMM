@@ -1,49 +1,99 @@
 {% extends 'front/layout/base.html.twig' %}
 
+{% block title %}Contact {{ parent() }}{% endblock %}
 {% block content %}
 
         <header id="contact-header">
             <div class="row h-100 justify-content-center align-items-center">
-                <div class="col-12 col-md-10 text-center">
+                <div class="col-12 col-md-10 text-center my-4">
                     <button class="btn text-uppercase font-weight-bold p-3"><span>rejoins l'équipe</span></button>
-                    <button class="btn text-uppercase font-weight-bold p-3">contactes-nous !</button>
+                    <button class="btn text-uppercase font-weight-bold p-3">
+                        <a href="#contact-form">contactes-nous !</a>
+                    </button>
+
                 </div>
             </div>
         </header>
 
-        <section id="team">
+        <section id="team" class="my-4">
             <div class="row justify-content-center text-center">
                 <div class="col-12 col-md-10">
-                    <div class="row">
-                        <div class="col-6 col-md-4">
-                            <img src="" alt="" class="rounded-circle">
+                    <div class="row justify-content-center my-3">
+                        <div class="col-10 col-md-4 p-3">
+                            <img src="{{ asset('images/Douchka.jpg') }}" alt="" class="rounded-circle">
+                            <h4 class="my-3">Thibault</h4>
+                            <p>Bla bla bla bla Bla bla bla bla Bla bla bla bla Bla bla bla bla Bla bla bla bla</p>
                         </div>
-                        <div class="col-6 col-md-4">
-                            Secrétaire
+                        <div class="col-10 col-md-4  p-3">
+                            <img src="{{ asset('images/Douchka.jpg') }}" alt="" class="rounded-circle">
+                            <h4 class="my-3">Mout</h4>
+                            <p>Bla bla bla bla Bla bla bla bla Bla bla bla bla Bla bla bla bla Bla bla bla bla</p>
                         </div>
-                        <div class="col-6 col-md-4">
-                            Vice président
+                        <div class="col-10 col-md-4  p-3">
+                            <img src="{{ asset('images/Douchka.jpg') }}" alt="" class="rounded-circle">
+                            <h4 class="my-3">Chouq</h4>
+                            <p>Bla bla bla bla Bla bla bla bla Bla bla bla bla Bla bla bla bla Bla bla bla bla</p>
                         </div>
-                        <div class="col-6 col-md-4">
-                            Trésorier
+                        <div class="col-10 col-md-4  p-3">
+                            <img src="{{ asset('images/Douchka.jpg') }}" alt="" class="rounded-circle">
+                            <h4 class="my-3">Vincent</h4>
+                            <p>Bla bla bla bla Bla bla bla bla Bla bla bla bla Bla bla bla bla Bla bla bla bla</p>
                         </div>
-                        <div class="col-6 col-md-4">
-                            Tout les bénévoles
+                        <div class="col-10 col-md-4  p-3">
+                            <img src="{{ asset('images/Douchka.jpg') }}" alt="" class="rounded-circle">
+                            <h4 class="my-3">Kmoul</h4>
+                            <p>Bla bla bla bla Bla bla bla bla Bla bla bla bla Bla bla bla bla Bla bla bla bla</p>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <section id="contact-form">
+        <section id="contact-form" class="py-4">
             {% for message in app.session.flashbag.get('success') %}
                     <div class="success-flash bg-success p-3 rounded">
                         <h4 class="text-center">Message envoyé !</h4>
                         <p>{{ message }}</p>
                     </div>
             {% endfor %}
-            <h3 class="text-center text-uppercase text-light">get <span class="font-italic">in </span> touch</h3>
+            <h3 class="text-center text-uppercase text-light py-3">get <span class="font-italic">in </span> touch</h3>
             {{ form_start(form) }}
+            <div class="container">
+                <div class="row">
+                    <div class="col-12 col-md-6">
+                        <div class="form-group">
+                            {{ form_widget(form.firstName, {'attr' : {'class' : 'form-control'}}) }}
+                            {{ form_errors(form.firstName, {'attr' : {'class' : 'text-danger'}}) }}
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-6">
+                        <div class="form-group">
+                            {{ form_widget(form.secondName, {'attr' : {'class' : 'form-control'}}) }}
+                            {{ form_errors(form.secondName, {'attr' : {'class' : 'text-danger'}}) }}
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-8">
+                        <div class="form-group">
+                            {{ form_widget(form.mail, {'attr' : {'class' : 'form-control'}}) }}
+                            {{ form_errors(form.mail, {'attr' : {'class' : 'text-danger'}}) }}
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-4">
+                        <div class="form-group">
+                            {{ form_widget(form.subject, {'attr' : {'class' : 'form-control'}}) }}
+                            {{ form_errors(form.subject, {'attr' : {'class' : 'text-danger'}}) }}
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="form-group">
+                            {{ form_widget(form.message, {'attr' : {'class' : 'form-control'}}) }}
+                            {{ form_errors(form.message, {'attr' : {'class' : 'text-danger'}}) }}
+                        </div>
+                    </div>
+                </div>
+                {{ form_widget(form.submit, {'attr' : {'class' : 'btn btn-pink mt-3'}}) }}
+
             {{ form_end(form) }}
+            </div>
         </section>
 {% endblock %}

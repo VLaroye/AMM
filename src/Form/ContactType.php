@@ -17,9 +17,24 @@ class ContactType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('firstName', TextType::class, ['label' => 'Nom'])
-            ->add('secondName', TextType::class, ['label' => 'Prenom'])
-            ->add('mail', EmailType::class, ['label' => 'Email'])
+            ->add('firstName', TextType::class, [
+                'label' => 'Nom',
+                'attr' => [
+                    'placeholder' => 'Nom'
+                    ]
+                ])
+            ->add('secondName', TextType::class, [
+                'label' => 'Prenom',
+                'attr' => [
+                    'placeholder' => 'Prenom'
+                    ]
+                ])
+            ->add('mail', EmailType::class, [
+                'label' => 'Email',
+                'attr' => [
+                    'placeholder' => 'Email'
+                    ]
+                ])
             ->add('subject', ChoiceType::class, [
                 'label' => 'Sujet',
                 'choices' => [
@@ -28,7 +43,12 @@ class ContactType extends AbstractType
                     'Question à propos de l\'asso ?' => 'Question générale',
                 ],
             ])
-            ->add('message', TextareaType::class, ['label' => 'Ton message'])
+            ->add('message', TextareaType::class, [
+                'label' => 'Ton message',
+                'attr' => [
+                    'placeholder' => 'Message'
+                ]
+            ])
             ->add('submit', SubmitType::class, ['label' => 'Envoyer !']);
     }
 }

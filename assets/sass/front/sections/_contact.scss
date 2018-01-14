@@ -17,5 +17,13 @@
 #contact-form {
   background-image: url($contact-form-background-image);
   background-repeat: no-repeat;
-  background-size: 100% auto;
+  background-size: 100% 100%;
+}
+
+#team img {
+  width: 50%;
+
+  @include hover-focus-active {
+    width: 55%;
+  }
 }

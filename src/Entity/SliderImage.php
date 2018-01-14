@@ -46,8 +46,8 @@ class SliderImage
     /**
      * @var UploadedFile
      *
-     * @Assert\NotBlank()
      * @Assert\Image()
+     *
      */
     private $file;
 

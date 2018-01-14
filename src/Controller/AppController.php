@@ -4,6 +4,8 @@ namespace App\Controller;
 
 use App\Entity\Artist;
 use App\Entity\Event;
+use App\Entity\Slider;
+use App\Entity\SliderImage;
 use App\Form\ContactType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -21,7 +23,15 @@ class AppController extends Controller
      */
     public function homepage(Request $request): Response
     {
-        return $this->render('front/homepage.html.twig');
+        $sliderImages = $this
+            ->getDoctrine()
+            ->getManager()
+            ->getRepository(SliderImage::class)
+            ->getImagesByPosition();
+
+        return $this->render('front/homepage.html.twig', [
+            'sliderImages' => $sliderImages
+        ]);
     }
 
     /**

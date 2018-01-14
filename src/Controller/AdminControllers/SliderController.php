@@ -5,12 +5,17 @@ namespace App\Controller\AdminControllers;
 use App\Entity\Slider;
 use App\Entity\SliderImage;
 use App\Form\SliderImageType;
+use App\Repository\SliderImageRepository;
 use App\Repository\SliderRepository;
 use App\Service\ImageUploader;
 use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route as Route;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -21,11 +26,13 @@ class SliderController extends Controller
 {
     private $em;
     private $sliderRepository;
+    private $sliderImageRepository;
 
-    public function __construct(EntityManagerInterface $em, SliderRepository $sliderRepository)
+    public function __construct(EntityManagerInterface $em, SliderRepository $sliderRepository, SliderImageRepository $sliderImageRepository)
     {
         $this->em = $em;
         $this->sliderRepository = $sliderRepository;
+        $this->sliderImageRepository = $sliderImageRepository;
     }
 
     /**
@@ -33,8 +40,11 @@ class SliderController extends Controller
      */
     public function adminSliderManagement(Request $request, Slider $slider)
     {
+        $sliderImages = $this->sliderImageRepository->getImagesByPosition($slider->getId());
+
         return $this->render('admin/slider/admin_slider_index.html.twig', [
             'slider' => $slider,
+            'sliderImages' => $sliderImages
         ]);
     }
 
@@ -81,6 +91,61 @@ class SliderController extends Controller
 
         return $this->render('admin/slider/admin_slider_image_add.html.twig', [
             'form' => $form->createView(),
+        ]);
+    }
+
+    /**
+     * @param Slider $slider
+     * @param SliderImage $sliderImage
+     * @param Request $request
+     *
+     * @Route("/updateImage/{sliderId}/{imageId}", name="admin_slider_image_update")
+     *
+     * @ParamConverter("slider", options={"mapping": {"sliderId": "id"}})
+     * @ParamConverter("sliderImage", options={"mapping": {"imageId": "id"}})
+     *
+     * @return Response
+     */
+    public function sliderImageUpdate(Request $request, Slider $slider, SliderImage $sliderImage): Response
+    {
+        $form = $this->createFormBuilder($sliderImage)
+            ->add('alt', TextType::class, ['label' => 'Alt'])
+            ->add('position', ChoiceType::class, [
+                // TODO : Checker comment mettre les différentes positions possible en choix
+                'choices' => [
+                    '1' => 1,
+                    '2' => 2,
+                    '3' => 3
+                ]
+            ])
+            ->add('submit', SubmitType::class, ['label' => 'Valider'])
+            ->getForm();
+
+        $initialSliderImagePosition = $sliderImage->getPosition();
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            /** @var SliderImage $image */
+            $image = $this->sliderImageRepository
+                ->findOneBy([
+                    'position' => $sliderImage->getPosition()
+                ]);
+
+            $image->setPosition($initialSliderImagePosition);
+
+            $this->em->flush();
+
+            return $this->redirectToRoute('admin_slider_index', [
+                'id' => $slider->getId()
+            ]);
+        }
+
+        return $this->render('admin/slider/admin_slider_image_update.html.twig', [
+            'form' => $form->createView(),
+            'sliderId' => $slider->getId(),
+            'imageId' => $sliderImage->getId()
         ]);
     }
 
