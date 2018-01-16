@@ -1,11 +1,16 @@
 {% extends 'admin/layout/admin_base.html.twig' %}
 
 {% block content %}
+    <h2 class="text-center mt-2">Liste des administrateurs</h2>
+    {% for message in app.session.flashbag.get('success') %}
+        <div class="w-50 m-auto text-center bg-success text-dark p-3">
+            <p class="font-weight-bold">{{ message }}</p>
+        </div>
+    {% endfor %}
     {% for user in users %}
-        <div class="container bg-light mt-3">
+        <div class="container bg-light my-3 p-4">
             <p class="font-weight-bold">Nom d'utilisateur : {{ user.username }}</p>
             <p>Role : {{ user.roles[0] }}</p>
-            <a href=""><button class="btn btn-primary rounded">Modifier</button></a>
             <button type="button" class="btn btn-danger rounded" data-toggle="modal" data-target="#deleteConfirm{{ user.id }}">Supprimer</button>
         </div>
 
@@ -30,4 +35,7 @@
             </div>
         </div>
     {% endfor %}
+
+    {% include 'widget/pagination_widget.html.twig' %}
+
 {% endblock %}

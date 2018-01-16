@@ -4,22 +4,33 @@ namespace App\Repository;
 
 use App\Entity\SliderImage;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 class SliderImageRepository extends ServiceEntityRepository
 {
-    public function __construct(RegistryInterface $registry)
+    private $em;
+
+    public function __construct(RegistryInterface $registry, EntityManagerInterface $em)
     {
         parent::__construct($registry, SliderImage::class);
+        $this->em = $em;
     }
 
-    public function getImagesByPosition()
+    public function getImagesByPosition($page = 1, $max = 10)
     {
-        return $this->createQueryBuilder('img')
+        $qb = $this->em->createQueryBuilder();
+
+        $qb->select('img')
+            ->from('App:SliderImage', 'img')
             ->orderBy('img.position', 'ASC')
-            ->getQuery()
-            ->getResult();
+            ->setFirstResult(($page - 1) * $max)
+            ->setMaxResults($max);
+
+        return new Paginator($qb);
     }
+
     /*
     public function findBySomething($value)
     {

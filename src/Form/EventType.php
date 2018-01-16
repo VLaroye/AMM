@@ -7,6 +7,7 @@ namespace App\Form;
 use App\Entity\Event;
 use App\Entity\EventCategory;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TimeType;
@@ -35,26 +36,20 @@ class EventType extends AbstractType
                 'label' => 'Lien évènement Facebook',
                 'required' => false,
             ])
-            ->add('date', DateType::class, [
-                'label' => 'Date',
-                'widget' => 'single_text',
+            ->add('beginningDateTime', DateTimeType::class, [
+                'label' => 'Date et heure de début',
                 'required' => false,
                 ])
+            ->add('endingDateTime', DateTimeType::class, [
+                'label' => 'Date et heure de fin',
+                'required' => false
+            ])
             ->add('category', EntityType::class, [
                 'label' => 'Catégorie',
                 'class' => EventCategory::class,
                 'choice_label' => 'name',
-                'placeholder' => 'Choisir une catégorie',
-                'required' => false,
             ])
-            ->add('beginningTime', TimeType::class, [
-                'label' => 'Heure de début',
-                'required' => false,
-            ])
-            ->add('endingTime', TimeType::class, [
-                'label' => 'Heure de fin',
-                'required' => false,
-            ])
+            ->add('image', ImageType::class, ['label' => 'Image'])
             ->add('submit', SubmitType::class, ['label' => 'Valider']);
     }
 

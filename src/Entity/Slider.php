@@ -4,7 +4,6 @@ namespace App\Entity;
 
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -83,7 +82,7 @@ class Slider
         $slides = array_values($slides);
 
         /**
-         * @var  SliderImage $slide
+         * @var SliderImage
          */
         foreach ($slides as $index => $slide) {
             $slide->setPosition($index + 1);

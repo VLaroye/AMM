@@ -6,11 +6,13 @@ use App\Entity\Event;
 use App\Entity\EventCategory;
 use App\Form\EventType;
 use App\Form\EventCategoryType;
+use App\Service\ImageUploader;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route as Route;
+use Symfony\Component\Routing\Exception\InvalidParameterException;
 
 /**
  * @Route("/admin/evenements")
@@ -31,16 +33,28 @@ class EventsController extends Controller
     /**
      * @return Response
      *
-     * @Route("/", name="admin_events_index")
+     * @Route("/{page}", requirements={"page" = "\d+"}, defaults={"page" = 1}, name="admin_events_index")
      */
-    public function eventsIndex(): Response
+    public function eventsIndex($page): Response
     {
         $events = $this->eventsRepository->findAll();
         $category = $this->eventsCategoryRepository->findAll();
 
+        $pagination = [
+            'page' => $page,
+            'route' => 'admin_events_index',
+            'pages_count' => ceil(count($events) / 10),
+            'route_params' => [],
+        ];
+
+        if ($page > 1 && $page > $pagination['pages_count']) {
+            throw new InvalidParameterException('Cette page n\'existe pas');
+        }
+
         return $this->render('admin/events/admin_events_index.html.twig', [
             'events' => $events,
             'category' => $category,
+            'pagination' => $pagination,
         ]);
     }
 
@@ -51,7 +65,7 @@ class EventsController extends Controller
      *
      * @Route ("/add", name="admin_events_add")
      */
-    public function eventsAdd(Request $request): Response
+    public function eventsAdd(Request $request, ImageUploader $imageUploader): Response
     {
         $event = new Event();
 
@@ -60,11 +74,16 @@ class EventsController extends Controller
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $event = $form->getData();
+
+            $fileName = $imageUploader->upload($event->getImage()->getFile());
+
+            $event->getImage()->setFileName($fileName);
 
             $this->em->persist($event);
 
             $this->em->flush();
+
+            $this->addFlash('success', 'L\'évènement a bien été ajouté !');
 
             return $this->redirectToRoute('admin_events_index');
         }
@@ -86,6 +105,8 @@ class EventsController extends Controller
         $this->em->remove($event);
         $this->em->flush();
 
+        $this->addFlash('success', 'L\'évènement a bien été supprimé !');
+
         return $this->redirectToRoute('admin_events_index');
     }
 
@@ -97,14 +118,26 @@ class EventsController extends Controller
      *
      * @Route("/update/{id}", name="admin_events_update")
      */
-    public function eventsUpdate(Event $event, Request $request): Response
+    public function eventsUpdate(Event $event, Request $request, ImageUploader $imageUploader): Response
     {
         $form = $this->createForm(EventType::class, $event);
+
+        $originalImage = $event->getImage()->getFileName();
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+            if(!$event->getImage()->getFile()) {
+                $event->getImage()->setFileName($originalImage);
+            } else {
+                $newImage = $imageUploader->upload($event->getImage()->getFile());
+                $event->getImage()->setFileName($newImage);
+            }
+
             $this->em->flush();
+
+            $this->addFlash('success', 'L\'évènement a bien été modifié !');
 
             return $this->redirectToRoute('admin_events_index');
         }

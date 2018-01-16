@@ -5,6 +5,7 @@
 namespace App\Form;
 
 use App\Entity\Artist;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -18,7 +19,7 @@ class ArtistType extends AbstractType
     {
         $builder
             ->add('name', TextType::class, ['label' => 'Nom'])
-            ->add('description', TextType::class)
+            ->add('description', TextareaType::class)
             ->add('priority', IntegerType::class)
             ->add('style', TextType::class)
             ->add('origin', TextType::class, ['label' => 'Origine'])

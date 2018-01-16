@@ -2,3 +2,6 @@ twig:
     paths: ['%kernel.project_dir%/templates']
     debug: '%kernel.debug%'
     strict_variables: '%kernel.debug%'
+    globals:
+        facebook_link: 'https://www.facebook.com/AMM.artmassandmess/'
+        instagram_link: 'https://www.instagram.com/amm_fest/'

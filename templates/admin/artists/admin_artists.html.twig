@@ -1,6 +1,12 @@
 {% extends 'admin/layout/admin_base.html.twig' %}
 
 {% block content %}
+    <h2 class="text-center my-2">Liste des artistes</h2>
+    {% for message in app.session.flashbag.get('success') %}
+        <div class="w-50 m-auto text-center bg-success text-dark p-3">
+            <p class="font-weight-bold">{{ message }}</p>
+        </div>
+    {% endfor %}
 
     {% for artist in artists %}
         <div class="container bg-light my-4 py-3">
@@ -64,6 +70,8 @@
             </div>
         </div>
     {% endfor %}
+
+    {% include 'widget/pagination_widget.html.twig' %}
 
 
 

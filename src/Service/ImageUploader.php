@@ -2,11 +2,12 @@
 
 namespace App\Service;
 
+use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class ImageUploader
 {
-    public function __construct(\Symfony\Component\DependencyInjection\ContainerInterface $container)
+    public function __construct(ContainerInterface $container)
     {
         $this->targetDir = $container->getParameter('images_directory');
     }

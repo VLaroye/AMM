@@ -1,5 +1,11 @@
-#homepage_carousel {
-  //@include media-breakpoint-down(sm) {
-  //  display: none;
-  //}
+#homepage_carousel img {
+  max-height: 40em;
+}
+
+@media all and (max-width: 768px) {
+  @media (orientation: landscape){
+    #homepage_carousel img {
+      max-height: 20em;
+    }
+  }
 }

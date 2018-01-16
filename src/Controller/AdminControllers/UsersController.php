@@ -7,6 +7,7 @@ use App\Form\UserType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Exception\InvalidParameterException;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route as Route;
 
@@ -27,14 +28,26 @@ class UsersController extends Controller
     /**
      * @return Response
      *
-     * @Route("/", name="admin_users_index")
+     * @Route("/{page}", requirements={"page" = "\d+"}, defaults={"page" = 1}, name="admin_users_index")
      */
-    public function usersIndex(): Response
+    public function usersIndex($page = 1)
     {
-        $users = $this->userRepository->findAll();
+        $users = $this->userRepository->findAll($page, 10);
+
+        $pagination = [
+            'page' => $page,
+            'route' => 'admin_artists_index',
+            'pages_count' => ceil(count($users) / 10),
+            'route_params' => [],
+        ];
+
+        if ($page > 1 && $page > $pagination['pages_count']) {
+            throw new InvalidParameterException('Cette page n\'existe pas');
+        }
 
         return $this->render('admin/users/admin_users_index.html.twig', [
             'users' => $users,
+            'pagination' => $pagination,
         ]);
     }
 
@@ -65,6 +78,8 @@ class UsersController extends Controller
 
             $this->em->flush();
 
+            $this->addFlash('success', 'L\'utilisateur a bien été ajouté !');
+
             return $this->redirectToRoute('admin_users_index');
         }
 
@@ -87,6 +102,8 @@ class UsersController extends Controller
         $this->em->remove($user);
 
         $this->em->flush();
+
+        $this->addFlash('success', 'L\'utilisateur a bien été supprimé !');
 
         return $this->redirectToRoute('admin_users_index');
     }

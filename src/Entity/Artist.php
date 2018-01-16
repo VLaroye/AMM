@@ -22,51 +22,62 @@ class Artist
     /**
      * @var string
      *
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string")
      *
-     * @Assert\NotBlank()
-     * @Assert\Length(max=255)
+     * @Assert\NotBlank(
+     *     message="Ce champ doit être renseigné"
+     * )
      */
     private $name;
 
     /**
      * @var string
      *
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="text")
      *
-     * @Assert\NotBlank()
-     * @Assert\Length(max=255)
+     * @Assert\NotBlank(
+     *     message="Ce champ doit être renseigné"
+     * )
+     * @Assert\Length(
+     *     max= 600,
+     *     maxMessage="Ce champ est limité à {{ limité }} caractères."
+     * )
      */
     private $description;
 
     /**
      * @var string
      *
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string")
      *
-     * @Assert\NotBlank()
-     * @Assert\Length(max=255)
+     * @Assert\NotBlank(
+     *     message="Ce champ doit être renseigné"
+     * )
      */
     private $style;
 
     /**
      * @var string
      *
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string")
      *
-     * @Assert\NotBlank()
-     * @Assert\Length(max=255)
+     * @Assert\NotBlank(
+     *     message="Ce champ doit être renseigné"
+     * )
      */
     private $origin;
 
     /**
      * @var string
      *
-     * @ORM\Column(type="string", length=255, name="youtubelink")
+     * @ORM\Column(type="string", name="youtubelink")
      *
-     * @Assert\NotBlank()
-     * @Assert\Length(max=255)
-     * @Assert\Url()
+     * @Assert\NotBlank(
+     *     message="Ce champ doit être renseigné"
+     * )
+     * @Assert\Url(
+     *     message="L'adresse '{{ value }}' n'est pas une adresse valide."
+     * )
      */
     private $youtubeLink;
 
@@ -75,7 +86,13 @@ class Artist
      *
      * @ORM\Column(type="integer")
      *
-     * @Assert\NotBlank()
+     * @Assert\NotBlank(
+     *     message="Ce champ doit être renseigné"
+     * )
+     * @Assert\Type(
+     *     type="integer",
+     *     message="Cette valeur doit être un nombre entier"
+     * )
      */
     private $priority;
 

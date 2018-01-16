@@ -1,45 +1,52 @@
 {% extends 'admin/layout/admin_base.html.twig' %}
 
 {% block content %}
+    <h2 class="text-center mt-2">Liste des évènements</h2>
+    {% for message in app.session.flashbag.get('success') %}
+        <div class="w-50 m-auto text-center bg-success text-dark p-3">
+            <p class="font-weight-bold">{{ message }}</p>
+        </div>
+    {% endfor %}
     <div class="row">
         <div class="col-12 col-md-9 order-12 order-md-first">
             {% for event in events %}
                 <div class="container bg-light my-4 py-3">
                     <div class="row">
-                        <div class="col-12">
-                            <h5>{{ event.name }}</h5>
+                        <div class="col-12 my-2">
+                            <h5 class="text-center">{{ event.name }}</h5>
                         </div>
                         <div class="col-6">
-                            {% if event.date is not null %}
-                                <p>Le {{ event.date|date("d/m/Y") }} de {{ event.beginningTime|date("H:i") }} à {{ event.endingTime|date("H:i") }}</p>
+                            <img class="img-fluid" src="{{ asset('images/uploads/' ~ event.image.fileName) }}" alt="">
+                        </div>
+                        <div class="col-6">
+                            {% if event.beginningDateTime is not null %}
+                                <p>Début le : {{ event.beginningDateTime|date("d/m/Y") }} à {{ event.beginningDateTime|date("H:i") }}</p>
+                                {% if event.endingDateTime is not null %}
+                                    <p>Fin le : {{ event.endingDateTime|date("d/m/Y") }} à {{ event.endingDateTime|date("H:i") }}</p>
+                                {% endif %}
                             {% else %}
                                 <p>Pas encore de date</p>
                             {% endif %}
-                        </div>
-                        <div class="col-6">
                             {% if event.location is not null %}
                                 <p>A : {{ event.location }}</p>
                             {% else %}
                                 <p>Lieux à définir</p>
                             {% endif %}
-                        </div>
-                        <div class="col-6">
                             {% if event.price is not null %}
-                                <p>Prix : {{ event.price }} euros</p>
+                            <p>Prix : {{ event.price }} euros</p>
                             {% else %}
                                 <p>Prix à définir</p>
                             {% endif %}
-                        </div>
-                        <div class="col-6">
                             {% if event.facebookLink is not null %}
                                 <a href="{{ event.facebookLink }}">Lien Facebook de l'evenement</a>
                             {% else %}
                                 <p>Pas d'évènement Facebook</p>
                             {% endif %}
-                        </div>
-                        <div class="col-12">
                             <a href="{{ path('admin_events_update', {'id' : event.id}) }}"><button type="button" class="btn btn-primary rounded">Modifier</button></a>
                             <button type="button" class="btn btn-danger rounded" data-toggle="modal" data-target="#deleteConfirm{{ event.id }}">Supprimer</button>
+                        </div>
+                        <div class="col-12">
+
                         </div>
                     </div>
                 </div>
@@ -89,6 +96,6 @@
         </div>
     </div>
 
-
+    {% include 'widget/pagination_widget.html.twig' %}
 
 {% endblock %}

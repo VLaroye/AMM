@@ -1,9 +1,9 @@
 {% extends 'admin/layout/admin_base.html.twig' %}
 
 {% block content %}
-    <h2 class="text-center">Gestion du diaporama de page d'accueil</h2>
-        <div class="row">
-            <div class="col-12 col-md-9 order-12 order-md-first">
+    <h2 class="text-center mt-2">Gestion du diaporama de la page d'accueil</h2>
+        <div class="row my-4">
+            <div class="col-12">
                 {% for image in sliderImages %}
                 <div class="card">
                     <div class="card-header">
@@ -27,22 +27,9 @@
                 </div>
             {% endfor %}
             </div>
-            <div class="col-12 col-md-3 order-1">
-                <div class="container">
-                    <div class="card">
-                        <div class="card-header">
-                            <h5 class="text-center text-uppercase">Ajouter une image</h5>
-                        </div>
-                        <div class="card-body">
-                            {{ render(controller('App\\Controller\\AdminControllers\\SliderController::sliderImageAdd', {'sliderId' : 1})) }}
-                        </div>
-                        <div class="card-footer"></div>
-                    </div>
-                </div>
-            </div>
         </div>
-    </div>
 
+    {% include 'widget/pagination_widget.html.twig' %}
 
 
 {% endblock %}

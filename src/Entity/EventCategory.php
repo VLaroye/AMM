@@ -6,8 +6,6 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * Class EventCategory
- *
  * @ORM\Entity(repositoryClass="App\Repository\EventCategoryRepository")
  */
 class EventCategory

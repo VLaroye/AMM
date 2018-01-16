@@ -4,11 +4,11 @@
 {% block content %}
     <section id="festival_lineup">
         <div class="text-center bg-secondary py-4">
-            <h2>{{ "Line-Up"|upper }}</h2>
+            <h2 class="text-uppercase font-weight-bold">line-up</h2>
         </div>
         <div class="row no-gutters">
             {% for artist in artists %}
-                <div class="col-6 col-md-3">
+                <div class="col-6 col-md-6 col-lg-4">
                     <div class="artist ">
                         <a href="">
                             <img class="" src="{{ asset('images/uploads/' ~  artist.image.fileName ) }}" alt="{{ artist.image.alt }}">
@@ -25,16 +25,18 @@
 
     <section id="festival_infos">
         <div class="text-center bg-secondary py-4">
-            <h2>{{ "Infos"|upper }}</h2>
+            <h2 class="text-uppercase font-weight-bold">infos</h2>
         </div>
         <div class="row mt-5">
             <div class="col-12 col-md-6 text-center">
-                <h3 class="text-uppercase  my-3">Le site</h3>
+                <h3 class="text-uppercase font-weight-bold my-3">Le site</h3>
                 <adress>Terrain des Archers <br/> 59114, <span class="text-uppercase">Steenvoorde</span></adress>
                 <p>Accès: A25, Sortie 13 <span class="text-uppercase">Steenvoorde</span></p>
-                <button class="btn btn-secondary mt-3 mb-5 font-weight-bold"><a href="">Google Map</a></button>
+                <button class="btn btn-secondary mt-3 mb-5 font-weight-bold">
+                    <a href="https://www.google.fr/maps/place/Petit+Chemin+d'Hazebrouck,+59114+Steenvoorde/@50.8285792,2.5659122,17z/data=!3m1!4b1!4m5!3m4!1s0x47dce890b8466683:0x28b21933cceff4a7!8m2!3d50.8285758!4d2.5681009">Google Map</a>
+                </button>
 
-                <h3 class="text-uppercase my-3">Entrée</h3>
+                <h3 class="text-uppercase font-weight-bold my-3">Entrée</h3>
                 <div class="text-uppercase mb-5">
                     <p>
                         Ouverture des portes : 15h
@@ -50,7 +52,7 @@
                     </p>
                 </div>
                 <div class="my-5">
-                    <h3 class="text-uppercase  my-3">Sur place</h3>
+                    <h3 class="text-uppercase font-weight-bold my-3">Sur place</h3>
                     <div class="text-uppercase">
                         <p>
                             Coin cinéma

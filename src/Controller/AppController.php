@@ -3,10 +3,12 @@
 namespace App\Controller;
 
 use App\Entity\Artist;
+use App\Entity\ContactMail;
 use App\Entity\Event;
-use App\Entity\Slider;
 use App\Entity\SliderImage;
 use App\Form\ContactType;
+use App\Service\FacebookApiRequest;
+use App\Service\ContactMailSender;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -30,7 +32,7 @@ class AppController extends Controller
             ->getImagesByPosition();
 
         return $this->render('front/homepage.html.twig', [
-            'sliderImages' => $sliderImages
+            'sliderImages' => $sliderImages,
         ]);
     }
 
@@ -71,41 +73,46 @@ class AppController extends Controller
      *
      * @Route("/galerie", name="gallery")
      */
-    public function gallery(): Response
+    public function albumGallery(FacebookApiRequest $facebookApiRequest): Response
     {
-        return $this->render('front/gallery.html.twig');
+        $albumsData = $facebookApiRequest->facebookGetRequest('/167068823493165/albums/');
+        $albums = $albumsData['data'];
+
+        return $this->render('front/gallery.html.twig', [
+            'albums' => $albums,
+        ]);
     }
 
     /**
-     * @return Response
-     *
+     * @Route("/galerie/{albumId}", name="gallery_by_album")
+     */
+    public function imagesGallery($albumId, FacebookApiRequest $facebookApiRequest)
+    {
+        $images = $facebookApiRequest->facebookGetRequest('/'.$albumId.'/photos?fields=images,name');
+        $images = $images['data'];
+
+        return $this->render('front/gallery_album.html.twig', [
+           'images' => $images,
+        ]);
+    }
+
+    /**
      * @Route("/contact", name="contact")
      */
-    public function contact(Request $request): Response
+    public function contact(Request $request, ContactMailSender $mailSender)
     {
-        $form = $this->createForm(ContactType::class);
+        $contactMail = new ContactMail();
+        $form = $this->createForm(ContactType::class, $contactMail);
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $data = $form->getData();
 
-            $transport = (new \Swift_SmtpTransport('in-v3.mailjet.com', 587))
-                ->setUsername('dd21c8b6e1e4e358c5657bde0395f61b')
-                ->setPassword('1b08163b62363b63dd5067efe28903c1');
-
-            $mailer = new \Swift_Mailer($transport);
-
-            $message = new \Swift_Message('Nouveau message du formulaire de contact !');
-            $message
-                ->setFrom('laroye.vincent@gmail.com')
-                ->setTo('laroye.vincent@gmail.com')
-                ->setBody($this->renderView(
-                    'emails/contact.html.twig',
-                    ['data' => $data]
-                ), 'text/html');
-
-            $mailer->send($message);
+            try {
+                $mailSender->sendMail($contactMail);
+            } catch (\Exception $exception) {
+                return $exception->getMessage();
+            }
 
             $this->addFlash('success', 'Votre message a bien été envoyé ! Nous y répondrons au plus vite !');
 

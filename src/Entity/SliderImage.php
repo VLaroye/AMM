@@ -32,7 +32,9 @@ class SliderImage
      *
      * @ORM\Column(type="string")
      *
-     * @Assert\NotBlank()
+     * @Assert\NotBlank(
+     *     message="Ce champ doit être renseigné."
+     * )
      */
     private $alt;
 
@@ -46,8 +48,11 @@ class SliderImage
     /**
      * @var UploadedFile
      *
-     * @Assert\Image()
-     *
+     * @Assert\Image(
+     *     minRatio= 2.5,
+     *     minWidth= 800,
+     *     minRatioMessage="Le ratio (largeur/hauteur) n'est pas bon. {{ min_ratio }} minimum. {{ ratio }} pour cette image."
+     * )
      */
     private $file;
 

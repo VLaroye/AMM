@@ -20,20 +20,20 @@ class ContactType extends AbstractType
             ->add('firstName', TextType::class, [
                 'label' => 'Nom',
                 'attr' => [
-                    'placeholder' => 'Nom'
-                    ]
+                    'placeholder' => 'Nom',
+                    ],
                 ])
             ->add('secondName', TextType::class, [
                 'label' => 'Prenom',
                 'attr' => [
-                    'placeholder' => 'Prenom'
-                    ]
+                    'placeholder' => 'Prenom',
+                    ],
                 ])
             ->add('mail', EmailType::class, [
                 'label' => 'Email',
                 'attr' => [
-                    'placeholder' => 'Email'
-                    ]
+                    'placeholder' => 'Email',
+                    ],
                 ])
             ->add('subject', ChoiceType::class, [
                 'label' => 'Sujet',
@@ -46,8 +46,8 @@ class ContactType extends AbstractType
             ->add('message', TextareaType::class, [
                 'label' => 'Ton message',
                 'attr' => [
-                    'placeholder' => 'Message'
-                ]
+                    'placeholder' => 'Message',
+                ],
             ])
             ->add('submit', SubmitType::class, ['label' => 'Envoyer !']);
     }

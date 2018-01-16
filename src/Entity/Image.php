@@ -4,19 +4,13 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * Class Image
- *
  * @ORM\Entity(repositoryClass="App\Repository\ImageRepository")
  */
 class Image
 {
-    public function __construct()
-    {
-        $this->inGallery = false;
-    }
-
     /**
      * @var int
      *
@@ -41,14 +35,9 @@ class Image
     private $alt;
 
     /**
-     * @var bool
-     *
-     * @ORM\Column(type="boolean")
-     */
-    private $inGallery;
-
-    /**
      * @var UploadedFile
+     *
+     * @Assert\Image()
      */
     private $file;
 
@@ -98,22 +87,6 @@ class Image
     public function setAlt(string $alt): void
     {
         $this->alt = $alt;
-    }
-
-    /**
-     * @return bool
-     */
-    public function isInGallery(): bool
-    {
-        return $this->inGallery;
-    }
-
-    /**
-     * @param bool $inGallery
-     */
-    public function setInGallery(bool $inGallery): void
-    {
-        $this->inGallery = $inGallery;
     }
 
     /**

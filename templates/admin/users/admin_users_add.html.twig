@@ -1,6 +1,8 @@
 {% extends 'admin/layout/admin_base.html.twig' %}
+{% form_theme form 'bootstrap_4_layout.html.twig' %}
 
 {% block content %}
+    <h2 class="text-center mt-2">Ajouter un administrateur</h2>
     {{ form_start(form) }}
     <div class="container-fluid mt-4">
         <div class="row justify-content-center">
@@ -13,33 +15,27 @@
                         <div class="row">
                             <div class="col-sm-12">
                                 <div class="form-group">
-                                    {{ form_label(form.username) }}
-                                    {{ form_widget(form.username, {'attr' : {'class' : 'form-control'}}) }}
-                                    {{ form_errors(form.username, {'attr' : {'class' : 'text-danger'}}) }}
+                                    {{ form_row(form.username) }}
                                 </div>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-sm-12">
                                 <div class="form-group">
-                                    {{ form_label(form.password.first) }}
-                                    {{ form_widget(form.password.first, {'attr' : {'class' : 'form-control'}}) }}
-                                    {{ form_errors(form.password.first, {'attr' : {'class' : 'text-danger'}}) }}
+                                    {{ form_row(form.password.first) }}
                                 </div>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-sm-12">
                                 <div class="form-group">
-                                    {{ form_label(form.password.second) }}
-                                    {{ form_widget(form.password.second, {'attr' : {'class' : 'form-control'}}) }}
-                                    {{ form_errors(form.password.second, {'attr' : {'class' : 'text-danger'}}) }}
+                                    {{ form_row(form.password.second) }}
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="card-footer">
-                        {{ form_widget(form.submit, {'attr' : {'class' : 'btn btn-dark mt-3'}}) }}
+                        {{ form_row(form.submit, {'attr' : {'class' : 'btn btn-dark mt-3'}}) }}
                     </div>
                 </div>
             </div>

@@ -3,14 +3,22 @@
 namespace App\Controller\AdminControllers;
 
 use App\Entity\Artist;
+use App\Entity\Image;
 use App\Form\ArtistType;
 use App\Service\ImageUploader;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\MakerBundle\Validator;
+use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\Finder\Finder;
+use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route as Route;
+use Symfony\Component\Routing\Exception\InvalidParameterException;
+use Symfony\Component\Validator\Constraints\ImageValidator;
+use Symfony\Component\Validator\Constraints\NotBlank;
 
 /**
  * @Route("/admin/artistes")
@@ -27,16 +35,26 @@ class ArtistsController extends Controller
     }
 
     /**
-     * @return Response
-     *
-     * @Route("/", name="admin_artists_index")
+     * @Route("/{page}", requirements={"page" = "\d+"}, defaults={"page" = 1}, name="admin_artists_index")
      */
-    public function artistsIndex(): Response
+    public function artistsIndex($page = 1)
     {
-        $artists = $this->artistRepository->findAllArtistsByPriority();
+        $artists = $this->artistRepository->findAllArtistsByPriority($page, 10);
+
+        $pagination = [
+            'page' => $page,
+            'route' => 'admin_artists_index',
+            'pages_count' => ceil(count($artists) / 10),
+            'route_params' => [],
+        ];
+
+        if ($page > 1 && $page > $pagination['pages_count']) {
+            throw new InvalidParameterException('Cette page n\'existe pas');
+        }
 
         return $this->render('admin/artists/admin_artists.html.twig', [
             'artists' => $artists,
+            'pagination' => $pagination,
         ]);
     }
 
@@ -57,6 +75,7 @@ class ArtistsController extends Controller
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
             $fileName = $imageUploader->upload($artist->getImage()->getFile());
 
             $artist->getImage()->setFileName($fileName);
@@ -64,6 +83,8 @@ class ArtistsController extends Controller
             $this->em->persist($artist);
 
             $this->em->flush();
+
+            $this->addFlash('success', 'L\'artiste a bien été ajouté !');
 
             return $this->redirectToRoute('admin_artists_index');
         }
@@ -87,6 +108,8 @@ class ArtistsController extends Controller
         $this->em->remove($artist);
         $this->em->flush();
 
+        $this->addFlash('success', 'L\'artiste a bien été supprimé !');
+
         return $this->redirectToRoute('admin_artists_index');
     }
 
@@ -98,16 +121,26 @@ class ArtistsController extends Controller
      *
      * @Route("/update/{id}", name="admin_artists_update")
      */
-    public function artistsUpdate(Artist $artist, Request $request): Response
+    public function artistsUpdate(Artist $artist, Request $request, ImageUploader $imageUploader): Response
     {
         $form = $this->createForm(ArtistType::class, $artist);
+
+        $originalImage = $artist->getImage()->getFileName();
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $artist = $form->getData();
+
+            if(!$artist->getImage()->getFile()) {
+                $artist->getImage()->setFileName($originalImage);
+            } else {
+                $newImage = $imageUploader->upload($artist->getImage()->getFile());
+                $artist->getImage()->setFileName($newImage);
+            }
 
             $this->em->flush();
+
+            $this->addFlash('success', 'L\'artiste a bien été modifié !');
 
             return $this->redirectToRoute('admin_artists_index');
         }

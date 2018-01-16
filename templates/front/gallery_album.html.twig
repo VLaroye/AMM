@@ -1,0 +1,17 @@
+{% extends 'front/layout/base.html.twig' %}
+
+{% block title %}Gallerie {{ parent() }}{% endblock %}
+{% block content %}
+    <div id="aniimated-thumbnials">
+        <div class="container">
+            <div class="row">
+                {% for image in images %}
+                    <div class="col-6 col-md-2">
+                        <img  class="w-100  m-3" src="{{ image.images[2].source }}" alt="" style="max-height: 10em">
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+
+    </div>
+{% endblock %}

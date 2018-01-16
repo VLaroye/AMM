@@ -11,13 +11,13 @@ use App\Service\ImageUploader;
 use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route as Route;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Exception\InvalidParameterException;
 
 /**
  * @Route("/admin/slider")
@@ -36,15 +36,27 @@ class SliderController extends Controller
     }
 
     /**
-     * @Route("/{id}", name="admin_slider_index")
+     * @Route("/{id}/{page}", requirements={"page" = "\d+", "id" = "\d+"}, defaults={"page" = 1}, name="admin_slider_index")
      */
-    public function adminSliderManagement(Request $request, Slider $slider)
+    public function adminSliderManagement(Request $request, Slider $slider, $page = 1)
     {
-        $sliderImages = $this->sliderImageRepository->getImagesByPosition($slider->getId());
+        $sliderImages = $this->sliderImageRepository->getImagesByPosition($page, 10);
+
+        $pagination = [
+            'page' => $page,
+            'route' => 'admin_slider_index',
+            'pages_count' => ceil(count($sliderImages) / 10),
+            'route_params' => ['id' => 1],
+        ];
+
+        if ($page > 1 && $page > $pagination['pages_count']) {
+            throw new InvalidParameterException('Cette page n\'existe pas');
+        }
 
         return $this->render('admin/slider/admin_slider_index.html.twig', [
             'slider' => $slider,
-            'sliderImages' => $sliderImages
+            'sliderImages' => $sliderImages,
+            'pagination' => $pagination,
         ]);
     }
 
@@ -57,7 +69,7 @@ class SliderController extends Controller
      *
      * @Route("/addImage/{sliderId}", name="admin_slider_image_add")
      */
-    public function sliderImageAdd(int $sliderId, Request $request, ImageUploader $imageUploader): Response
+    public function sliderImageAdd($sliderId, Request $request, ImageUploader $imageUploader): Response
     {
         $sliderImage = new SliderImage();
 
@@ -68,7 +80,7 @@ class SliderController extends Controller
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            /** @var Slider $slider **/
+            /** @var Slider $slider * */
             $slider = $this->sliderRepository->find($sliderId);
 
             $imageFileName = $imageUploader->upload($sliderImage->getFile());
@@ -82,7 +94,7 @@ class SliderController extends Controller
 
             $this->em->flush();
 
-            $this->addFlash('succes', 'L\'image a bien été ajoutée au diaporama');
+            $this->addFlash('success', 'L\'image a bien été ajoutée au diaporama');
 
             return $this->redirectToRoute('admin_slider_index', [
                 'id' => $slider->getId(),
@@ -95,9 +107,9 @@ class SliderController extends Controller
     }
 
     /**
-     * @param Slider $slider
+     * @param Slider      $slider
      * @param SliderImage $sliderImage
-     * @param Request $request
+     * @param Request     $request
      *
      * @Route("/updateImage/{sliderId}/{imageId}", name="admin_slider_image_update")
      *
@@ -108,15 +120,20 @@ class SliderController extends Controller
      */
     public function sliderImageUpdate(Request $request, Slider $slider, SliderImage $sliderImage): Response
     {
+        /** Determine possible choices for the image position */
+        $images = $this->sliderImageRepository->getImagesByPosition();
+        $positions = [];
+        foreach ($images as $index => $image) {
+            $positions[] = $image->getPosition();
+        }
+
         $form = $this->createFormBuilder($sliderImage)
             ->add('alt', TextType::class, ['label' => 'Alt'])
             ->add('position', ChoiceType::class, [
-                // TODO : Checker comment mettre les différentes positions possible en choix
-                'choices' => [
-                    '1' => 1,
-                    '2' => 2,
-                    '3' => 3
-                ]
+                'choices' => $positions,
+                'choice_label' => function ($value, $key, $index) {
+                    return $value;
+                },
             ])
             ->add('submit', SubmitType::class, ['label' => 'Valider'])
             ->getForm();
@@ -126,26 +143,27 @@ class SliderController extends Controller
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-
             /** @var SliderImage $image */
             $image = $this->sliderImageRepository
                 ->findOneBy([
-                    'position' => $sliderImage->getPosition()
+                    'position' => $sliderImage->getPosition(),
                 ]);
 
             $image->setPosition($initialSliderImagePosition);
 
             $this->em->flush();
 
+            $this->addFlash('success', 'L\'image a bien été modifiée !');
+
             return $this->redirectToRoute('admin_slider_index', [
-                'id' => $slider->getId()
+                'id' => $slider->getId(),
             ]);
         }
 
         return $this->render('admin/slider/admin_slider_image_update.html.twig', [
             'form' => $form->createView(),
             'sliderId' => $slider->getId(),
-            'imageId' => $sliderImage->getId()
+            'imageId' => $sliderImage->getId(),
         ]);
     }
 
@@ -172,6 +190,7 @@ class SliderController extends Controller
 
         $this->em->flush();
 
+        $this->addFlash('success', 'L\'image a bien été supprimée !');
 
         return $this->redirectToRoute('admin_slider_index', [
             'id' => $slider->getId(),

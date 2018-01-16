@@ -24,38 +24,38 @@ class Event
      *
      * @ORM\Column(type="string")
      *
-     * @Assert\NotBlank()
-     * @Assert\Length(max=255)
+     * @Assert\NotBlank(
+     *     message="Ce champ doit être renseigné."
+     * )
      */
     private $name;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(type="date", nullable=true)
+     * @ORM\Column(type="datetime", nullable=true)
      *
-     * @Assert\Date()
+     * @Assert\DateTime(
+     *     message="Ceci n'est pas une date valide"
+     * )
      */
-    private $date;
+    private $beginningDateTime;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(type="time", nullable=true)
+     * @ORM\Column(type="datetime", nullable=true)
      *
-     * @Assert\Time()
+     * @Assert\DateTime(
+     *     message="Ceci n'est pas une date valide"
+     * )
+     * @Assert\GreaterThanOrEqual(
+     *     propertyPath="beginningDateTime",
+     *     message="La date de fin de l'évènement doit se situer après sa date de début."
+     * )
      */
-    private $beginningTime;
+    private $endingDateTime;
 
-    /**
-     * @var \DateTime
-     *
-     * @ORM\Column(type="time", nullable=true)
-     *
-     * @Assert\Time()
-     * @Assert\GreaterThanOrEqual(propertyPath="beginningTime")
-     */
-    private $endingTime;
 
     /**
      * @var string
@@ -69,7 +69,10 @@ class Event
      *
      * @ORM\Column(type="integer", nullable=true)
      *
-     * @Assert\Type(type="integer")
+     * @Assert\Type(
+     *     type="integer",
+     *     message="Le prix doit être un nombre"
+     * )
      */
     private $price;
 
@@ -78,7 +81,9 @@ class Event
      *
      * @ORM\Column(type="string", nullable=true)
      *
-     * @Assert\Url()
+     * @Assert\Url(
+     *     message="Ceci n'est pas une URL valide"
+     * )
      */
     private $facebookLink;
 
@@ -87,8 +92,20 @@ class Event
      *
      * @ORM\ManyToOne(targetEntity="App\Entity\EventCategory")
      * @ORM\JoinColumn(nullable=false)
+     *
+     * @Assert\Valid()
      */
     private $category;
+
+    /**
+     * @var Image
+     *
+     * @ORM\OneToOne(targetEntity="App\Entity\Image", cascade={"persist", "remove"})
+     * @ORM\JoinColumn(nullable=false)
+     *
+     * @Assert\Valid()
+     */
+    private $image;
 
     /**
      * @return int
@@ -189,33 +206,33 @@ class Event
     /**
      * @return \DateTime
      */
-    public function getBeginningTime(): ?\DateTime
+    public function getBeginningDateTime(): ?\DateTime
     {
-        return $this->beginningTime;
+        return $this->beginningDateTime;
     }
 
     /**
-     * @param \DateTime $beginningTime
+     * @param \DateTime $beginningDateTime
      */
-    public function setBeginningTime(?\DateTime $beginningTime): void
+    public function setBeginningDateTime(?\DateTime $beginningDateTime): void
     {
-        $this->beginningTime = $beginningTime;
+        $this->beginningDateTime = $beginningDateTime;
     }
 
     /**
      * @return \DateTime
      */
-    public function getEndingTime(): ?\DateTime
+    public function getEndingDateTime(): ?\DateTime
     {
-        return $this->endingTime;
+        return $this->endingDateTime;
     }
 
     /**
-     * @param \DateTime $endingTime
+     * @param \DateTime $endingDateTime
      */
-    public function setEndingTime(?\DateTime $endingTime): void
+    public function setEndingDateTime(?\DateTime $endingDateTime): void
     {
-        $this->endingTime = $endingTime;
+        $this->endingDateTime = $endingDateTime;
     }
 
     /**
@@ -233,4 +250,22 @@ class Event
     {
         $this->category = $category;
     }
+
+    /**
+     * @return Image
+     */
+    public function getImage(): ?Image
+    {
+        return $this->image;
+    }
+
+    /**
+     * @param Image $image
+     */
+    public function setImage(Image $image): void
+    {
+        $this->image = $image;
+    }
+
+
 }

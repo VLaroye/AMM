@@ -4,11 +4,11 @@
 {% block content %}
     {% for event in events %}
 
-        <div class="event d-flex position-relative" data-event ="event-{{ event.id }}">
+        <div class="event d-flex position-relative {% if loop.index is divisible by(2) %}bg-light{% else %}bg-secondary{% endif %} }}" data-event ="event-{{ event.id }}">
             <div class="eventTitle position-relative">
                 <div class="row h-100">
                     <div class="col-9 d-flex justify-content-center align-items-center">
-                        <h3 class="text-uppercase ">{{ event.name }}</h3>
+                        <h3 class="text-uppercase font-weight-bold">{{ event.name }}</h3>
                     </div>
                     <div class="col-3 d-flex justify-content-end align-items-center">
                         <a class="toggleEvent" href="" data-target="event-{{ event.id }}"><i class="fa fa-chevron-left fa-4x mr-5" aria-hidden="true"></i></a>
@@ -16,23 +16,23 @@
                 </div>
             </div>
             <div class="eventContent">
-                <div class="container-fluid">
+                <div class="container-fluid py-3">
                     <div class="row">
                         <div class="col-5">
                             <p>Photo Event</p>
                         </div>
-                        <div class="col-7">
-                            <h4 class="text-uppercase text-center">{{ event.name }}</h4>
+                        <div class="col-7 text-center text-md-left">
+                            <h4 class="text-uppercase font-weight-bold text-center my-3">{{ event.name }}</h4>
                             {% if event.location is not null%}
-                                <p>Lieux : {{ event.location }}</p>
+                                <p><span class="font-weight-bold">Lieux</span> : {{ event.location }}</p>
                                 {% else %}
                                     <p>Lieux non annoncé</p>
                             {% endif %}
                             {% if event.price is not null%}
                                 {% if event.price == 0 %}
-                                <p>Prix : Gratuit</p>
+                                <p><span class="font-weight-bold">Prix</span> : Gratuit</p>
                                     {% else %}
-                                        <p>Prix : {{ event.price }}</p>
+                                        <p><span class="font-weight-bold">Prix</span> : {{ event.price }}</p>
                                 {% endif %}
                             {% else %}
                                 <p>Prix non annoncé</p>

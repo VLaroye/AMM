@@ -7,17 +7,10 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * Class User
- *
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
  */
 class User implements UserInterface
 {
-    public function __construct()
-    {
-        $this->roles = ['ROLE_ADMIN'];
-    }
-
     /**
      * @var int
      *
@@ -31,7 +24,9 @@ class User implements UserInterface
      * @var string
      *
      * @ORM\Column(type="string", unique=true)
-     * @Assert\NotBlank()
+     * @Assert\NotBlank(
+     *     message="Ce champ doit être renseigné."
+     * )
      */
     private $username;
 
@@ -39,7 +34,9 @@ class User implements UserInterface
      * @var string
      *
      * @ORM\Column(type="string")
-     * @Assert\NotBlank()
+     * @Assert\NotBlank(
+     *     message="Ce champ doit être renseigné."
+     * )
      */
     private $password;
 
@@ -49,6 +46,11 @@ class User implements UserInterface
      * @ORM\Column(type="simple_array")
      */
     private $roles;
+
+    public function __construct()
+    {
+        $this->roles = ['ROLE_ADMIN'];
+    }
 
     /**
      * {@inheritdoc}

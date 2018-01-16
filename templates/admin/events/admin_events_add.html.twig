@@ -1,6 +1,8 @@
 {% extends 'admin/layout/admin_base.html.twig' %}
+{% form_theme form 'bootstrap_4_layout.html.twig' %}
 
 {% block content %}
+    <h2 class="text-center mt-2">Ajouter un évènement</h2>
     {{ form_start(form) }}
 
     <div class="container-fluid mt-4">
@@ -14,96 +16,62 @@
                         <div class="row">
                             <div class="col-sm-12">
                                 <div class="form-group">
-                                    {{ form_label(form.name) }}
-                                    {{ form_widget(form.name, {'attr' : {'class' : 'form-control'}}) }}
-                                    {{ form_errors(form.name, {'attr' : {'class' : 'text-danger'}}) }}
+                                    {{ form_row(form.name) }}
                                 </div>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-sm-12">
                                 <div class="form-group">
-                                    {{ form_label(form.category) }}
-                                    {{ form_widget(form.category, {'attr' : {'class' : 'form-control'}}) }}
-                                    {{ form_errors(form.category, {'attr' : {'class' : 'text-danger'}}) }}
+                                    {{ form_row(form.category) }}
                                 </div>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-sm-12">
                                 <div class="form-group">
-                                    {{ form_label(form.location) }}
-                                    {{ form_widget(form.location, {'attr' : {'class' : 'form-control'}}) }}
-                                    {{ form_errors(form.location, {'attr' : {'class' : 'text-danger'}}) }}
+                                    {{ form_row(form.location) }}
                                 </div>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-sm-12">
                                 <div class="form-group">
-                                    {{ form_label(form.price) }}
-                                    {{ form_widget(form.price, {'attr' : {'class' : 'form-control'}}) }}
-                                    {{ form_errors(form.price, {'attr' : {'class' : 'text-danger'}}) }}
+                                    {{ form_row(form.price) }}
                                 </div>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-sm-12">
                                 <div class="form-group">
-                                    {{ form_label(form.date) }}
-                                    <div class="input-group date">
-                                        {{ form_widget(form.date, {'attr' : {'class' : 'form-control'}}) }}
-                                    </div>
-                                    {{ form_errors(form.date) }}
+                                    {{ form_row(form.beginningDateTime) }}
                                 </div>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-sm-12">
                                 <div class="form-group">
-                                    {{ form_label(form.beginningTime) }}
-                                    <div class="row">
-                                        <div class="col-3 pl-3 pr-0">
-                                            {{ form_widget(form.beginningTime.hour, {'attr' : {'class' : 'form-control'}}) }}
-                                            {{ form_errors(form.beginningTime.hour, {'attr' : {'class' : 'text-danger'}}) }}
-                                        </div>
-                                        <div class="col-3 p-0">
-                                            {{ form_widget(form.beginningTime.minute, {'attr' : {'class' : 'form-control'}}) }}
-                                            {{ form_errors(form.beginningTime.minute, {'attr' : {'class' : 'text-danger'}}) }}
-                                        </div>
-                                    </div>
+                                    {{ form_row(form.endingDateTime) }}
                                 </div>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-sm-12">
                                 <div class="form-group">
-                                    {{ form_label(form.endingTime) }}
-                                    <div class="row">
-                                        <div class="col-3 pl-3 pr-0">
-                                            {{ form_widget(form.endingTime.hour, {'attr' : {'class' : 'form-control'}}) }}
-                                            {{ form_errors(form.endingTime.hour, {'attr' : {'class' : 'text-danger'}}) }}
-                                        </div>
-                                        <div class="col-3 p-0">
-                                            {{ form_widget(form.endingTime.minute, {'attr' : {'class' : 'form-control'}}) }}
-                                            {{ form_errors(form.endingTime.minute, {'attr' : {'class' : 'text-danger'}}) }}
-                                        </div>
-                                    </div>
+                                    {{ form_row(form.facebookLink) }}
                                 </div>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-sm-12">
                                 <div class="form-group">
-                                    {{ form_label(form.facebookLink) }}
-                                    {{ form_widget(form.facebookLink, {'attr' : {'class' : 'form-control'}}) }}
-                                    {{ form_errors(form.facebookLink, {'attr' : {'class' : 'text-danger'}}) }}
+                                    {{ form_row(form.image) }}
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="card-footer">
-                        {{ form_widget(form.submit, {'attr' : {'class' : 'btn btn-dark mt-3'}}) }}
+                        {{ form_row(form.submit, {'attr' : {'class' : 'btn btn-dark mt-3'}}) }}
                     </div>
                 </div>
             </div>

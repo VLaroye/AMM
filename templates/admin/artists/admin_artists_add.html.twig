@@ -1,6 +1,8 @@
 {% extends 'admin/layout/admin_base.html.twig' %}
+{% form_theme form 'bootstrap_4_layout.html.twig' %}
 
 {% block content %}
+    <h2 class="text-center mt-2">Ajout d'un artiste</h2>
     {{ form_start(form) }}
     <div class="container-fluid mt-4">
         <div class="animated fadeIn">
@@ -15,54 +17,45 @@
                             <div class="row">
                                 <div class="col-sm-12">
                                     <div class="form-group">
-                                        {{ form_label(form.name) }}
-                                        {{ form_widget(form.name, {'attr' : {'class' : 'form-control'}}) }}
-                                        {{ form_errors(form.name, {'attr' : {'class' : 'text-danger'}}) }}
+                                        {{ form_row(form.name) }}
                                     </div>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-sm-12">
                                     <div class="form-group">
-                                        {{ form_label(form.style) }}
-                                        {{ form_widget(form.style, {'attr' : {'class' : 'form-control'}}) }}
-                                        {{ form_errors(form.style, {'attr' : {'class' : 'text-danger'}}) }}
+                                        {{ form_row(form.style) }}
+
                                     </div>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-sm-12">
                                     <div class="form-group">
-                                        {{ form_label(form.description) }}
-                                        {{ form_widget(form.description, {'attr' : {'class' : 'form-control'}}) }}
-                                        {{ form_errors(form.description, {'attr' : {'class' : 'text-danger'}}) }}
+                                        {{ form_row(form.description) }}
                                     </div>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-sm-12">
                                     <div class="form-group">
-                                        {{ form_label(form.origin) }}
-                                        {{ form_widget(form.origin, {'attr' : {'class' : 'form-control'}}) }}
-                                        {{ form_errors(form.origin, {'attr' : {'class' : 'text-danger'}}) }}
+                                        {{ form_row(form.origin) }}
+
                                     </div>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-sm-12">
                                     <div class="form-group">
-                                        {{ form_label(form.youtubeLink) }}
-                                        {{ form_widget(form.youtubeLink, {'attr' : {'class' : 'form-control'}}) }}
-                                        {{ form_errors(form.youtubeLink, {'attr' : {'class' : 'text-danger'}}) }}
+                                        {{ form_row(form.youtubeLink) }}
+
                                     </div>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-sm-12">
                                     <div class="form-group">
-                                        {{ form_label(form.priority) }}
-                                        {{ form_widget(form.priority, {'attr' : {'class' : 'form-control'}}) }}
-                                        {{ form_errors(form.priority, {'attr' : {'class' : 'text-danger'}}) }}
+                                        {{ form_row(form.priority) }}
                                     </div>
                                 </div>
                             </div>
@@ -70,24 +63,20 @@
                                 <div class="col-sm-12">
                                     <h4 class="py-2 pl-2">Image</h4>
                                     <div class="form-group">
-                                        {{ form_label(form.image.file) }}
-                                        {{ form_widget(form.image.file)}}
-                                        {{ form_errors(form.image.file) }}
+                                        {{ form_row(form.image.file) }}
                                     </div>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-sm-12">
                                     <div class="form-group">
-                                        {{ form_label(form.image.alt) }}
-                                        {{ form_widget(form.image.alt, {'attr' : {'class' : 'form-control'}}) }}
-                                        {{ form_errors(form.image.alt) }}
+                                        {{ form_row(form.image.alt) }}
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div class="card-footer">
-                            {{ form_widget(form.submit, {'attr' : {'class' : 'btn btn-dark mt-3'}}) }}
+                            {{ form_row(form.submit, {'attr' : {'class' : 'btn btn-dark mt-3'}}) }}
                         </div>
                     </div>
                 </div>
