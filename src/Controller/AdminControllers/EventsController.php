@@ -117,7 +117,7 @@ class EventsController extends Controller
      *
      * @Route("/update/{id}", name="admin_events_update")
      */
-    public function eventsUpdate(Event $event, Request $request, ImageUploader $imageUploader): Response
+    public function updateEvent(Event $event, Request $request, ImageUploader $imageUploader): Response
     {
         $form = $this->createForm(EventType::class, $event);
 

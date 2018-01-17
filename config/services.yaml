@@ -35,6 +35,9 @@ services:
     app.security.form_authenticator:
         class: App\Security\FormAuthenticator
 
-    app.service.contact_mail_sender:
-        class: App\Service\ContactMailSender
-        arguments: ['%mail.host%', '%mail.port%', '%mail.username%', '%mail.password%', '@mailer', '@templating']
+    App\Service\ContactMailSender:
+        $mailHost: '%mail.host%'
+        $mailPort: '%mail.port%'
+        $mailUsername: '%mail.username%'
+        $mailPassword: '%mail.password%'
+        $mailer: '@mailer'

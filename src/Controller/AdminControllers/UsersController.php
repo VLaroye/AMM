@@ -59,7 +59,7 @@ class UsersController extends Controller
      *
      * @Route("/add", name="admin_users_add")
      */
-    public function userAdd(Request $request, UserPasswordEncoderInterface $encoder): Response
+    public function addUser(Request $request, UserPasswordEncoderInterface $encoder): Response
     {
         $user = new User();
 
@@ -95,7 +95,7 @@ class UsersController extends Controller
      *
      * @Route("/delete/{id}", name="admin_users_delete")
      */
-    public function userDelete(User $user): Response
+    public function deleteUser(User $user): Response
     {
         $this->denyAccessUnlessGranted('ROLE_SUPER_ADMIN');
 

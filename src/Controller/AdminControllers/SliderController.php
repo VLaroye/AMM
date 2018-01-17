@@ -138,12 +138,12 @@ class SliderController extends Controller
 
         if ($form->isSubmitted() && $form->isValid()) {
             /** @var SliderImage $image */
-            $image = $this->sliderImageRepository
+            $imageAtWantedPosition = $this->sliderImageRepository
                 ->findOneBy([
                     'position' => $sliderImage->getPosition(),
                 ]);
 
-            $image->setPosition($initialSliderImagePosition);
+            $imageAtWantedPosition->setPosition($initialSliderImagePosition);
 
             $this->em->flush();
 
