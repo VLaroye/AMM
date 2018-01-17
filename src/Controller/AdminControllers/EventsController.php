@@ -65,7 +65,7 @@ class EventsController extends Controller
      *
      * @Route ("/add", name="admin_events_add")
      */
-    public function eventsAdd(Request $request, ImageUploader $imageUploader): Response
+    public function addEvent(Request $request, ImageUploader $imageUploader): Response
     {
         $event = new Event();
 
@@ -99,7 +99,7 @@ class EventsController extends Controller
      *
      * @Route("/delete/{id}", name="admin_events_delete")
      */
-    public function eventsDelete(Event $event): Response
+    public function deleteEvent(Event $event): Response
     {
         $this->em->remove($event);
         $this->em->flush();

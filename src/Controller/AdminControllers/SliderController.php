@@ -5,6 +5,7 @@ namespace App\Controller\AdminControllers;
 use App\Entity\Slider;
 use App\Entity\SliderImage;
 use App\Form\SliderImageType;
+use App\Form\UpdateSliderImageType;
 use App\Repository\SliderImageRepository;
 use App\Repository\SliderRepository;
 use App\Service\ImageUploader;
@@ -38,7 +39,7 @@ class SliderController extends Controller
     /**
      * @Route("/{id}/{page}", requirements={"page" = "\d+", "id" = "\d+"}, defaults={"page" = 1}, name="admin_slider_index")
      */
-    public function adminSliderManagement(Request $request, Slider $slider, $page = 1)
+    public function manageSlider(Request $request, Slider $slider, $page = 1)
     {
         $sliderImages = $this->sliderImageRepository->getImagesByPosition($page, 10);
 
@@ -69,7 +70,7 @@ class SliderController extends Controller
      *
      * @Route("/addImage/{sliderId}", name="admin_slider_image_add")
      */
-    public function sliderImageAdd($sliderId, Request $request, ImageUploader $imageUploader): Response
+    public function addSliderImage($sliderId, Request $request, ImageUploader $imageUploader): Response
     {
         $sliderImage = new SliderImage();
 
@@ -118,7 +119,7 @@ class SliderController extends Controller
      *
      * @return Response
      */
-    public function sliderImageUpdate(Request $request, Slider $slider, SliderImage $sliderImage): Response
+    public function updateSliderImage(Request $request, Slider $slider, SliderImage $sliderImage): Response
     {
         /** Determine possible choices for the image position */
         $images = $this->sliderImageRepository->getImagesByPosition();
@@ -127,16 +128,9 @@ class SliderController extends Controller
             $positions[] = $image->getPosition();
         }
 
-        $form = $this->createFormBuilder($sliderImage)
-            ->add('alt', TextType::class, ['label' => 'Alt'])
-            ->add('position', ChoiceType::class, [
-                'choices' => $positions,
-                'choice_label' => function ($value, $key, $index) {
-                    return $value;
-                },
-            ])
-            ->add('submit', SubmitType::class, ['label' => 'Valider'])
-            ->getForm();
+        $form = $this->createForm(UpdateSliderImageType::class, $sliderImage, [
+            'positions' => $positions
+        ]);
 
         $initialSliderImagePosition = $sliderImage->getPosition();
 
@@ -178,7 +172,7 @@ class SliderController extends Controller
      * @ParamConverter("slider", options={"mapping": {"sliderId": "id"}})
      * @ParamConverter("sliderImage", options={"mapping": {"imageId": "id"}})
      */
-    public function sliderImageDelete(Slider $slider, SliderImage $sliderImage): Response
+    public function deleteSliderImage(Slider $slider, SliderImage $sliderImage): Response
     {
         // TODO : Supprimer le fichier image du serveur
 

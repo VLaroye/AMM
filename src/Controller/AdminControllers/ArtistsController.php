@@ -60,7 +60,7 @@ class ArtistsController extends Controller
      *
      * @Route("/add", name="admin_artists_add")
      */
-    public function artistsAdd(Request $request, ImageUploader $imageUploader): Response
+    public function addArtist(Request $request, ImageUploader $imageUploader): Response
     {
         $artist = new Artist();
 
@@ -94,7 +94,7 @@ class ArtistsController extends Controller
      *
      * @Route("/delete/{id}", name="admin_artists_delete")
      */
-    public function artistsDelete(Artist $artist): RedirectResponse
+    public function deleteArtist(Artist $artist): RedirectResponse
     {
         // TODO : Supprimer l'image du dossier /images/uploads ?
 
@@ -114,7 +114,7 @@ class ArtistsController extends Controller
      *
      * @Route("/update/{id}", name="admin_artists_update")
      */
-    public function artistsUpdate(Artist $artist, Request $request, ImageUploader $imageUploader): Response
+    public function updateArtist(Artist $artist, Request $request, ImageUploader $imageUploader): Response
     {
         $form = $this->createForm(ArtistType::class, $artist);
 

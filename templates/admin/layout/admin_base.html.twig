@@ -54,48 +54,20 @@
 </header>
 <div class="app-body">
     {% block sidebar %}
-    <div class="sidebar ">
-        <nav class="sidebar-nav d-flex flex-column">
-            <ul class="nav">
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ path('admin_index') }}"><i class="fa fa-columns" aria-hidden="true"></i>Administration </a>
-                </li>
-                <li class="nav-item">
-                    <span class="navbar-text text-center w-100 bg-light text-dark">Artistes</span>
-                    <a class="nav-link" href="{{ path('admin_artists_index') }}"><i class="fa fa-list" aria-hidden="true"></i>Liste des artistes</a>
-                    <a class="nav-link" href="{{ path('admin_artists_add') }}"><i class="fa fa-plus" aria-hidden="true"></i>Ajouter un artiste</a>
-                </li>
-                {% if is_granted('ROLE_SUPER_ADMIN') %}
-                    <li class="nav-item">
-                        <span class="navbar-text text-center w-100 bg-light text-dark">Utilisateurs</span>
-                        <a class="nav-link" href="{{ path('admin_users_index') }}"><i class="fa fa-list" aria-hidden="true"></i>Liste des utilisateurs</a>
-                        <a class="nav-link" href="{{ path('admin_users_add') }}"><i class="fa fa-plus" aria-hidden="true"></i>Ajouter un utilisateur</a>
-                    </li>
-                {% endif %}
-                <li class="nav-item">
-                    <span class="navbar-text text-center w-100 bg-light text-dark">Evenements</span>
-                    <a class="nav-link" href="{{ path('admin_events_index') }}"><i class="fa fa-list" aria-hidden="true"></i>Liste des evenements</a>
-                    <a class="nav-link" href="{{ path('admin_events_add') }}"><i class="fa fa-plus" aria-hidden="true"></i>Ajouter un evenement</a>
-                </li>
-                <li class="nav-item">
-                    <span class="navbar-text text-center w-100 bg-light text-dark">Diaporama</span>
-                    <a class="nav-link" href="{{ path('admin_slider_index', {'id' : 1}) }}"><i class="fa fa-sliders" aria-hidden="true"></i>Gestion du diaporama de page d'accueil</a>
-                    <a class="nav-link" href="{{ path('admin_slider_image_add', {'sliderId' : 1}) }}"><i class="fa fa-plus-circle" aria-hidden="true"></i>Ajouter une image au diaporama</a>
-                </li>
-            </ul>
-        </nav>
-    </div>
+        {% include 'admin/layout/nav.html.twig' %}
     {% endblock %}
 
     <!-- Main content -->
     <main class="main">
         {% for msg in app.session.flashBag.get('success') %}
-            <div class="card card-inverse card-success alert">
-                <div class="card-header">
-                    {{ 'flash.success.title'|trans({}, 'cms') }}
-                </div>
-                <div class="card-block">
-                    {{ msg|trans({}, 'cms') }}
+            <div class="container">
+                <div class="card card-inverse card-success alert">
+                    <div class="card-header">
+                        Information
+                    </div>
+                    <div class="card-block">
+                        {{ msg }}
+                    </div>
                 </div>
             </div>
         {% endfor %}
