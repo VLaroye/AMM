@@ -107,7 +107,6 @@ class AppController extends Controller
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-
             try {
                 $mailSender->sendMail($contactMail);
             } catch (\Exception $exception) {

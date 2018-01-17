@@ -37,13 +37,13 @@
                             {% else %}
                                 <p>Prix non annoncé</p>
                             {% endif %}
-                            {% if event.date is not null %}
-                                <p>Le {{ event.date| date('d/m/Y')}} de </p>
+                            {% if event.beginningDateTime is not null %}
+                                <p>Le {{ event.beginningDateTime| date('d/m/Y')}} de </p>
                                 {% else %}
                                     <p>Date non annoncé</p>
                             {% endif %}
-                            {% if event.beginningTime and event.endingTime is not null %}
-                                <p>De {{ event.beginningTime| date('H:i') }} à {{ event.endingTime| date('H:i') }}</p>
+                            {% if event.endingDateTime and event.endingDateTime is not null %}
+                                <p>De {{ event.endingDateTime| date('H:i') }} à {{ event.endingDateTime| date('H:i') }}</p>
                             {% endif %}
                             {% if event.facebookLink is not null %}
                                 <a href="{{ event.facebookLink }}"><i class="fa fa-facebook-square fa-4x text-pink" aria-hidden="true"></i></a>

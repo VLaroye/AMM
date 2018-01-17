@@ -80,7 +80,7 @@
                 <li class="nav-item">
                     <span class="navbar-text text-center w-100 bg-light text-dark">Diaporama</span>
                     <a class="nav-link" href="{{ path('admin_slider_index', {'id' : 1}) }}"><i class="fa fa-sliders" aria-hidden="true"></i>Gestion du diaporama de page d'accueil</a>
-                    <a class="nav-link" href="{{ path('admin_slider_image_add', {'sliderId' : 1}) }}"><i class="fa fa-sliders" aria-hidden="true"></i>Ajouter une image au diaporama</a>
+                    <a class="nav-link" href="{{ path('admin_slider_image_add', {'sliderId' : 1}) }}"><i class="fa fa-plus-circle" aria-hidden="true"></i>Ajouter une image au diaporama</a>
                 </li>
             </ul>
         </nav>
@@ -89,6 +89,39 @@
 
     <!-- Main content -->
     <main class="main">
+        {% for msg in app.session.flashBag.get('success') %}
+            <div class="card card-inverse card-success alert">
+                <div class="card-header">
+                    {{ 'flash.success.title'|trans({}, 'cms') }}
+                </div>
+                <div class="card-block">
+                    {{ msg|trans({}, 'cms') }}
+                </div>
+            </div>
+        {% endfor %}
+
+        {% for msg in app.session.flashBag.get('warning') %}
+            <div class="card card-inverse card-warning alert">
+                <div class="card-header">
+                    {{ 'flash.warning.title'|trans({}, 'cms') }}
+                </div>
+                <div class="card-block">
+                    {{ msg|trans({}, 'cms') }}
+                </div>
+            </div>
+        {% endfor %}
+
+        {% for msg in app.session.flashBag.get('danger') %}
+
+            <div class="card card-inverse card-danger alert">
+                <div class="card-header">
+                    {{ 'flash.danger.title'|trans({}, 'cms') }}
+                </div>
+                <div class="card-block">
+                    {{ msg|trans({}, 'cms') }}
+                </div>
+            </div>
+        {% endfor %}
         <div class="container-fluid">
             <div id="ui-view">
                 {% block content %}{% endblock %}

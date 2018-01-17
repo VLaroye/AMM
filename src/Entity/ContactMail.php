@@ -9,14 +9,18 @@ class ContactMail
     /**
      * @var string
      *
-     * @Assert\NotBlank()
+     * @Assert\NotBlank(
+     *     message="Ce champ doit être renseigné"
+     * )
      */
     private $firstName;
 
     /**
      * @var string
      *
-     * @Assert\NotBlank()
+     * @Assert\NotBlank(
+     *     message="Ce champ doit être renseigné"
+     * )
      */
     private $secondName;
 
@@ -24,20 +28,27 @@ class ContactMail
      * @var string
      *
      * @Assert\NotBlank()
+     * @Assert\Email(
+     *     message="'{{ value }} n'est pas un email valide."
+     * )
      */
     private $mail;
 
     /**
      * @var string
      *
-     * @Assert\NotBlank()
+     * @Assert\NotBlank(
+     *     message="Ce champ doit être renseigné"
+     * )
      */
     private $subject;
 
     /**
      * @var string
      *
-     * @Assert\NotBlank()
+     * @Assert\NotBlank(
+     *     message="Ce champ doit être renseigné"
+     * )
      */
     private $message;
 

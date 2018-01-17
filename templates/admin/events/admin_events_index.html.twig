@@ -2,11 +2,6 @@
 
 {% block content %}
     <h2 class="text-center mt-2">Liste des évènements</h2>
-    {% for message in app.session.flashbag.get('success') %}
-        <div class="w-50 m-auto text-center bg-success text-dark p-3">
-            <p class="font-weight-bold">{{ message }}</p>
-        </div>
-    {% endfor %}
     <div class="row">
         <div class="col-12 col-md-9 order-12 order-md-first">
             {% for event in events %}

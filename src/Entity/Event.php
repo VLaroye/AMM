@@ -56,7 +56,6 @@ class Event
      */
     private $endingDateTime;
 
-
     /**
      * @var string
      *
@@ -266,6 +265,4 @@ class Event
     {
         $this->image = $image;
     }
-
-
 }

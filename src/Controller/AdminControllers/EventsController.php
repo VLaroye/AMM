@@ -74,7 +74,6 @@ class EventsController extends Controller
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-
             $fileName = $imageUploader->upload($event->getImage()->getFile());
 
             $event->getImage()->setFileName($fileName);
@@ -127,8 +126,7 @@ class EventsController extends Controller
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-
-            if(!$event->getImage()->getFile()) {
+            if (!$event->getImage()->getFile()) {
                 $event->getImage()->setFileName($originalImage);
             } else {
                 $newImage = $imageUploader->upload($event->getImage()->getFile());

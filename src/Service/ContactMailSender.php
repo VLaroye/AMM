@@ -36,6 +36,7 @@ class ContactMailSender
 
     /**
      * @param ContactMail $mailData
+     *
      * @throws \Twig_Error_Loader
      * @throws \Twig_Error_Runtime
      * @throws \Twig_Error_Syntax
@@ -47,11 +48,9 @@ class ContactMailSender
             ->setTo('laroye.vincent@gmail.com')
             ->setFrom('laroye.vincent@gmail.com')
             ->setBody($this->twig->render('emails/contact.html.twig', [
-                'data' => $mailData
+                'data' => $mailData,
             ]));
 
         $this->mailer->send($this->message);
     }
-
-
 }

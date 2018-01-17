@@ -8,17 +8,11 @@ use App\Form\ArtistType;
 use App\Service\ImageUploader;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Bundle\MakerBundle\Validator;
-use Symfony\Component\Filesystem\Filesystem;
-use Symfony\Component\Finder\Finder;
-use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route as Route;
 use Symfony\Component\Routing\Exception\InvalidParameterException;
-use Symfony\Component\Validator\Constraints\ImageValidator;
-use Symfony\Component\Validator\Constraints\NotBlank;
 
 /**
  * @Route("/admin/artistes")
@@ -75,7 +69,6 @@ class ArtistsController extends Controller
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-
             $fileName = $imageUploader->upload($artist->getImage()->getFile());
 
             $artist->getImage()->setFileName($fileName);
@@ -130,8 +123,7 @@ class ArtistsController extends Controller
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-
-            if(!$artist->getImage()->getFile()) {
+            if (!$artist->getImage()->getFile()) {
                 $artist->getImage()->setFileName($originalImage);
             } else {
                 $newImage = $imageUploader->upload($artist->getImage()->getFile());
