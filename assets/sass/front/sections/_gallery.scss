@@ -1,0 +1,7 @@
+.album {
+  min-height: 10em;
+
+  @include hover-focus-active {
+    box-shadow: 0 0 5px $pink;
+  }
+}

@@ -2,20 +2,37 @@
 
 {% block title %}AMM Fest {{ parent() }}{% endblock %}
 {% block content %}
-    <div class="row">
-        <div class="col-7">
-            <h2 class="py-2 bg-secondary text-center text-uppercase">Nom</h2>
-            <p>Style // Origine</p>
+    <h2 class="py-2 bg-secondary font-weight-bold text-center text-uppercase">{{ artist.name }}</h2>
+    <div class="container">
+        <div class="row mb-5">
+            <div class="col-12 col-md-7 text-center">
+                <div id="artist-image">
+                    <img  src="{{ asset('images/uploads/' ~ artist.image.fileName) }}" alt="{{ artist.image.alt }}">
+                </div>
+            </div>
+            <div class="col-12 col-md-5 text-justify">
+                <div class="col-6">
+                    <p><span class="font-weight-bold">Origine : </span>{{ artist.origin }}</p>
+                </div>
+                <div class="col-6">
+                    <p><span class="font-weight-bold">Style : </span>{{ artist.style }}</p>
+                </div>
+                <div class="col-12">
+                    <p><span class="font-weight-bold">Description : </span>{{ artist.description }}</p>
+                </div>
+            </div>
         </div>
-        <div class="col-5">
-            <p>Image</p>
-        </div>
-        <div class="col-12 text-center">
-            <p>Description</p>
-        </div>
-        <div class="col-12 text-center">
-            <p>Vidéo Youtube</p>
-        </div>
+            <div class="row">
+                <div class="col-12 text-center">
+                    <div id="artiste-youtube-video">
+                        <iframe src="{{ artist.youtubeLink }}" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+                    </div>
+                </div>
+            </div>
+
     </div>
+
+
+
 {% endblock %}
 

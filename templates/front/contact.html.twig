@@ -9,7 +9,7 @@
                 <div class="col-12 col-md-10 text-center">
                     <button class="btn text-uppercase font-weight-bold p-3"><span>rejoins l'équipe</span></button>
                     <button class="btn text-uppercase font-weight-bold p-3">
-                        <a href="#contact-form">contactes-nous !</a>
+                        <a href="#contact-form">contacte-nous !</a>
                     </button>
 
                 </div>
@@ -61,25 +61,35 @@
                     </div>
             {% endfor %}
             <h3 class="text-center text-uppercase text-light py-3">get <span class="font-italic">in </span> touch</h3>
-            {{ form_start(form) }}
+            <p id="responseData" class="bg-light text-center"></p>
+            {{ form_start(form, {'attr' : {'class' : 'contactForm', 'novalidate' :'', 'id': 'form'}}) }}
             <div class="container">
                 <div class="row">
                     <div class="col-12 col-md-6">
                         <div class="form-group">
-                            {{ form_widget(form.firstName) }}
+                            {{ form_widget(form.firstName, {'attr': {'minlength' : '3'}}) }}
                             {{ form_errors(form.firstName) }}
+                            <div class="invalid-feedback">
+                                3 caractères minimum !
+                            </div>
                         </div>
                     </div>
                     <div class="col-12 col-md-6">
                         <div class="form-group">
-                            {{ form_widget(form.secondName) }}
+                            {{ form_widget(form.secondName, {'attr': {'minlength' : '3'}}) }}
                             {{ form_errors(form.secondName) }}
+                            <div class="invalid-feedback">
+                                3 caractères minimum !
+                            </div>
                         </div>
                     </div>
                     <div class="col-12 col-md-8">
                         <div class="form-group">
                             {{ form_widget(form.mail) }}
                             {{ form_errors(form.mail) }}
+                            <div class="invalid-feedback">
+                                Ce n'est pas une adresse mail valide !
+                            </div>
                         </div>
                     </div>
                     <div class="col-12 col-md-4">
@@ -100,4 +110,43 @@
             {{ form_end(form) }}
             </div>
         </section>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+            var form = $('.contactForm');
+            var contactForm = document.getElementById('form');
+
+            form.change(function (e) {
+                if (contactForm.checkValidity() === false) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                }
+                contactForm.classList.add('was-validated');
+            });
+
+            form.submit(function (e) {
+                    e.preventDefault();
+
+                    var request = $.ajax({
+                        type: $(this).attr('method'),
+                        url: $(this).attr('action'),
+                        data: $(this).serialize()
+                    })
+
+                        .done(function (data) {
+                            if (typeof data.message !== 'undefined') {
+                                $('#responseData').text(data.message)
+                            }
+                        })
+
+                        .fail(function(jqXHR, textStatus, errorThrown) {
+                            console.log(jqXHR.responseJSON.errors);
+                            $('#responseData').text(jqXHR.responseJSON.message);
+                            contactForm.classList.add('was-validated');
+                        });
+                });
+
+    </script>
 {% endblock %}

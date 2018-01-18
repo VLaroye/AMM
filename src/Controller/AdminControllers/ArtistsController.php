@@ -8,6 +8,7 @@ use App\Form\ArtistType;
 use App\Service\ImageUploader;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -94,9 +95,9 @@ class ArtistsController extends Controller
      *
      * @Route("/delete/{id}", name="admin_artists_delete")
      */
-    public function deleteArtist(Artist $artist): RedirectResponse
+    public function deleteArtist(Artist $artist, Filesystem $fs): RedirectResponse
     {
-        // TODO : Supprimer l'image du dossier /images/uploads ?
+        $fs->remove($this->getParameter('images_directory') . '/' . $artist->getImage()->getFileName());
 
         $this->em->remove($artist);
         $this->em->flush();
@@ -114,7 +115,7 @@ class ArtistsController extends Controller
      *
      * @Route("/update/{id}", name="admin_artists_update")
      */
-    public function updateArtist(Artist $artist, Request $request, ImageUploader $imageUploader): Response
+    public function updateArtist(Artist $artist, Request $request, ImageUploader $imageUploader, Filesystem $fs): Response
     {
         $form = $this->createForm(ArtistType::class, $artist);
 
@@ -126,6 +127,7 @@ class ArtistsController extends Controller
             if (!$artist->getImage()->getFile()) {
                 $artist->getImage()->setFileName($originalImage);
             } else {
+                $fs->remove($this->getParameter('images_directory') . '/' . $originalImage);
                 $newImage = $imageUploader->upload($artist->getImage()->getFile());
                 $artist->getImage()->setFileName($newImage);
             }

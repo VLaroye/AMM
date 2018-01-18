@@ -33,10 +33,13 @@ class Event
     /**
      * @var \DateTime
      *
-     * @ORM\Column(type="datetime", nullable=true)
+     * @ORM\Column(type="datetime")
      *
+     * @Assert\NotBlank(
+     *     message="Ce champ doit être renseigné."
+     * )
      * @Assert\DateTime(
-     *     message="Ceci n'est pas une date valide"
+     *     message="Ceci n'est pas une date valide."
      * )
      */
     private $beginningDateTime;
@@ -105,6 +108,11 @@ class Event
      * @Assert\Valid()
      */
     private $image;
+
+    public function __construct()
+    {
+        $this->beginningDateTime = new \DateTime();
+    }
 
     /**
      * @return int

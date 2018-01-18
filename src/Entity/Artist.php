@@ -40,7 +40,7 @@ class Artist
      * )
      * @Assert\Length(
      *     max= 600,
-     *     maxMessage="Ce champ est limité à {{ limité }} caractères."
+     *     maxMessage="Ce champ est limité à {{ limit }} caractères."
      * )
      */
     private $description;

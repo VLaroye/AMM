@@ -9,7 +9,9 @@ use App\Entity\SliderImage;
 use App\Form\ContactType;
 use App\Service\FacebookApiRequest;
 use App\Service\ContactMailSender;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method as Method;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route as Route;
@@ -53,6 +55,16 @@ class AppController extends Controller
     }
 
     /**
+     * @Route("/artiste/{id}", name="artiste")
+     */
+    public function artist(Artist $artist)
+    {
+        return $this->render('front/artist.html.twig', [
+            'artist' => $artist
+        ]);
+    }
+
+    /**
      * @return Response
      *
      * @Route("/autres-evenements", name="events")
@@ -61,7 +73,7 @@ class AppController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $events = $em->getRepository(Event::class)->findAll();
+        $events = $em->getRepository(Event::class)->findAllFuturByBeginningDateTime();
 
         return $this->render('front/events.html.twig', [
             'events' => $events,
@@ -98,28 +110,51 @@ class AppController extends Controller
 
     /**
      * @Route("/contact", name="contact")
+     * @Method({"GET"})
      */
-    public function contact(Request $request, ContactMailSender $mailSender)
+    public function getContact()
     {
+        $contactMail = new ContactMail();
+        $form = $this->createForm(ContactType::class, $contactMail, [
+            'action' => $this->generateUrl('post_contact')
+        ]);
+
+        return $this->render('front/contact.html.twig', [
+            'form' => $form->createView()
+        ]);
+    }
+
+    /**
+     * @Route("/contact", name="post_contact")
+     * @Method({"POST"})
+     */
+    public function postContact(Request $request, ContactMailSender $mailSender)
+    {
+        if (!$request->isXmlHttpRequest()) {
+            return new JsonResponse(['message' => 'Cette page n\'est accessible que depuis une requête Ajax.']);
+        }
+
         $contactMail = new ContactMail();
         $form = $this->createForm(ContactType::class, $contactMail);
 
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            try {
-                $mailSender->sendMail($contactMail);
-            } catch (\Exception $exception) {
-                return $exception->getMessage();
-            }
+        if ($form->isValid()) {
+            $mailSender->sendMail($contactMail);
 
-            $this->addFlash('success', 'Votre message a bien été envoyé ! Nous y répondrons au plus vite !');
+            return new JsonResponse(['message' => 'Mail envoyé !'], 200);
 
-            return $this->redirectToRoute('contact');
         }
 
-        return $this->render('front/contact.html.twig', [
-            'form' => $form->createView(),
-        ]);
+       $errors = $form->getErrors(true, false);
+
+        $toto=1;
+
+        $response = new JsonResponse([
+            'message' => 'Erreur lors de l\'envoi',
+            'errors' => $errors
+        ], 400);
+        return $response;
+
     }
 }

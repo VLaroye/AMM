@@ -36,7 +36,6 @@ class EventType extends AbstractType
             ])
             ->add('beginningDateTime', DateTimeType::class, [
                 'label' => 'Date et heure de début',
-                'required' => false,
                 ])
             ->add('endingDateTime', DateTimeType::class, [
                 'label' => 'Date et heure de fin',

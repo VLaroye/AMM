@@ -1,0 +1,7 @@
+#artist-image > img {
+  @include size(100%, auto);
+}
+
+#artiste-youtube-video iframe {
+  @include size(100%, 30em);
+}

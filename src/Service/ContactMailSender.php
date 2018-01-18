@@ -37,7 +37,7 @@ class ContactMailSender
      * @throws \Twig_Error_Runtime
      * @throws \Twig_Error_Syntax
      */
-    public function sendMail(ContactMail $mailData): void
+    public function sendMail(ContactMail $mailData)
     {
         $transport = new \Swift_SmtpTransport();
         $transport
@@ -56,7 +56,7 @@ class ContactMailSender
             ->setFrom('laroye.vincent@gmail.com')
             ->setBody($this->twig->render('emails/contact.html.twig', [
                 'data' => $mailData,
-            ]));
+            ]), 'text/html');
 
         $mailer->send($message);
     }

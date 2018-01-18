@@ -9,6 +9,7 @@ use App\Form\EventCategoryType;
 use App\Service\ImageUploader;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route as Route;
@@ -37,7 +38,7 @@ class EventsController extends Controller
      */
     public function eventsIndex($page): Response
     {
-        $events = $this->eventsRepository->findAll();
+        $events = $this->eventsRepository->findAllByBeginningDateTime();
         $category = $this->eventsCategoryRepository->findAll();
 
         $pagination = [
@@ -99,8 +100,9 @@ class EventsController extends Controller
      *
      * @Route("/delete/{id}", name="admin_events_delete")
      */
-    public function deleteEvent(Event $event): Response
+    public function deleteEvent(Event $event, Filesystem $fs): Response
     {
+        $fs->remove($this->getParameter('images_directory') . '/' . $event->getImage()->getFileName());
         $this->em->remove($event);
         $this->em->flush();
 
@@ -117,7 +119,7 @@ class EventsController extends Controller
      *
      * @Route("/update/{id}", name="admin_events_update")
      */
-    public function updateEvent(Event $event, Request $request, ImageUploader $imageUploader): Response
+    public function updateEvent(Event $event, Request $request, ImageUploader $imageUploader, Filesystem $fs): Response
     {
         $form = $this->createForm(EventType::class, $event);
 
@@ -129,6 +131,7 @@ class EventsController extends Controller
             if (!$event->getImage()->getFile()) {
                 $event->getImage()->setFileName($originalImage);
             } else {
+                $fs->remove($this->getParameter('images_directory') . '/' . $originalImage);
                 $newImage = $imageUploader->upload($event->getImage()->getFile());
                 $event->getImage()->setFileName($newImage);
             }

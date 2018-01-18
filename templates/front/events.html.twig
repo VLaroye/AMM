@@ -2,13 +2,14 @@
 
 {% block title %}Les autres evenements {{ parent() }}{% endblock %}
 {% block content %}
+    <h2 class="text-uppercase text-center font-weight-bold bg-dark text-light py-3 my-0">les evénèments</h2>
     {% for event in events %}
-
-        <div class="event d-flex position-relative {% if loop.index is divisible by(2) %}bg-light{% else %}bg-secondary{% endif %} }}" data-event ="event-{{ event.id }}">
+        <div class="event d-flex align-items-center position-relative {% if loop.index is divisible by(2) %}bg-light{% else %}bg-secondary{% endif %}" data-event ="event-{{ event.id }}">
             <div class="eventTitle position-relative">
                 <div class="row h-100">
                     <div class="col-9 d-flex justify-content-center align-items-center">
                         <h3 class="text-uppercase font-weight-bold">{{ event.name }}</h3>
+                        <p class="font-italic m-0">(Le {{ event.beginningDateTime| date('d/m/Y') }})</p>
                     </div>
                     <div class="col-3 d-flex justify-content-end align-items-center">
                         <a class="toggleEvent" href="" data-target="event-{{ event.id }}"><i class="fa fa-chevron-left fa-4x mr-5" aria-hidden="true"></i></a>
@@ -18,8 +19,8 @@
             <div class="eventContent">
                 <div class="container-fluid py-3">
                     <div class="row">
-                        <div class="col-5">
-                            <p>Photo Event</p>
+                        <div class="col-5 p-3 text-center">
+                            <img class="img-fluid event-image" src="{{ asset('images/uploads/') ~ event.image.fileName }}" alt="">
                         </div>
                         <div class="col-7 text-center text-md-left">
                             <h4 class="text-uppercase font-weight-bold text-center my-3">{{ event.name }}</h4>
@@ -32,18 +33,14 @@
                                 {% if event.price == 0 %}
                                 <p><span class="font-weight-bold">Prix</span> : Gratuit</p>
                                     {% else %}
-                                        <p><span class="font-weight-bold">Prix</span> : {{ event.price }}</p>
+                                        <p><span class="font-weight-bold">Prix</span> : {{ event.price }} euros</p>
                                 {% endif %}
                             {% else %}
                                 <p>Prix non annoncé</p>
                             {% endif %}
-                            {% if event.beginningDateTime is not null %}
-                                <p>Le {{ event.beginningDateTime| date('d/m/Y')}} de </p>
-                                {% else %}
-                                    <p>Date non annoncé</p>
-                            {% endif %}
+                                <p>Le {{ event.beginningDateTime| date('d/m/Y')}} à {{ event.beginningDateTime|date('H:i') }}</p>
                             {% if event.endingDateTime and event.endingDateTime is not null %}
-                                <p>De {{ event.endingDateTime| date('H:i') }} à {{ event.endingDateTime| date('H:i') }}</p>
+                                <p>Jusqu'au {{ event.endingDateTime| date('d/m/Y') }} à {{ event.endingDateTime| date('H:i') }}</p>
                             {% endif %}
                             {% if event.facebookLink is not null %}
                                 <a href="{{ event.facebookLink }}"><i class="fa fa-facebook-square fa-4x text-pink" aria-hidden="true"></i></a>

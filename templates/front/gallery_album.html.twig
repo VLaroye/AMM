@@ -2,16 +2,22 @@
 
 {% block title %}Gallerie {{ parent() }}{% endblock %}
 {% block content %}
-    <div id="aniimated-thumbnials">
-        <div class="container">
-            <div class="row">
-                {% for image in images %}
-                    <div class="col-6 col-md-2">
-                        <img  class="w-100  m-3" src="{{ image.images[2].source }}" alt="" style="max-height: 10em">
-                    </div>
-                {% endfor %}
-            </div>
+    <h2 class="text-uppercase text-center font-weight-bold bg-secondary py-3">Les photos</h2>
+    <div class="container my-5">
+        <div class="galleria" style="max-width: 100%; height: 35em; background: #000">
+            {% for image in images %}
+                <img class="" src="{{ image.images[2].source }}" alt="">
+            {% endfor %}
         </div>
-
     </div>
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/galleria/1.5.7/galleria.min.js"></script>
+    <script>
+        (function() {
+            Galleria.loadTheme('https://cdnjs.cloudflare.com/ajax/libs/galleria/1.5.7/themes/classic/galleria.classic.min.js');
+            Galleria.run('.galleria');
+        }());
+    </script>
 {% endblock %}
