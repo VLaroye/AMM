@@ -7,6 +7,10 @@ parameters:
     mail.port: 587
     mail.username: 'dd21c8b6e1e4e358c5657bde0395f61b'
     mail.password: '1b08163b62363b63dd5067efe28903c1'
+    facebook.app_id: '713831422155114'
+    facebook.app_secret: '2f60b0148e0137b093d1d1ad20ee05b7'
+    facebook.default_graph_version: 'v2.11'
+    facebook.access_token: '713831422155114|iuEk_7llEs4BFw0Vn5p2pQXdGq4'
 
 services:
     # default configuration for services in *this* file
@@ -40,4 +44,9 @@ services:
         $mailPort: '%mail.port%'
         $mailUsername: '%mail.username%'
         $mailPassword: '%mail.password%'
-        $mailer: '@mailer'
+
+    App\Service\FacebookApiRequest:
+        $appId: '%facebook.app_id%'
+        $appSecret: '%facebook.app_secret%'
+        $defaultGraphVersion: '%facebook.default_graph_version%'
+        $accessToken: '%facebook.access_token%'

@@ -6,23 +6,33 @@ use Facebook\Facebook;
 
 class FacebookApiRequest
 {
-    private $fb;
+    private $appId;
+    private $appSecret;
+    private $defaultGraphVersion;
+    private $accessToken;
 
-    public function __construct()
+    public function __construct($appId, $appSecret, $defaultGraphVersion, $accessToken)
     {
-        $this->fb = new Facebook([
-            'app_id' => '713831422155114',
-            'app_secret' => '2f60b0148e0137b093d1d1ad20ee05b7',
-            'default_graph_version' => 'v2.11',
-            'default_access_token' => '713831422155114|iuEk_7llEs4BFw0Vn5p2pQXdGq4',
-        ]);
+        $this->appId = $appId;
+        $this->appSecret = $appSecret;
+        $this->defaultGraphVersion = $defaultGraphVersion;
+        $this->accessToken = $accessToken;
+
+
     }
 
     public function facebookGetRequest($url)
     {
-        try {
+        $fb = new Facebook([
+            'app_id' => $this->appId,
+            'app_secret' => $this->appSecret,
+            'default_graph_version' => $this->defaultGraphVersion,
+            'default_access_token' => $this->accessToken,
+        ]);
+
+        try { 
             // Returns a `FacebookFacebookResponse` object
-            $response = $this->fb->get(
+            $response = $fb->get(
                 $url);
         } catch (FacebookExceptionsFacebookResponseException $e) {
             echo 'Graph returned an error: '.$e->getMessage();
