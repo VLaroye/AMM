@@ -32,6 +32,7 @@ class ArtistType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Artist::class,
+            'validation_groups' => ['artistImage']
         ]);
     }
 }

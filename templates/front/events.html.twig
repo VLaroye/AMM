@@ -4,8 +4,8 @@
 {% block content %}
     <h2 class="text-uppercase text-center font-weight-bold bg-dark text-light py-3 my-0">les evénèments</h2>
     {% for event in events %}
-        <div class="event d-flex align-items-center position-relative {% if loop.index is divisible by(2) %}bg-light{% else %}bg-secondary{% endif %}" data-event ="event-{{ event.id }}">
-            <div class="eventTitle position-relative">
+        <div class="event d-flex position-relative {% if loop.index is divisible by(2) %}bg-light{% else %}bg-secondary{% endif %}" data-event ="event-{{ event.id }}">
+            <div class="eventTitle position-relative" {# style="background-image: url('{{ asset('images/uploads/' ~ event.image.filename) }}'); background-size: 100% auto; min-height: 100% #}">
                 <div class="row h-100">
                     <div class="col-9 d-flex justify-content-center align-items-center">
                         <h3 class="text-uppercase font-weight-bold">{{ event.name }}</h3>

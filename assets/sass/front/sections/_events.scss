@@ -3,7 +3,7 @@ div.event {
 }
 
 .eventTitle, .eventContent {
-  @include size(50%, 100%);
+  @include size(50%, auto);
   display: inline-block;
 }
 

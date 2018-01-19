@@ -37,7 +37,22 @@ class Image
     /**
      * @var UploadedFile
      *
-     * @Assert\Image()
+     * @Assert\Image(
+     *     groups={"artistImage"},
+     *     minWidth=500,
+     *     minWidthMessage="La largeur de l'image est trop faible : {{ width }}px. Largeur minimum : {{ min_width }}",
+     *     minHeight=450,
+     *     minHeightMessage="La hauteur de l'image est trop faible : {{ height }}px. Hauteur minimum : {{ min_height }}",
+     *     minRatio=0.8,
+     *     minRatioMessage="Le ratio (largeur/hauteur) est trop faible : {{ ratio }}. Ratio minimum : {{ min_ratio }}",
+     *     maxRatio=1.2,
+     *     maxRatioMessage="Le ratio (largeur/hauteur) est trop grand : {{ ratio }}. Ratio maximal : {{ max_ratio }}"
+     * )
+     *
+     * @Assert\Image(
+     *     maxWidth=400,
+     *     groups={"eventImage"}
+     * )
      */
     private $file;
 

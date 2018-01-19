@@ -17,6 +17,7 @@
     $primary:       #2e6347;
     $secondary:     #e9f9c7;
     $ammPink:       #f04d64;
+    $lightPink:     #f1bec5;
     $black:         #000;
     $white:         #fff;
 
@@ -50,9 +51,9 @@
   $navbar-height :           6em;
 
   // COLORS
-  $navbar-light-color:                rgba($white, 0.8);
-  $navbar-light-hover-color:          lighten($navbar-light-color, 15%);
-  $navbar-light-active-color:         lighten($navbar-light-color, 50%);
+  $navbar-light-color:                inherit;
+  $navbar-light-hover-color:          inherit;
+  $navbar-light-active-color:         inherit;
 
 // *****************************
 // EVENTS SECTION

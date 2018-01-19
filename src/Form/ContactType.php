@@ -22,7 +22,6 @@ class ContactType extends AbstractType
                 'attr' => [
                     'placeholder' => 'Nom',
                     ],
-                'required' => false
                 ])
             ->add('secondName', TextType::class, [
                 'label' => 'Prenom',

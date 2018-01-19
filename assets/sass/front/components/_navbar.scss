@@ -7,13 +7,15 @@
 }
 
 li.nav-item {
+  color: white;
+  transition: 0.7s;
   @include hover-focus-active {
-    @include gradient-directional(#f04d64, #f1bec5, 65deg);
+    background-color: $lightPink;
+    color: $black;
   }
-
-  @include border-radius(20px)
 }
 
 li.nav-item > a {
   font-size: $nav-link-font-size;
+  color: inherit;
 }

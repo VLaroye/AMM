@@ -28,6 +28,10 @@ class ContactMail
      * @var string
      *
      * @Assert\NotBlank()
+     * @Assert\Length(
+     *     min=10,
+     *     minMessage="10 caractères minimum"
+     * )
      * @Assert\Email(
      *     message="'{{ value }} n'est pas un email valide."
      * )

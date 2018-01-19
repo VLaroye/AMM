@@ -102,6 +102,7 @@ class Artist
      * @ORM\OneToOne(targetEntity="App\Entity\Image", cascade={"persist", "remove"})
      * @ORM\JoinColumn(nullable=false)
      *
+     * @Assert\NotBlank()
      * @Assert\Valid()
      */
     private $image;

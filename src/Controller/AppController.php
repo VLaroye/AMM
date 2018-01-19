@@ -146,7 +146,11 @@ class AppController extends Controller
 
         }
 
-       $errors = $form->getErrors(true, false);
+        $errors = [];
+
+        foreach ($form->getErrors(true) as $error) {
+            $errors[$error->getCause()->getPropertyPath()] = $error->getMessage();
+        }
 
         $toto=1;
 

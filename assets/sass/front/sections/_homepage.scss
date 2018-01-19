@@ -12,3 +12,7 @@ footer {
 #logoFooter {
   min-height: 15em;
 }
+
+.navbar-brand img {
+  max-height: $navbar-height;
+}
