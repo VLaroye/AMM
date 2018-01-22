@@ -30,7 +30,7 @@ class FacebookApiRequest
             'default_access_token' => $this->accessToken,
         ]);
 
-        try { 
+        try {
             // Returns a `FacebookFacebookResponse` object
             $response = $fb->get(
                 $url);

@@ -70,16 +70,46 @@ class Artist
     /**
      * @var string
      *
-     * @ORM\Column(type="string", name="youtubelink")
+     * @ORM\Column(type="string", nullable=true)
      *
-     * @Assert\NotBlank(
-     *     message="Ce champ doit être renseigné"
-     * )
      * @Assert\Url(
      *     message="L'adresse '{{ value }}' n'est pas une adresse valide."
      * )
      */
     private $youtubeLink;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(type="string", nullable=true)
+     *
+     * @Assert\Url(
+     *     message="L'adresse '{{ value }}' n'est pas une adresse valide."
+     * )
+     */
+    private $facebookLink;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(type="string", nullable=true)
+     *
+     * @Assert\Url(
+     *     message="L'adresse '{{ value }}' n'est pas une adresse valide."
+     * )
+     */
+    private $soundcloudLink;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(type="string", nullable=true)
+     *
+     * @Assert\Url(
+     *     message="L'adresse '{{ value }}' n'est pas une adresse valide."
+     * )
+     */
+    private $bandcampLink;
 
     /**
      * @var int
@@ -234,4 +264,54 @@ class Artist
     {
         $this->image = $image;
     }
+
+    /**
+     * @return string
+     */
+    public function getFacebookLink(): ?string
+    {
+        return $this->facebookLink;
+    }
+
+    /**
+     * @param string $facebookLink
+     */
+    public function setFacebookLink(string $facebookLink)
+    {
+        $this->facebookLink = $facebookLink;
+    }
+
+    /**
+     * @return string
+     */
+    public function getSoundcloudLink(): ?string
+    {
+        return $this->soundcloudLink;
+    }
+
+    /**
+     * @param string $soundcloudLink
+     */
+    public function setSoundcloudLink(string $soundcloudLink)
+    {
+        $this->soundcloudLink = $soundcloudLink;
+    }
+
+    /**
+     * @return string
+     */
+    public function getBandcampLink(): ?string
+    {
+        return $this->bandcampLink;
+    }
+
+    /**
+     * @param string $bandcampLink
+     */
+    public function setBandcampLink(string $bandcampLink)
+    {
+        $this->bandcampLink = $bandcampLink;
+    }
+
+
 }

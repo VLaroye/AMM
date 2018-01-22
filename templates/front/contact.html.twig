@@ -4,54 +4,16 @@
 {% block title %}Contact {{ parent() }}{% endblock %}
 {% block content %}
 
-        <header id="contact-header">
+        <div id="contact-header">
             <div class="row h-100 justify-content-center align-items-center">
                 <div class="col-12 col-md-10 text-center">
                     <button class="btn text-uppercase font-weight-bold p-3"><span>rejoins l'équipe</span></button>
                     <button class="btn text-uppercase font-weight-bold p-3">
                         <a href="#contact-form">contacte-nous !</a>
                     </button>
-
                 </div>
             </div>
-        </header>
-
-        <section id="team" class="">
-            <div class="text-center bg-secondary py-4">
-                <h2 class="text-uppercase font-weight-bold">l'équipe</h2>
-            </div>
-            <div class="row justify-content-center text-center">
-                <div class="col-12 col-md-10">
-                    <div class="row justify-content-center my-3">
-                        <div class="col-10 col-md-4 p-3">
-                            <img src="{{ asset('images/Douchka.jpg') }}" alt="" class="rounded-circle">
-                            <h4 class="my-3 font-weight-bold">Thibault</h4>
-                            <p>Le président</p>
-                        </div>
-                        <div class="col-10 col-md-4  p-3">
-                            <img src="{{ asset('images/Douchka.jpg') }}" alt="" class="rounded-circle">
-                            <h4 class="my-3 font-weight-bold">Mout</h4>
-                            <p>La secrétaire</p>
-                        </div>
-                        <div class="col-10 col-md-4  p-3">
-                            <img src="{{ asset('images/Douchka.jpg') }}" alt="" class="rounded-circle">
-                            <h4 class="my-3 font-weight-bold">Chouq</h4>
-                            <p>Le vice-prés'</p>
-                        </div>
-                        <div class="col-10 col-md-4  p-3">
-                            <img src="{{ asset('images/Douchka.jpg') }}" alt="" class="rounded-circle">
-                            <h4 class="my-3 font-weight-bold">Vincent</h4>
-                            <p>Le trésorier</p>
-                        </div>
-                        <div class="col-10 col-md-4  p-3">
-                            <img src="{{ asset('images/Douchka.jpg') }}" alt="" class="rounded-circle">
-                            <h4 class="my-3 font-weight-bold">Kmoul</h4>
-                            <p>La graphiste</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
+        </div>
 
         <section id="contact-form" class="py-4">
             {% for message in app.session.flashbag.get('success') %}
@@ -67,28 +29,28 @@
                 <div class="row">
                     <div class="col-12 col-md-6">
                         <div class="form-group">
-                            {{ form_widget(form.firstName, {'attr': {'minlength' : '3'}}) }}
+                            {{ form_widget(form.firstName, {'attr': {'maxlength' : '50'}}) }}
                             {{ form_errors(form.firstName) }}
                             <div class="invalid-feedback">
-                                3 caractères minimum !
+                                Merci de renseigner votre nom (50 caract. maximum)
                             </div>
                         </div>
                     </div>
                     <div class="col-12 col-md-6">
                         <div class="form-group">
-                            {{ form_widget(form.secondName, {'attr': {'minlength' : '3'}}) }}
+                            {{ form_widget(form.secondName, {'attr': {'maxlength' : '50'}}) }}
                             {{ form_errors(form.secondName) }}
                             <div class="invalid-feedback">
-                                3 caractères minimum !
+                                Merci de renseigner votre prénom (50 caract. maximum)
                             </div>
                         </div>
                     </div>
                     <div class="col-12 col-md-8">
                         <div class="form-group">
-                            {{ form_widget(form.mail) }}
+                            {{ form_widget(form.mail, {'attr': {'maxlength' : '100'}}) }}
                             {{ form_errors(form.mail) }}
                             <div class="invalid-feedback">
-                                Ce n'est pas une adresse mail valide !
+                                Merci de renseigner une adresse mail valide
                             </div>
                         </div>
                     </div>
@@ -96,12 +58,18 @@
                         <div class="form-group">
                             {{ form_widget(form.subject) }}
                             {{ form_errors(form.subject) }}
+                            <div class="invalid-feedback">
+                                Merci de choisir le sujet de votre message
+                            </div>
                         </div>
                     </div>
                     <div class="col-12">
                         <div class="form-group">
-                            {{ form_widget(form.message) }}
+                            {{ form_widget(form.message, {'attr': {'maxlength' : '1000'}}) }}
                             {{ form_errors(form.message) }}
+                            <div class="invalid-feedback">
+                                Merci d'écrire votre message ici (1000 caract. maximum)
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -114,72 +82,5 @@
 
 {% block javascripts %}
     {{ parent() }}
-    <script>
-
-        var form = $('.contactForm');
-        var contactForm = document.getElementById('form');
-        var responseDiv = $('#responseData');
-
-        form.submit(function (e) {
-            if (contactForm.checkValidity() === false) {
-                e.preventDefault();
-                e.stopPropagation();
-                contactForm.classList.add('was-validated');
-            } else {
-                e.preventDefault();
-
-                var request = $.ajax({
-                    type: $(this).attr('method'),
-                    url: $(this).attr('action'),
-                    data: $(this).serialize()
-                })
-
-                    .done(function (data) {
-                        if (typeof data.message !== 'undefined') {
-                            responseDiv.text(data.message)
-                        }
-                    })
-
-                    .fail(function (jqXHR) {
-                        console.log(jqXHR);
-                        if (typeof jqXHR.responseJSON !== 'undefined') {
-                            var errors = jqXHR.responseJSON.errors;
-
-                            for (var error in errors) {
-                                if (errors.hasOwnProperty(error) && typeof errors[error] !== 'undefined') {
-                                    var fieldName;
-
-                                    switch (error) {
-                                        case 'data.firstName':
-                                            fieldName = 'Nom';
-                                            break;
-                                        case 'data.secondName':
-                                            fieldName = 'Prenom';
-                                            break;
-                                        case 'data.mail':
-                                            fieldName = 'Email';
-                                            break;
-                                        case 'data.subject':
-                                            fieldName = 'Sujet';
-                                            break;
-                                        case 'data.message':
-                                            fieldName = 'Message';
-                                            break;
-                                        default:
-                                            fieldName = "Autre erreur";
-                                            break;
-                                    }
-
-                                    responseDiv.append("<p><span class='font-weight-bold'>" + fieldName + "</span> : " + errors[error] + "</p>")
-
-                                }
-                            }
-                        }
-
-                        contactForm.classList.add('was-validated');
-                        responseDiv.addClass('py-2');
-                    })
-            }
-        });
-    </script>
+    <script type="text/javascript" src="{{ asset('js/front/contactForm.js') }}"></script>
 {% endblock %}

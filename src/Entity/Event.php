@@ -22,10 +22,14 @@ class Event
     /**
      * @var string
      *
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="string", length=50)
      *
      * @Assert\NotBlank(
      *     message="Ce champ doit être renseigné."
+     * )
+     * @Assert\Length(
+     *     max=50,
+     *     maxMessage="{{ limit }} caractères maximum."
      * )
      */
     private $name;
@@ -62,7 +66,12 @@ class Event
     /**
      * @var string
      *
-     * @ORM\Column(type="string", nullable=true)
+     * @ORM\Column(type="string", nullable=true, length=50)
+     *
+     * @Assert\Length(
+     *     max=50,
+     *     maxMessage="{{ limit }} caractères maximum."
+     * )
      */
     private $location;
 
@@ -77,6 +86,21 @@ class Event
      * )
      */
     private $price;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(type="text", length=500)
+     *
+     * @Assert\NotBlank(
+     *     message="Ce champ doit être renseigné"
+     * )
+     * @Assert\Length(
+     *     max=500,
+     *     maxMessage="Limité à {{ limit }} caractères"
+     * )
+     */
+    private $description;
 
     /**
      * @var string
@@ -192,6 +216,22 @@ class Event
     public function setPrice(?int $price): void
     {
         $this->price = $price;
+    }
+
+    /**
+     * @return string
+     */
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    /**
+     * @param string $description
+     */
+    public function setDescription(string $description)
+    {
+        $this->description = $description;
     }
 
     /**

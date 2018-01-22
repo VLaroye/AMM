@@ -25,15 +25,33 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-8">
-                            <p><a href="{{ artist.youtubeLink }}">Lien Youtube</a>
-                        </div>
-                        <div class="col-4">
+                        <div class="col-12">
                             <h6 class="d-inline-block">Priorité : </h6>
                             <p class="d-inline-block">{{ artist.priority }}</p>
                         </div>
                     </div>
-
+                    <div class="row text-center">
+                        <div class="col-6">
+                            {% if artist.youtubeLink is not null %}
+                                <a href="{{ artist.youtubeLink }}">Lien Youtube</a>
+                            {% endif %}
+                        </div>
+                        <div class="col-6">
+                            {% if artist.facebookLink is not null %}
+                                <a href="{{ artist.facebookLink }}">Lien Facebook</a>
+                            {% endif %}
+                        </div>
+                        <div class="col-6">
+                            {% if artist.bandcampLink is not null %}
+                                <a href="{{ artist.bandcampLink }}">Lien Bandcamp</a>
+                            {% endif %}
+                        </div>
+                        <div class="col-6">
+                            {% if artist.soundcloudLink is not null %}
+                                <a href="{{ artist.soundcloudLink }}">Lien Facebook</a>
+                            {% endif %}
+                        </div>
+                    </div>
                     <h6>Description :</h6>
                     <p>{{ artist.description }}</p>
 

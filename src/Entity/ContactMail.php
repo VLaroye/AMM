@@ -12,6 +12,10 @@ class ContactMail
      * @Assert\NotBlank(
      *     message="Ce champ doit être renseigné"
      * )
+     * @Assert\Length(
+     *     max=50,
+     *     maxMessage="Limité à {{ limit }} caractères"
+     * )
      */
     private $firstName;
 
@@ -21,19 +25,25 @@ class ContactMail
      * @Assert\NotBlank(
      *     message="Ce champ doit être renseigné"
      * )
+     * @Assert\Length(
+     *     max=50,
+     *     maxMessage="Limité à {{ limit }} caractères"
+     * )
      */
     private $secondName;
 
     /**
      * @var string
      *
-     * @Assert\NotBlank()
+     * @Assert\NotBlank(
+     *     message="Ce champ doit être renseigné"
+     * )
      * @Assert\Length(
-     *     min=10,
-     *     minMessage="10 caractères minimum"
+     *     max=100,
+     *     minMessage="{{ limit }} caractères maximum"
      * )
      * @Assert\Email(
-     *     message="'{{ value }} n'est pas un email valide."
+     *     message="'{{ value }}' n'est pas un email valide."
      * )
      */
     private $mail;
@@ -52,6 +62,10 @@ class ContactMail
      *
      * @Assert\NotBlank(
      *     message="Ce champ doit être renseigné"
+     * )
+     * @Assert\Length(
+     *     max=1000,
+     *     maxMessage="{{ limit }} caractères maximum"
      * )
      */
     private $message;

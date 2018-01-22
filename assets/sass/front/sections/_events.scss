@@ -7,6 +7,22 @@ div.event {
   display: inline-block;
 }
 
+.eventTitle {
+  overflow: hidden;
+}
+
 .event-image {
   max-height: $event-image-height;
+}
+
+.eventTitleBackground {
+
+  img {
+    max-height: 200%;
+    top:-50%;
+
+    filter: blur(15px);
+    -ms-filter: blur(15px);
+    -webkit-filter: blur(15px);
+  }
 }

@@ -1,26 +1,28 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-primary sticky-top py-0">
-    <a class="navbar-brand py-2" href="#"><img src="{{ asset('images/logo-footer.png') }}" alt=""></a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
+<header>
+    <nav class="navbar navbar-expand-lg navbar-light bg-primary sticky-top py-0">
+        <a class="navbar-brand py-2" href="#"><img src="{{ asset('images/logo-footer.png') }}" alt="Logo AMM"></a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
 
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav mx-auto font-weight-bold text-uppercase">
-            <li class="nav-item">
-                <a class="nav-link py-3 px-4" href="{{ path('homepage') }}">home</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link py-3 px-4" href="{{ path('festival') }}">le fest</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link py-3 px-4" href="{{ path('events') }}">events</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link py-3 px-4" href="{{ path('gallery') }}">gallerie</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link py-3 px-4" href="{{ path('contact') }}">contact</a>
-            </li>
-        </ul>
-    </div>
-</nav>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mx-auto font-weight-bold text-uppercase">
+                <li class="nav-item">
+                    <a class="nav-link py-3 px-4" href="{{ path('homepage') }}">home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link py-3 px-4" href="{{ path('festival') }}">le fest</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link py-3 px-4" href="{{ path('events') }}">events</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link py-3 px-4" href="{{ path('gallery') }}">gallerie</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link py-3 px-4" href="{{ path('contact') }}">contact</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+</header>

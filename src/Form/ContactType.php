@@ -39,8 +39,9 @@ class ContactType extends AbstractType
                 'label' => 'Sujet',
                 'choices' => [
                     'Demande générale ?' => 'Demande générale',
-                    'Proposition de groupe ? Thibault te répondra !' => 'Proposition de groupe',
+                    'Proposition de groupe ?' => 'Proposition de groupe',
                     'Question à propos de l\'asso ?' => 'Question générale',
+                    'Autre' => 'Autre'
                 ],
             ])
             ->add('message', TextareaType::class, [

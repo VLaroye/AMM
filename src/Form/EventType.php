@@ -8,6 +8,7 @@ use App\Entity\Event;
 use App\Entity\EventCategory;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\UrlType;
@@ -29,6 +30,9 @@ class EventType extends AbstractType
             ->add('price', IntegerType::class, [
                 'label' => 'Prix',
                 'required' => false,
+            ])
+            ->add('description', TextareaType::class, [
+                'label' => 'Description'
             ])
             ->add('facebookLink', UrlType::class, [
                 'label' => 'Lien évènement Facebook',
