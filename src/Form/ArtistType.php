@@ -26,19 +26,19 @@ class ArtistType extends AbstractType
             ->add('origin', TextType::class, ['label' => 'Origine'])
             ->add('youtubeLink', TextType::class, [
                 'label' => 'Lien Youtube (facultatif)',
-                'required' => false
+                'required' => false,
             ])
             ->add('facebookLink', UrlType::class, [
                 'label' => 'Lien Facebook (facultatif)',
-                'required' => false
+                'required' => false,
             ])
             ->add('soundcloudLink', UrlType::class, [
                 'label' => 'Lien SoundCloud (facultatif)',
-                'required' => false
+                'required' => false,
             ])
             ->add('bandcampLink', UrlType::class, [
                 'label' => 'Lien Bandcamp (facultatif)',
-                'required' => false
+                'required' => false,
             ])
             ->add('image', ImageType::class, ['label' => 'Image'])
             ->add('submit', SubmitType::class, ['label' => 'Valider']);
@@ -48,7 +48,7 @@ class ArtistType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Artist::class,
-            'validation_groups' => ['artistImage']
+            'validation_groups' => ['artistImage'],
         ]);
     }
 }

@@ -2,19 +2,22 @@
 
 {% block sidebar %}{% endblock %}
 {% block content %}
+{% if error is defined %}
+    {{ error }}
+    {% endif %}
 
 <form action="{{ path('login') }}" method="post">
     <div class="form-group mt-5">
         <label for="username">Username:</label>
-        <input type="text" class="form-control" id="username" name="username" value="{{ last_username }}" />
+        <input type="text" class="form-control" id="username" name="username" value="{# last_username #}" />
 
         <label for="password">Password:</label>
         <input type="password" class="form-control" id="password" name="password" />
         <input type="hidden" name="_target_path" value="/admin" />
 
-
-        <button type="submit" class="btn btn-primary mt-3">Connection</button>
+        <button type="submit" class="btn btn-primary mt-3">Connexion</button>
     </div>
 
 </form>
+
 {% endblock %}

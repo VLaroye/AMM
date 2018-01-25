@@ -50,13 +50,22 @@ class Image
      * )
      *
      * @Assert\Image(
+     *     groups={"eventImage"},
      *     minWidth=400,
      *     minWidthMessage="La largeur de l'image est trop faible : {{ width }}px. Largeur minimum : {{ min_width }}",
      *     minRatio=0.8,
      *     minRatioMessage="Le ratio (largeur/hauteur) est trop faible : {{ ratio }}. Ratio minimum : {{ min_ratio }}",
      *     maxRatio=1.2,
-     *     maxRatioMessage="Le ratio (largeur/hauteur) est trop grand : {{ ratio }}. Ratio maximal : {{ max_ratio }}",
-     *     groups={"eventImage"}
+     *     maxRatioMessage="Le ratio (largeur/hauteur) est trop grand : {{ ratio }}. Ratio maximal : {{ max_ratio }}"
+     * )
+     *
+     * @Assert\Image(
+     *     groups={"eventCoverImage"},
+     *     minWidth=1200,
+     *     minWidthMessage="La largeur de l'image est trop faible : {{ width }}px. Largeur minimum : {{ min_width }}",
+     *     minRatio=2.5,
+     *     minRatioMessage="Le ratio (largeur/hauteur) est trop faible : {{ ratio }}. Ratio minimum : {{ min_ratio }}",
+     * )
      * )
      */
     private $file;

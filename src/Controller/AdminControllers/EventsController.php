@@ -7,6 +7,7 @@ use App\Entity\EventCategory;
 use App\Form\EventType;
 use App\Form\EventCategoryType;
 use App\Service\ImageUploader;
+use App\Exception\PaginationException;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Filesystem\Filesystem;
@@ -32,29 +33,31 @@ class EventsController extends Controller
     }
 
     /**
+     * @param $page
      * @return Response
+     * @throws PaginationException
      *
      * @Route("/{page}", requirements={"page" = "\d+"}, defaults={"page" = 1}, name="admin_events_index")
      */
     public function eventsIndex($page): Response
     {
         $events = $this->eventsRepository->findAllByBeginningDateTime();
-        $category = $this->eventsCategoryRepository->findAll();
+        $categories = $this->eventsCategoryRepository->findAll();
 
         $pagination = [
             'page' => $page,
             'route' => 'admin_events_index',
-            'pages_count' => ceil(count($events) / 10),
+            'pages_count' => max(ceil(count($events) / 10), 1),
             'route_params' => [],
         ];
 
-        if ($page > 1 && $page > $pagination['pages_count']) {
-            throw new InvalidParameterException('Cette page n\'existe pas');
+        if ($page < 1 || $page > $pagination['pages_count']) {
+            throw new PaginationException;
         }
 
         return $this->render('admin/events/admin_events_index.html.twig', [
             'events' => $events,
-            'category' => $category,
+            'categories' => $categories,
             'pagination' => $pagination,
         ]);
     }
@@ -75,9 +78,11 @@ class EventsController extends Controller
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $fileName = $imageUploader->upload($event->getImage()->getFile());
+            $eventCoverImageFileName = $imageUploader->upload($event->getCoverImage()->getFile());
+            $eventImageFileName = $imageUploader->upload($event->getImage()->getFile());
 
-            $event->getImage()->setFileName($fileName);
+            $event->getCoverImage()->setFileName($eventCoverImageFileName);
+            $event->getImage()->setFileName($eventImageFileName);
 
             $this->em->persist($event);
 
@@ -100,9 +105,8 @@ class EventsController extends Controller
      *
      * @Route("/delete/{id}", name="admin_events_delete")
      */
-    public function deleteEvent(Event $event, Filesystem $fs): Response
+    public function deleteEvent(Event $event): Response
     {
-        $fs->remove($this->getParameter('images_directory') . '/' . $event->getImage()->getFileName());
         $this->em->remove($event);
         $this->em->flush();
 
@@ -123,17 +127,27 @@ class EventsController extends Controller
     {
         $form = $this->createForm(EventType::class, $event);
 
-        $originalImage = $event->getImage()->getFileName();
+        $originalImage = $event->getImage();
+        $originalCoverImage = $event->getCoverImage();
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            /* When form is submitted, check if user submitted a new image/coverImage or not. If he did, upload that new image and set fileName. If not, just reset original fileName */
             if (!$event->getImage()->getFile()) {
-                $event->getImage()->setFileName($originalImage);
+                $event->getImage()->setFileName($originalImage->getFileName());
             } else {
-                $fs->remove($this->getParameter('images_directory') . '/' . $originalImage);
+                $fs->remove($this->getParameter('images_directory') . '/' . $originalImage->getFileName());
                 $newImage = $imageUploader->upload($event->getImage()->getFile());
                 $event->getImage()->setFileName($newImage);
+            }
+
+            if (!$event->getCoverImage()->getFile()) {
+                $event->getCoverImage()->setFileName($originalCoverImage->getFileName());
+            } else {
+                $fs->remove($this->getParameter('images_directory') . '/' . $originalCoverImage->getFileName());
+                $newCoverImage = $imageUploader->upload($event->getCoverImage()->getFile());
+                $event->getCoverImage()->setFileName($newCoverImage);
             }
 
             $this->em->flush();

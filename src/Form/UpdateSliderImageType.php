@@ -31,7 +31,8 @@ class UpdateSliderImageType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => SliderImage::class,
-            'positions' => null
         ]);
+
+        $resolver->setRequired('positions');
     }
 }

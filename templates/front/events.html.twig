@@ -4,10 +4,10 @@
 {% block content %}
     <h2 class="text-uppercase text-center font-weight-bold bg-dark text-light py-3 my-0">les evenements</h2>
     {% for event in events %}
-        <div class="event d-flex position-relative {% if loop.index is divisible by(2) %}bg-light{% else %}bg-secondary{% endif %}" data-event ="event-{{ event.id }}">
+        <div class="event my-5 d-flex position-relative" data-event ="event-{{ event.id }}">
             <div class="eventTitle position-relative">
                 <div class="eventTitleBackground">
-                    <img class="position-absolute w-100" src="{{ asset('images/uploads/') ~ event.image.fileName }}" alt="{{ event.image.alt }}">
+                    <img class="position-absolute w-100" src="{{ asset('images/uploads/') ~ event.coverImage.fileName }}" alt="{{ event.coverImage.alt }}">
                 </div>
                 <div class="row h-100">
                     <div class="col-9 d-flex justify-content-center align-items-center">
@@ -21,21 +21,23 @@
                     </div>
                 </div>
             </div>
-            <div class="eventContent">
+            <div class="eventContent border border-black">
                 <div class="container-fluid py-3">
                     <div class="row">
                         <div class="col-5 p-3 text-center d-none d-md-block">
                             <img class="img-fluid event-image" src="{{ asset('images/uploads/') ~ event.image.fileName }}" alt="">
                         </div>
                         <div class="col-12 col-md-7 text-center text-md-left">
-                            <h4 class="text-uppercase bg-dark text-light py-2 font-weight-bold text-center mt-3 mb-0">{{ event.name }}</h4>
+                            <h4 class="text-uppercase py-2 font-weight-bold text-center mt-3 mb-0">{{ event.name }}</h4>
                             <div class="row w-100 m-0 text-center bg-primary text-light py-2">
                                 <div class="col-6">
-                                    <p>Le : {{ event.beginningDateTime| date('d/m/Y')}} à {{ event.beginningDateTime|date('H:i') }}
+                                    <p>Debut : : {{ event.beginningDateTime| date('d/m/Y')}} à {{ event.beginningDateTime|date('H:i') }}
                                 </div>
                                 <div class="col-6">
-                                    {% if event.endingDateTime and event.endingDateTime is not null %}
-                                        Jusqu'au : {{ event.endingDateTime| date('d/m/Y') }} à {{ event.endingDateTime| date('H:i') }}
+                                    {% if event.endingDateTime is not null %}
+                                        Fin : {{ event.endingDateTime| date('d/m/Y') }} à {{ event.endingDateTime| date('H:i') }}
+                                        {% else %}
+                                        Fin : --
                                     {% endif %}
                                 </div>
                             </div>

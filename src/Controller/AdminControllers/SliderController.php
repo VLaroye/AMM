@@ -4,6 +4,7 @@ namespace App\Controller\AdminControllers;
 
 use App\Entity\Slider;
 use App\Entity\SliderImage;
+use App\Exception\PaginationException;
 use App\Form\SliderImageType;
 use App\Form\UpdateSliderImageType;
 use App\Repository\SliderImageRepository;
@@ -13,9 +14,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route as Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Exception\InvalidParameterException;
@@ -37,21 +36,35 @@ class SliderController extends Controller
     }
 
     /**
-     * @Route("/{id}/{page}", requirements={"page" = "\d+", "id" = "\d+"}, defaults={"page" = 1}, name="admin_slider_index")
+     * @param Request $request
+     * @param Slider $slider
+     * @param int $page
+     * @return Response
+     * @throws PaginationException
+     *
+     * @Route("/{page}", requirements={"page" = "\d+"}, defaults={"page" = 1}, name="admin_slider_index")
      */
-    public function manageSlider(Request $request, Slider $slider, $page = 1)
+    public function manageSlider(Request $request, int $page = 1)
     {
+        if (!$this->sliderRepository->find(1)) {
+            $slider = new Slider();
+            $this->em->persist($slider);
+            $this->em->flush();
+        } else {
+            $slider = $this->sliderRepository->find(1);
+        }
+
         $sliderImages = $this->sliderImageRepository->getImagesByPosition($page, 10);
 
         $pagination = [
             'page' => $page,
             'route' => 'admin_slider_index',
-            'pages_count' => ceil(count($sliderImages) / 10),
+            'pages_count' => max(ceil(count($sliderImages) / 10), 1),
             'route_params' => ['id' => 1],
         ];
 
-        if ($page > 1 && $page > $pagination['pages_count']) {
-            throw new InvalidParameterException('Cette page n\'existe pas');
+        if ($page < 1 || $page > $pagination['pages_count']) {
+            throw new PaginationException();
         }
 
         return $this->render('admin/slider/admin_slider_index.html.twig', [
@@ -129,7 +142,7 @@ class SliderController extends Controller
         }
 
         $form = $this->createForm(UpdateSliderImageType::class, $sliderImage, [
-            'positions' => $positions
+            'positions' => $positions,
         ]);
 
         $initialSliderImagePosition = $sliderImage->getPosition();
@@ -174,8 +187,6 @@ class SliderController extends Controller
      */
     public function deleteSliderImage(Slider $slider, SliderImage $sliderImage): Response
     {
-        // TODO : Supprimer le fichier image du serveur
-
         $slider->removeImage($sliderImage);
 
         $slider->updateImagesPositions();

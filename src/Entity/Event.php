@@ -129,9 +129,23 @@ class Event
      * @ORM\OneToOne(targetEntity="App\Entity\Image", cascade={"persist", "remove"})
      * @ORM\JoinColumn(nullable=false)
      *
-     * @Assert\Valid()
+     * @Assert\Valid(
+     *     groups={"eventImage"}
+     * )
      */
     private $image;
+
+    /**
+     * @var Image
+     *
+     * @ORM\OneToOne(targetEntity="App\Entity\Image", cascade={"persist", "remove"})
+     * @ORM\JoinColumn(nullable=false)
+     *
+     * @Assert\Valid(
+     *     groups={"eventCoverImage"}
+     * )
+     */
+    private $coverImage;
 
     public function __construct()
     {
@@ -313,4 +327,22 @@ class Event
     {
         $this->image = $image;
     }
+
+    /**
+     * @return Image
+     */
+    public function getCoverImage(): ?Image
+    {
+        return $this->coverImage;
+    }
+
+    /**
+     * @param Image $coverImage
+     */
+    public function setCoverImage(Image $coverImage): void
+    {
+        $this->coverImage = $coverImage;
+    }
+
+
 }

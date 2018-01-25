@@ -16,6 +16,7 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\Image;
 
 class EventType extends AbstractType
 {
@@ -32,7 +33,7 @@ class EventType extends AbstractType
                 'required' => false,
             ])
             ->add('description', TextareaType::class, [
-                'label' => 'Description'
+                'label' => 'Description',
             ])
             ->add('facebookLink', UrlType::class, [
                 'label' => 'Lien évènement Facebook',
@@ -50,7 +51,12 @@ class EventType extends AbstractType
                 'class' => EventCategory::class,
                 'choice_label' => 'name',
             ])
-            ->add('image', ImageType::class, ['label' => 'Image'])
+            ->add('image', ImageType::class, [
+                'label' => 'Image'
+            ])
+            ->add('coverImage', ImageType::class, [
+                'label' => 'Photo de couverture'
+            ])
             ->add('submit', SubmitType::class, ['label' => 'Valider']);
     }
 
@@ -58,7 +64,8 @@ class EventType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Event::class,
-            'validation_groups' => ['eventImage']
+            'cascade_validation' => true,
+            'validation_groups' => ['eventImage', 'eventCoverImage']
         ]);
     }
 }

@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Cocur\Slugify\Slugify;
+use Cocur\Slugify\SlugifyInterface;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -29,6 +31,13 @@ class Artist
      * )
      */
     private $name;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(type="string")
+     */
+    private $slugifiedName;
 
     /**
      * @var string
@@ -311,6 +320,22 @@ class Artist
     public function setBandcampLink(string $bandcampLink)
     {
         $this->bandcampLink = $bandcampLink;
+    }
+
+    /**
+     * @return string
+     */
+    public function getSlugifiedName(): ?string
+    {
+        return $this->slugifiedName;
+    }
+
+    /**
+     * @param string $slugifiedName
+     */
+    public function setSlugifiedName(string $slugifiedName): void
+    {
+        $this->slugifiedName = $slugifiedName;
     }
 
 

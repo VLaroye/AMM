@@ -2,7 +2,7 @@
 
 {% block title %}AMM Fest 4 {{ parent() }}{% endblock %}
 {% block content %}
-    <section id="festival_lineup">
+    <section id="festival_lineup" class="bg-black">
         <div class="text-center bg-secondary py-4">
             <h2 class="text-uppercase font-weight-bold">line-up</h2>
         </div>
@@ -10,7 +10,7 @@
             {% for artist in artists %}
                 <div class="col-6 col-md-6 col-lg-3">
                     <div class="artist ">
-                        <a href="{{ path('artiste', {'id' : artist.id}) }}">
+                        <a href="{{ path('artiste', {'name' : artist.slugifiedName}) }}">
                             <img class="" src="{{ asset('images/uploads/' ~  artist.image.fileName ) }}" alt="{{ artist.image.alt }}">
                             <div class="artist-infos ml-1 mb-1 ml-md-4 mb-md-4 p-2">
                                 <h3 class="m-0 font-weight-bold">{{ artist.name }}</h3>

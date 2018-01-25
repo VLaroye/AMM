@@ -39,14 +39,38 @@ services:
     app.security.form_authenticator:
         class: App\Security\FormAuthenticator
 
+    app.doctrine_listener.image_delete:
+        class: App\DoctrineListener\ImageDeleteListener
+        arguments:
+            - '@App\Service\ImageFileDeleter'
+        tags:
+            - { name: doctrine.event_listener, event: preRemove }
+
+    app.cocur_slugify:
+        class: Cocur\Slugify\Slugify
+
+    App\Listener\PaginationExceptionListener:
+        arguments:
+            $twig: '@twig'
+        tags:
+            - { name: kernel.event_listener, event: kernel.exception, method: onKernelException }
+
+    App\Service\ImageFileDeleter:
+        $fs: '@Symfony\Component\Filesystem\Filesystem'
+        $imagesDirectory: '%images_directory%'
+
     App\Service\ContactMailSender:
         $mailHost: '%mail.host%'
         $mailPort: '%mail.port%'
         $mailUsername: '%mail.username%'
         $mailPassword: '%mail.password%'
+        $twig: '@twig'
 
     App\Service\FacebookApiRequest:
         $appId: '%facebook.app_id%'
         $appSecret: '%facebook.app_secret%'
         $defaultGraphVersion: '%facebook.default_graph_version%'
         $accessToken: '%facebook.access_token%'
+
+    App\Service\Slugify:
+        $slugify: '@app.cocur_slugify'

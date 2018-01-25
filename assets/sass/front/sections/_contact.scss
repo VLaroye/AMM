@@ -3,19 +3,28 @@
   background-image: url($contact-header-background-image);
   background-repeat: no-repeat;
   background-size: cover;
-}
 
-#contact-header button {
-  background-color: $contact-header-button-color;
-  border-radius: 0;
-}
+  button {
+    background-color: $contact-header-button-color;
+    border-radius: 0;
 
-#contact-header button span {
-  opacity: initial;
+    span {
+      opacity: initial;
+    }
+  }
 }
 
 #contact-form {
-  background-image: url($contact-form-background-image);
-  background-repeat: no-repeat;
-  background-size: cover;
+  border: 2px solid black;
+  border-radius: 4px;
+  #loadingAnimation {
+    margin: auto;
+    width: max-content;
+    height: max-content;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+  }
 }

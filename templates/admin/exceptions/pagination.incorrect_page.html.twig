@@ -1,0 +1,8 @@
+{% extends 'admin/layout/admin_base.html.twig' %}
+
+{% block content %}
+    <div class="text-center">
+        <p class="mt-5 font-weight-bold font-3xl text-danger">Erreur 404 - Cette page n'existe pas !</p>
+        <a href="{{ path('admin_index') }}"><i class="fa fa-home" aria-hidden="true"></i>Retourner à l'accueil du panneau d'administration</a>
+    </div>
+{% endblock %}

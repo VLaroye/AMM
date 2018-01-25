@@ -9,6 +9,7 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Guard\Authenticator\AbstractFormLoginAuthenticator;
@@ -34,8 +35,7 @@ class FormAuthenticator extends AbstractFormLoginAuthenticator
         if ($request->getPathInfo() == '/login' && $request->isMethod('POST')) {
             return true;
         }
-
-        return;
+        return false;
     }
 
     /**
@@ -43,6 +43,7 @@ class FormAuthenticator extends AbstractFormLoginAuthenticator
      */
     public function getCredentials(Request $request)
     {
+
         return [
             'username' => $request->request->get('username'),
             'password' => $request->request->get('password'),
@@ -54,8 +55,14 @@ class FormAuthenticator extends AbstractFormLoginAuthenticator
      */
     public function getUser($credentials, UserProviderInterface $userProvider)
     {
-        return $this->em->getRepository(User::class)
+        $user = $this->em->getRepository(User::class)
             ->findOneBy(['username' => $credentials['username']]);
+
+        if ($user === 'undefined') {
+            throw new AuthenticationException;
+        } else {
+            return $user;
+        }
     }
 
     /**

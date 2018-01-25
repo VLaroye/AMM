@@ -3,6 +3,7 @@
 namespace App\Controller\AdminControllers;
 
 use App\Entity\User;
+use App\Exception\PaginationException;
 use App\Form\UserType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -26,7 +27,9 @@ class UsersController extends Controller
     }
 
     /**
+     * @param int $page
      * @return Response
+     * @throws PaginationException
      *
      * @Route("/{page}", requirements={"page" = "\d+"}, defaults={"page" = 1}, name="admin_users_index")
      */
@@ -37,12 +40,12 @@ class UsersController extends Controller
         $pagination = [
             'page' => $page,
             'route' => 'admin_artists_index',
-            'pages_count' => ceil(count($users) / 10),
+            'pages_count' => max(ceil(count($users) / 10), 1),
             'route_params' => [],
         ];
 
-        if ($page > 1 && $page > $pagination['pages_count']) {
-            throw new InvalidParameterException('Cette page n\'existe pas');
+        if ($page < 1 || $page > $pagination['pages_count']) {
+            throw new PaginationException();
         }
 
         return $this->render('admin/users/admin_users_index.html.twig', [

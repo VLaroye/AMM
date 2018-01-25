@@ -15,15 +15,15 @@
             </div>
         </div>
 
-        <section id="contact-form" class="py-4">
+        <section id="contact-form" class="py-4 position-relative my-5 container">
             {% for message in app.session.flashbag.get('success') %}
                     <div class="w-75 m-auto success-flash bg-success p-3 rounded text-center">
                         <h4 class="">Message envoyé !</h4>
                         <p>{{ message }}</p>
                     </div>
             {% endfor %}
-            <h3 class="text-center text-uppercase text-light py-3">get <span class="font-italic">in </span> touch</h3>
-            <div id="responseData" class="bg-danger text-light rounded text-center w-50 m-auto"></div>
+            <h3 class="text-center text-uppercase font-weight-bold py-3">get <span class="font-italic">in </span> touch</h3>
+            <div id="responseData" class="font-weight-bold text-light rounded text-center w-50 m-auto"></div>
             {{ form_start(form, {'attr' : {'class' : 'contactForm mt-3', 'novalidate' :'', 'id': 'form'}}) }}
             <div class="container">
                 <div class="row">
@@ -76,6 +76,10 @@
                 {{ form_widget(form.submit, {'attr' : {'class' : 'btn btn-pink mt-3'}}) }}
 
             {{ form_end(form) }}
+            </div>
+            <div id="loadingAnimation" class="">
+                <i class="fa fa-spinner fa-pulse fa-5x fa-fw text-pink"></i>
+                <span class="sr-only">Loading...</span>
             </div>
         </section>
 {% endblock %}

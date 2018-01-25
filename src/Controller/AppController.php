@@ -9,6 +9,8 @@ use App\Entity\SliderImage;
 use App\Form\ContactType;
 use App\Service\FacebookApiRequest;
 use App\Service\ContactMailSender;
+use Cocur\Slugify\Slugify;
+use Cocur\Slugify\SlugifyInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method as Method;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -55,12 +57,19 @@ class AppController extends Controller
     }
 
     /**
-     * @Route("/artiste/{id}", name="artiste")
+     * @Route("/artiste/{name}", name="artiste")
      */
-    public function artist(Artist $artist)
+    public function artist($name)
     {
+        $em = $this->getDoctrine()->getManager();
+        $artistsRepository = $em->getRepository(Artist::class);
+
+        $artist = $artistsRepository->findOneBy([
+            'slugifiedName' => $name
+        ]);
+
         return $this->render('front/artist.html.twig', [
-            'artist' => $artist
+            'artist' => $artist,
         ]);
     }
 
@@ -98,14 +107,18 @@ class AppController extends Controller
     /**
      * @Route("/galerie/{albumId}", name="gallery_by_album")
      */
-    public function imagesGallery($albumId, FacebookApiRequest $facebookApiRequest)
+    public function imagesGallery($albumId, FacebookApiRequest $facebookApiRequest, Request $request)
     {
-        $images = $facebookApiRequest->facebookGetRequest('/'.$albumId.'/photos?fields=images,name');
-        $images = $images['data'];
+        if ($request->isXmlHttpRequest()) {
+            $images = $facebookApiRequest->facebookGetRequest('/'.$albumId.'/photos?fields=images,name');
+            $images = json_encode($images['data']);
 
-        return $this->render('front/gallery_album.html.twig', [
-           'images' => $images,
-        ]);
+            $response = new JsonResponse($images);
+
+            return $response;
+        }
+
+        return new Response('Cette page n\'est pas accessible');
     }
 
     /**
@@ -116,11 +129,11 @@ class AppController extends Controller
     {
         $contactMail = new ContactMail();
         $form = $this->createForm(ContactType::class, $contactMail, [
-            'action' => $this->generateUrl('post_contact')
+            'action' => $this->generateUrl('post_contact'),
         ]);
 
         return $this->render('front/contact.html.twig', [
-            'form' => $form->createView()
+            'form' => $form->createView(),
         ]);
     }
 
@@ -143,22 +156,19 @@ class AppController extends Controller
             $mailSender->sendMail($contactMail);
 
             return new JsonResponse(['message' => 'Mail envoyé !'], 200);
-
         }
 
-        $errors = [];
+        $formErrors = [];
 
         foreach ($form->getErrors(true) as $error) {
-            $errors[$error->getCause()->getPropertyPath()] = $error->getMessage();
+            $formErrors[$error->getCause()->getPropertyPath()] = $error->getMessage();
         }
-
-        $toto=1;
 
         $response = new JsonResponse([
             'message' => 'Erreur lors de l\'envoi',
-            'errors' => $errors
+            'errors' => $formErrors,
         ], 400);
-        return $response;
 
+        return $response;
     }
 }

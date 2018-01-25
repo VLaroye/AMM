@@ -2,6 +2,8 @@
 
 namespace App\Controller;
 
+use App\Entity\User;
+use App\Form\LoginType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -24,12 +26,13 @@ class SecurityController extends Controller
     public function login(Request $request, AuthenticationUtils $authUtils): Response
     {
         $error = $authUtils->getLastAuthenticationError();
+        $error = $error->getMessage();
 
         $lastUsername = $authUtils->getLastUsername();
 
         return $this->render('admin/login.html.twig', [
-            'last_username' => $lastUsername,
             'error' => $error,
+            'lastUsername' => $lastUsername
         ]);
     }
 

@@ -50,7 +50,7 @@ class SliderImage
      *
      * @Assert\Image(
      *     minRatio= 2.5,
-     *     minWidth= 800,
+     *     minWidth= 1200,
      *     minRatioMessage="Le ratio (largeur/hauteur) n'est pas bon. {{ min_ratio }} minimum. {{ ratio }} pour cette image."
      * )
      */

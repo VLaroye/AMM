@@ -4,12 +4,14 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-        <!-- FONT AWESOME -->
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" integrity="sha256-NuCn4IvuZXdBaFKJOAcsU2Q3ZpwbdFisd5dux4jkQ5w=" crossorigin="anonymous" />        <title>{% block title %} - Association Art Mass et Mess{% endblock %}</title>
+        {% block dependencies %}
+            <!-- FONT AWESOME -->
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" integrity="sha256-NuCn4IvuZXdBaFKJOAcsU2Q3ZpwbdFisd5dux4jkQ5w=" crossorigin="anonymous" />        <title>{% block title %} - Association Art Mass et Mess{% endblock %}</title>
 
-        <!-- FONTS -->
-        <link href="https://fonts.googleapis.com/css?family=Ubuntu:500,700" rel="stylesheet">
-        <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet">
+            <!-- FONTS -->
+            <link href="https://fonts.googleapis.com/css?family=Ubuntu:500,700" rel="stylesheet">
+            <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet">
+        {% endblock %}
 
         {% block stylesheets %}
             <link rel="stylesheet" href="{{ asset('css/front/main.css') }}">

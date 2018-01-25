@@ -1,14 +1,26 @@
 var form = $('.contactForm');
-var contactForm = document.getElementById('form');
 var responseDiv = $('#responseData');
+var $loadingAnimation = $("#loadingAnimation").hide();
+
+// $loadingAnimation.hide();
+$(document)
+    .ajaxStart(function() {
+        $loadingAnimation.show();
+        $('#contact_submit').addClass('disabled');
+    })
+    .ajaxStop(function() {
+        $loadingAnimation.hide();
+        $('#contact_submit').removeClass('disabled');
+    });
 
 form.submit(function (e) {
-    if (contactForm.checkValidity() === false) {
+    if (form[0].checkValidity() === false) {
         e.preventDefault();
         e.stopPropagation();
-        contactForm.classList.add('was-validated');
+        form[0].classList.add('was-validated');
     } else {
         e.preventDefault();
+
 
         var request = $.ajax({
             type: $(this).attr('method'),
@@ -17,8 +29,11 @@ form.submit(function (e) {
         })
 
             .done(function (data) {
+
                 if (typeof data.message !== 'undefined') {
-                    responseDiv.text(data.message)
+                    form[0].reset();
+                    responseDiv.addClass('bg-success');
+                    responseDiv.text(data.message);
                 }
             })
 
@@ -52,14 +67,14 @@ form.submit(function (e) {
                                     break;
                             }
 
-                            responseDiv.append("<p><span class='font-weight-bold'>" + fieldName + "</span> : " + errors[error] + "</p>")
+                           responseDiv.append("<p><span class='font-weight-bold'>" + fieldName + "</span> : " + errors[error] + "</p>")
 
                         }
                     }
                 }
 
-                contactForm.classList.add('was-validated');
-                responseDiv.addClass('py-2');
+                form[0].classList.add('was-validated');
+                responseDiv.addClass('py-2 bg-danger');
             })
     }
 });

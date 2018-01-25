@@ -59,41 +59,7 @@
 
     <!-- Main content -->
     <main class="main">
-        {% for msg in app.session.flashBag.get('success') %}
-            <div class="container">
-                <div class="card card-inverse card-success alert">
-                    <div class="card-header">
-                        Information
-                    </div>
-                    <div class="card-block">
-                        {{ msg }}
-                    </div>
-                </div>
-            </div>
-        {% endfor %}
-
-        {% for msg in app.session.flashBag.get('warning') %}
-            <div class="card card-inverse card-warning alert">
-                <div class="card-header">
-                    {{ 'flash.warning.title'|trans({}, 'cms') }}
-                </div>
-                <div class="card-block">
-                    {{ msg|trans({}, 'cms') }}
-                </div>
-            </div>
-        {% endfor %}
-
-        {% for msg in app.session.flashBag.get('danger') %}
-
-            <div class="card card-inverse card-danger alert">
-                <div class="card-header">
-                    {{ 'flash.danger.title'|trans({}, 'cms') }}
-                </div>
-                <div class="card-block">
-                    {{ msg|trans({}, 'cms') }}
-                </div>
-            </div>
-        {% endfor %}
+        {% include 'widget/flash_messages.html.twig' %}
         <div class="container-fluid">
             <div id="ui-view">
                 {% block content %}{% endblock %}

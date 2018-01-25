@@ -2,6 +2,7 @@
 
 namespace App\Service;
 
+use Facebook\Exceptions\FacebookSDKException;
 use Facebook\Facebook;
 
 class FacebookApiRequest
@@ -17,29 +18,21 @@ class FacebookApiRequest
         $this->appSecret = $appSecret;
         $this->defaultGraphVersion = $defaultGraphVersion;
         $this->accessToken = $accessToken;
-
-
     }
 
     public function facebookGetRequest($url)
     {
-        $fb = new Facebook([
-            'app_id' => $this->appId,
-            'app_secret' => $this->appSecret,
-            'default_graph_version' => $this->defaultGraphVersion,
-            'default_access_token' => $this->accessToken,
-        ]);
-
         try {
-            // Returns a `FacebookFacebookResponse` object
-            $response = $fb->get(
-                $url);
-        } catch (FacebookExceptionsFacebookResponseException $e) {
-            echo 'Graph returned an error: '.$e->getMessage();
-            exit;
-        } catch (FacebookExceptionsFacebookSDKException $e) {
-            echo 'Facebook SDK returned an error: '.$e->getMessage();
-            exit;
+            $fb = new Facebook([
+                'app_id' => $this->appId,
+                'app_secret' => $this->appSecret,
+                'default_graph_version' => $this->defaultGraphVersion,
+                'default_access_token' => $this->accessToken,
+            ]);
+
+            $response = $fb->get($url);
+        } catch (FacebookSDKException $exception) {
+            return $exception->getMessage();
         }
 
         return $response->getDecodedBody();

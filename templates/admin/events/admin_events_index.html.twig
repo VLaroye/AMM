@@ -11,7 +11,7 @@
                             <h5 class="text-center">{{ event.name }}</h5>
                         </div>
                         <div class="col-6">
-                            <img class="img-fluid" src="{{ asset('images/uploads/' ~ event.image.fileName) }}" alt="">
+                            <img class="img-fluid" src="{{ asset('images/uploads/' ~ event.image.fileName) }}" alt="{{ event.image.alt }}">
                         </div>
                         <div class="col-6">
                             {% if event.beginningDateTime is not null %}
@@ -37,12 +37,15 @@
                             {% else %}
                                 <p>Pas d'évènement Facebook</p>
                             {% endif %}
-                            </div>
-                        <div class="col-12">
-                            <p class="my-3">
-                                <span class="font-weight-bold">Description : </span>
+                            <p><span class="font-weight-bold">Description : </span>
                                {{ event.description }}
                             </p>
+                        </div>
+                        <div class="col-12 my-3">
+                            <h6 class="text-center">Photo de couverture</h6>
+                            <img class="img-fluid" src="{{ asset('images/uploads/' ~ event.coverImage.fileName) }}" alt="{{ event.coverImage.alt }}">
+                        </div>
+                        <div class="col-12">
                             <a href="{{ path('admin_events_update', {'id' : event.id}) }}"><button type="button" class="btn btn-primary rounded">Modifier</button></a>
                             <button type="button" class="btn btn-danger rounded" data-toggle="modal" data-target="#deleteConfirm{{ event.id }}">Supprimer</button>
                         </div>
@@ -74,14 +77,8 @@
         <div class="col-12 col-md-3 order-1">
             <div class="container bg-light my-4 py-3">
                 <h5 class="text-center">Catégories</h5>
-                {% for message in app.session.flashbag.get('success') %}
-                    <p class="text-success">{{ message }}</p>
-                {% endfor %}
-                {% for message in app.session.flashbag.get('warning') %}
-                    <p class="text-danger">{{ message }}</p>
-                {% endfor %}
                 <ul>
-                    {% for category in category %}
+                    {% for category in categories %}
                         <li class="text-uppercase">
                             {{ category.name }}
                             <a href="{{ path('admin_eventsCategory_delete', {'id' : category.id}) }}" class="float-right text-danger"><i class="fa fa-times" aria-hidden="true"></i></a>

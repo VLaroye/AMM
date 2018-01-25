@@ -1,0 +1,14 @@
+{% extends 'front/layout/base.html.twig' %}
+
+{% block title %}Une erreur est survenue {{ parent() }}{% endblock %}
+{% block content %}
+    <div id="errorBody" class="bg-secondary text-center" style="height: 100vh">
+        <img src="{{ asset('images/Amm-logo2-01.png') }}" alt="Logo AMM" class="mt-5">
+        <p class="font-weight-bold mt-5">Une erreur est survenue. Veuillez nous excuser pour la gêne.</p>
+        <a href="{{ path('homepage') }}" class="font-weight-bold"><i class="fa fa-home" aria-hidden="true"></i> Retourner à la page d'accueil</a>
+    </div>
+{% endblock %}
+
+{% block navbar %}{% endblock %}
+{% block javascripts %}{% endblock %}
+{% block footer %}{% endblock %}

@@ -18,11 +18,11 @@ div.event {
 .eventTitleBackground {
 
   img {
-    max-height: 200%;
-    top:-50%;
+    min-height: 100%;
+    max-height: fit-content;
 
-    filter: blur(15px);
-    -ms-filter: blur(15px);
-    -webkit-filter: blur(15px);
+    filter: blur(8px);
+    -ms-filter: blur(8px);
+    -webkit-filter: blur(8px);
   }
 }

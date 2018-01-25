@@ -4,7 +4,6 @@ namespace App\Service;
 
 use App\Entity\ContactMail;
 use Swift_Message;
-use Twig_Environment;
 
 class ContactMailSender
 {
@@ -15,13 +14,12 @@ class ContactMailSender
     private $twig;
 
     public function __construct(
-        Twig_Environment $twig,
+        $twig,
         $mailHost,
         $mailPort,
         $mailUsername,
         $mailPassword
-        )
-    {
+        ) {
         $this->mailHost = $mailHost;
         $this->mailPort = $mailPort;
         $this->mailUsername = $mailUsername;
@@ -29,13 +27,8 @@ class ContactMailSender
         $this->twig = $twig;
     }
 
-
     /**
      * @param ContactMail $mailData
-     *
-     * @throws \Twig_Error_Loader
-     * @throws \Twig_Error_Runtime
-     * @throws \Twig_Error_Syntax
      */
     public function sendMail(ContactMail $mailData)
     {
