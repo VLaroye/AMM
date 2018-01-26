@@ -1,6 +1,10 @@
 {% extends 'admin/layout/admin_base.html.twig' %}
 {% form_theme form 'bootstrap_4_layout.html.twig' %}
 
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('css/datetimepicker/bootstrap-datetimepicker.min.css') }}">
+{% endblock %}
 {% block content %}
     <h2 class="text-center mt-2">Ajouter un évènement</h2>
     {{ form_start(form) }}
@@ -49,16 +53,24 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-sm-12">
+                            <div class="col-12 col-md-6">
                                 <div class="form-group">
-                                    {{ form_row(form.beginningDateTime) }}
+                                    {{ form_label(form.beginningDateTime) }}
+                                    <div class="input-append date" id="dateTimePicker1"">
+                                        {{ form_widget(form.beginningDateTime) }}
+                                        <span class="add-on"><i class="icon-th"></i></span>
+                                    </div>
+                                {{ form_errors(form.beginningDateTime) }}
                                 </div>
                             </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-sm-12">
+                            <div class="col-12 col-md-6">
                                 <div class="form-group">
-                                    {{ form_row(form.endingDateTime) }}
+                                    {{ form_label(form.endingDateTime) }}
+                                    <div class="input-append date" id="dateTimePicker2">
+                                        {{ form_widget(form.endingDateTime) }}
+                                        <span class="add-on"><i class="icon-th"></i></span>
+                                    </div>
+                                    {{ form_errors(form.endingDateTime) }}
                                 </div>
                             </div>
                         </div>
@@ -92,4 +104,23 @@
         </div>
     </div>
     {{ form_end(form) }}
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('js/datetimepicker/bootstrap-datetimepicker.min.js') }}"></script>
+    <script src="{{ asset('js/datetimepicker/bootstrap-datetimepicker.fr.js') }}" charset="UTF-8"></script>
+    <script>
+        $('#dateTimePicker1').datetimepicker({
+            format: 'yyyy-mm-dd hh:ii',
+            startDate: new Date(),
+            language: 'fr'
+        });
+        $('#dateTimePicker2').datetimepicker({
+            format: 'yyyy-mm-dd hh:ii',
+            startDate: new Date(),
+            language: 'fr'
+        });
+    </script>
 {% endblock %}

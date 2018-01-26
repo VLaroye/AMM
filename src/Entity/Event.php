@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\EventRepository")
@@ -25,9 +26,11 @@ class Event
      * @ORM\Column(type="string", length=50)
      *
      * @Assert\NotBlank(
+     *     groups={"default"},
      *     message="Ce champ doit être renseigné."
      * )
      * @Assert\Length(
+     *     groups={"default"},
      *     max=50,
      *     maxMessage="{{ limit }} caractères maximum."
      * )
@@ -40,9 +43,11 @@ class Event
      * @ORM\Column(type="datetime")
      *
      * @Assert\NotBlank(
+     *     groups={"default"},
      *     message="Ce champ doit être renseigné."
      * )
      * @Assert\DateTime(
+     *     groups={"default"},
      *     message="Ceci n'est pas une date valide."
      * )
      */
@@ -54,11 +59,8 @@ class Event
      * @ORM\Column(type="datetime", nullable=true)
      *
      * @Assert\DateTime(
+     *     groups={"default"},
      *     message="Ceci n'est pas une date valide"
-     * )
-     * @Assert\GreaterThanOrEqual(
-     *     propertyPath="beginningDateTime",
-     *     message="La date de fin de l'évènement doit se situer après sa date de début."
      * )
      */
     private $endingDateTime;
@@ -69,6 +71,7 @@ class Event
      * @ORM\Column(type="string", nullable=true, length=50)
      *
      * @Assert\Length(
+     *     groups={"default"},
      *     max=50,
      *     maxMessage="{{ limit }} caractères maximum."
      * )
@@ -81,6 +84,7 @@ class Event
      * @ORM\Column(type="integer", nullable=true)
      *
      * @Assert\Type(
+     *     groups={"default"},
      *     type="integer",
      *     message="Le prix doit être un nombre"
      * )
@@ -93,9 +97,11 @@ class Event
      * @ORM\Column(type="text", length=500)
      *
      * @Assert\NotBlank(
+     *     groups={"default"},
      *     message="Ce champ doit être renseigné"
      * )
      * @Assert\Length(
+     *     groups={"default"},
      *     max=500,
      *     maxMessage="Limité à {{ limit }} caractères"
      * )
@@ -108,6 +114,7 @@ class Event
      * @ORM\Column(type="string", nullable=true)
      *
      * @Assert\Url(
+     *     groups={"default"},
      *     message="Ceci n'est pas une URL valide"
      * )
      */
@@ -119,7 +126,9 @@ class Event
      * @ORM\ManyToOne(targetEntity="App\Entity\EventCategory")
      * @ORM\JoinColumn(nullable=false)
      *
-     * @Assert\Valid()
+     * @Assert\Valid(
+     *     groups={"default"},
+     * )
      */
     private $category;
 
@@ -182,22 +191,6 @@ class Event
     public function setName(string $name): void
     {
         $this->name = $name;
-    }
-
-    /**
-     * @return \Datetime
-     */
-    public function getDate(): ?\DateTime
-    {
-        return $this->date;
-    }
-
-    /**
-     * @param \Datetime $date
-     */
-    public function setDate(?\Datetime $date): void
-    {
-        $this->date = $date;
     }
 
     /**
@@ -344,5 +337,19 @@ class Event
         $this->coverImage = $coverImage;
     }
 
-
+    /**
+     * @param ExecutionContextInterface $context
+     *
+     * @Assert\Callback(
+     *     groups={"default"}
+     * )
+     */
+    public function validateDates(ExecutionContextInterface $context)
+    {
+        if (!is_null($this->endingDateTime) && $this->endingDateTime < $this->beginningDateTime) {
+            $context->buildViolation('La date de fin doit se trouver après la date de début !')
+                ->atPath('endingDateTime')
+                ->addViolation();
+        }
+    }
 }

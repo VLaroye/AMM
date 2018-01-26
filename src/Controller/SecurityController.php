@@ -25,14 +25,19 @@ class SecurityController extends Controller
      */
     public function login(Request $request, AuthenticationUtils $authUtils): Response
     {
-        $error = $authUtils->getLastAuthenticationError();
-        $error = $error->getMessage();
+        $user = new User();
+        $form = $this->createForm(LoginType::class, $user);
+        $errorMessage = null;
 
-        $lastUsername = $authUtils->getLastUsername();
+        $error = $authUtils->getLastAuthenticationError();
+
+        if (!is_null($error)) {
+            $errorMessage = $error->getMessageKey();
+        }
 
         return $this->render('admin/login.html.twig', [
-            'error' => $error,
-            'lastUsername' => $lastUsername
+            'form' => $form->createView(),
+            'error' => $errorMessage
         ]);
     }
 

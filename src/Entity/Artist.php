@@ -27,7 +27,13 @@ class Artist
      * @ORM\Column(type="string")
      *
      * @Assert\NotBlank(
+     *     groups={"default"},
      *     message="Ce champ doit être renseigné"
+     * )
+     * @Assert\Length(
+     *     groups={"default"},
+     *     max=25,
+     *     maxMessage="{{ limit }} caractères maximum"
      * )
      */
     private $name;
@@ -45,9 +51,11 @@ class Artist
      * @ORM\Column(type="text")
      *
      * @Assert\NotBlank(
+     *     groups={"default"},
      *     message="Ce champ doit être renseigné"
      * )
      * @Assert\Length(
+     *     groups={"default"},
      *     max= 600,
      *     maxMessage="Ce champ est limité à {{ limit }} caractères."
      * )
@@ -60,6 +68,7 @@ class Artist
      * @ORM\Column(type="string")
      *
      * @Assert\NotBlank(
+     *     groups={"default"},
      *     message="Ce champ doit être renseigné"
      * )
      */
@@ -71,7 +80,13 @@ class Artist
      * @ORM\Column(type="string")
      *
      * @Assert\NotBlank(
+     *     groups={"default"},
      *     message="Ce champ doit être renseigné"
+     * )
+     * @Assert\Length(
+     *     groups={"default"},
+     *     max=20,
+     *     maxMessage="{{ limit }} caractères maximum"
      * )
      */
     private $origin;
@@ -82,6 +97,7 @@ class Artist
      * @ORM\Column(type="string", nullable=true)
      *
      * @Assert\Url(
+     *     groups={"default"},
      *     message="L'adresse '{{ value }}' n'est pas une adresse valide."
      * )
      */
@@ -93,6 +109,7 @@ class Artist
      * @ORM\Column(type="string", nullable=true)
      *
      * @Assert\Url(
+     *     groups={"default"},
      *     message="L'adresse '{{ value }}' n'est pas une adresse valide."
      * )
      */
@@ -104,6 +121,7 @@ class Artist
      * @ORM\Column(type="string", nullable=true)
      *
      * @Assert\Url(
+     *     groups={"default"},
      *     message="L'adresse '{{ value }}' n'est pas une adresse valide."
      * )
      */
@@ -115,6 +133,7 @@ class Artist
      * @ORM\Column(type="string", nullable=true)
      *
      * @Assert\Url(
+     *     groups={"default"},
      *     message="L'adresse '{{ value }}' n'est pas une adresse valide."
      * )
      */
@@ -126,9 +145,11 @@ class Artist
      * @ORM\Column(type="integer")
      *
      * @Assert\NotBlank(
+     *     groups={"default"},
      *     message="Ce champ doit être renseigné"
      * )
      * @Assert\Type(
+     *     groups={"default"},
      *     type="integer",
      *     message="Cette valeur doit être un nombre entier"
      * )

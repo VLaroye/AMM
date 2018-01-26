@@ -1,15 +1,25 @@
 {% extends 'admin/layout/admin_base.html.twig' %}
+{% form_theme form 'bootstrap_4_layout.html.twig' %}
 
 {% block sidebar %}{% endblock %}
 {% block content %}
-{% if error is defined %}
-    {{ error }}
-    {% endif %}
+{% if error is not null %}
+    <div class="container text-center">
+        <div class="w-50 bg-danger p-3 mr-auto ml-auto mt-3 mb-3 rounded">
+            <p class="font-weight-bold">{{ error }}</p>
+        </div>
+    </div>
+{% endif %}
+{{ form_start(form) }}
+    {{ form_errors(form) }}
+    {{ form_row(form.username) }}
+    {{ form_row(form.password) }}
+{{ form_end(form) }}
 
-<form action="{{ path('login') }}" method="post">
+{#<form action="{{ path('login') }}" method="post">
     <div class="form-group mt-5">
         <label for="username">Username:</label>
-        <input type="text" class="form-control" id="username" name="username" value="{# last_username #}" />
+        <input type="text" class="form-control" id="username" name="username" value="#}{# last_username #}{#" />
 
         <label for="password">Password:</label>
         <input type="password" class="form-control" id="password" name="password" />
@@ -18,6 +28,6 @@
         <button type="submit" class="btn btn-primary mt-3">Connexion</button>
     </div>
 
-</form>
+</form>#}
 
 {% endblock %}

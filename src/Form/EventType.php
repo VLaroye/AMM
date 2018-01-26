@@ -40,10 +40,12 @@ class EventType extends AbstractType
                 'required' => false,
             ])
             ->add('beginningDateTime', DateTimeType::class, [
+                'widget' => 'single_text',
                 'label' => 'Date et heure de début',
                 ])
             ->add('endingDateTime', DateTimeType::class, [
                 'label' => 'Date et heure de fin',
+                'widget' => 'single_text',
                 'required' => false,
             ])
             ->add('category', EntityType::class, [
@@ -65,7 +67,7 @@ class EventType extends AbstractType
         $resolver->setDefaults([
             'data_class' => Event::class,
             'cascade_validation' => true,
-            'validation_groups' => ['eventImage', 'eventCoverImage']
+            'validation_groups' => ['eventImage', 'eventCoverImage', 'default']
         ]);
     }
 }

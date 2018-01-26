@@ -3,6 +3,9 @@
 {% block title %}Galerie {{ parent() }}{% endblock %}
 {% block content %}
     <h2 class="text-uppercase text-center font-weight-bold bg-secondary py-3">les albums</h2>
+    <div class="text-center font-italic">
+        <p>(Cliquez sur un album -> Les photos s'afficheront dans la gallerie, juste en dessous !)</p>
+    </div>
     <div class="container my-4">
         <div class="row">
             {% for album in albums %}

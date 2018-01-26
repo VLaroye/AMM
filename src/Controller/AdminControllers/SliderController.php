@@ -36,15 +36,13 @@ class SliderController extends Controller
     }
 
     /**
-     * @param Request $request
-     * @param Slider $slider
      * @param int $page
      * @return Response
      * @throws PaginationException
      *
      * @Route("/{page}", requirements={"page" = "\d+"}, defaults={"page" = 1}, name="admin_slider_index")
      */
-    public function manageSlider(Request $request, int $page = 1)
+    public function manageSlider(int $page = 1)
     {
         if (!$this->sliderRepository->find(1)) {
             $slider = new Slider();
@@ -162,9 +160,7 @@ class SliderController extends Controller
 
             $this->addFlash('success', 'L\'image a bien été modifiée !');
 
-            return $this->redirectToRoute('admin_slider_index', [
-                'id' => $slider->getId(),
-            ]);
+            return $this->redirectToRoute('admin_slider_index');
         }
 
         return $this->render('admin/slider/admin_slider_image_update.html.twig', [
@@ -197,8 +193,6 @@ class SliderController extends Controller
 
         $this->addFlash('success', 'L\'image a bien été supprimée !');
 
-        return $this->redirectToRoute('admin_slider_index', [
-            'id' => $slider->getId(),
-        ]);
+        return $this->redirectToRoute('admin_slider_index');
     }
 }

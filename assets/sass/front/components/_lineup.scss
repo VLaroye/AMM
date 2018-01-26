@@ -10,7 +10,15 @@
 
 .artist-infos {
   @include size(max-content, auto);
+  max-width: 90%;
   background-color: $white;
   position: absolute;
   bottom: 0;
 }
+
+@include media-breakpoint-down(lg) {
+  .artist-infos h3 {
+    font-size: 1rem;
+  }
+}
+

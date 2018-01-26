@@ -78,6 +78,7 @@ class EventsController extends Controller
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
             $eventCoverImageFileName = $imageUploader->upload($event->getCoverImage()->getFile());
             $eventImageFileName = $imageUploader->upload($event->getImage()->getFile());
 

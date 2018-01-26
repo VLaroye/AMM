@@ -18,7 +18,6 @@ class ImageType extends AbstractType
         $builder
             ->add('file', FileType::class, [
                 'label' => 'Fichier',
-                'required' => false,
             ])
             ->add('alt', TextType::class, [
                 'label' => 'Texte alternatif',
@@ -29,6 +28,7 @@ class ImageType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Image::class,
+            'validation_groups' => ['eventImage', 'eventCoverImage']
         ]);
     }
 }
