@@ -2,7 +2,6 @@
 
 namespace App\Service;
 
-
 use Symfony\Component\Filesystem\Filesystem;
 
 class ImageFileDeleter

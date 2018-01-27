@@ -46,5 +46,7 @@ class SecurityController extends Controller
      */
     public function logout()
     {
+        // Route to log user out, defined in security.yaml.
+        // Security component will take care of actually log the user out when he accesses that route. Nothing more to do here.
     }
 }

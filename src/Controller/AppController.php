@@ -2,38 +2,49 @@
 
 namespace App\Controller;
 
-use App\Entity\Artist;
 use App\Entity\ContactMail;
-use App\Entity\Event;
-use App\Entity\SliderImage;
 use App\Form\ContactType;
+use App\Repository\ArtistRepository;
+use App\Repository\EventRepository;
+use App\Repository\SliderImageRepository;
 use App\Service\FacebookApiRequest;
 use App\Service\ContactMailSender;
-use Cocur\Slugify\Slugify;
-use Cocur\Slugify\SlugifyInterface;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method as Method;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method as Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route as Route;
 
 class AppController extends Controller
 {
+    private $em;
+    private $sliderImageRepository;
+    private $artistRepository;
+    private $eventRepository;
+
+    public function __construct(
+        EntityManagerInterface $em,
+        SliderImageRepository $sliderImageRepository,
+        ArtistRepository $artistRepository,
+        EventRepository $eventRepository
+        )
+    {
+        $this->em = $em;
+        $this->sliderImageRepository = $sliderImageRepository;
+        $this->artistRepository = $artistRepository;
+        $this->eventRepository = $eventRepository;
+    }
+
     /**
-     * @param Request $request
-     *
      * @return Response
      *
      * @Route("/", name="homepage")
      */
-    public function homepage(Request $request): Response
+    public function homepage(): Response
     {
-        $sliderImages = $this
-            ->getDoctrine()
-            ->getManager()
-            ->getRepository(SliderImage::class)
-            ->getImagesByPosition();
+        $sliderImages = $this->sliderImageRepository->getImagesByPosition();
 
         return $this->render('front/homepage.html.twig', [
             'sliderImages' => $sliderImages,
@@ -47,9 +58,7 @@ class AppController extends Controller
      */
     public function festival(): Response
     {
-        $em = $this->getDoctrine()->getManager();
-
-        $artists = $em->getRepository(Artist::class)->findAllArtistsByPriority();
+        $artists = $this->artistRepository->findAllArtistsByPriority();
 
         return $this->render('front/festival.html.twig', [
             'artists' => $artists,
@@ -57,14 +66,14 @@ class AppController extends Controller
     }
 
     /**
+     * @param string $name
+     * @return Response
+     *
      * @Route("/artiste/{name}", name="artiste")
      */
-    public function artist($name)
+    public function artist(string $name): Response
     {
-        $em = $this->getDoctrine()->getManager();
-        $artistsRepository = $em->getRepository(Artist::class);
-
-        $artist = $artistsRepository->findOneBy([
+        $artist = $this->artistRepository->findOneBy([
             'slugifiedName' => $name
         ]);
 
@@ -80,9 +89,7 @@ class AppController extends Controller
      */
     public function events(): Response
     {
-        $em = $this->getDoctrine()->getManager();
-
-        $events = $em->getRepository(Event::class)->findAllFuturByBeginningDateTime();
+        $events = $this->eventRepository->findAllFuturByBeginningDateTime();
 
         return $this->render('front/events.html.twig', [
             'events' => $events,
@@ -90,6 +97,7 @@ class AppController extends Controller
     }
 
     /**
+     * @param FacebookApiRequest $facebookApiRequest
      * @return Response
      *
      * @Route("/galerie", name="gallery")
@@ -105,6 +113,11 @@ class AppController extends Controller
     }
 
     /**
+     * @param $albumId
+     * @param FacebookApiRequest $facebookApiRequest
+     * @param Request $request
+     * @return JsonResponse|Response
+     *
      * @Route("/galerie/{albumId}", name="gallery_by_album")
      */
     public function imagesGallery($albumId, FacebookApiRequest $facebookApiRequest, Request $request)
@@ -122,6 +135,8 @@ class AppController extends Controller
     }
 
     /**
+     * @return Response
+     *
      * @Route("/contact", name="contact")
      * @Method({"GET"})
      */
@@ -138,6 +153,10 @@ class AppController extends Controller
     }
 
     /**
+     * @param Request $request
+     * @param ContactMailSender $mailSender
+     * @return JsonResponse
+     *
      * @Route("/contact", name="post_contact")
      * @Method({"POST"})
      */
@@ -154,7 +173,6 @@ class AppController extends Controller
 
         if ($form->isValid()) {
             $mailSender->sendMail($contactMail);
-
             return new JsonResponse(['message' => 'Mail envoyé !'], 200);
         }
 

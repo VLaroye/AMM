@@ -2,8 +2,6 @@
 
 namespace App\Service;
 
-
-
 class Slugify
 {
     private $slugify;

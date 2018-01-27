@@ -28,6 +28,8 @@ class SliderController extends Controller
     private $sliderRepository;
     private $sliderImageRepository;
 
+    const ITEM_PER_PAGE = 5;
+
     public function __construct(EntityManagerInterface $em, SliderRepository $sliderRepository, SliderImageRepository $sliderImageRepository)
     {
         $this->em = $em;
@@ -52,12 +54,12 @@ class SliderController extends Controller
             $slider = $this->sliderRepository->find(1);
         }
 
-        $sliderImages = $this->sliderImageRepository->getImagesByPosition($page, 10);
+        $sliderImages = $this->sliderImageRepository->getImagesByPosition($page, self::ITEM_PER_PAGE);
 
         $pagination = [
             'page' => $page,
             'route' => 'admin_slider_index',
-            'pages_count' => max(ceil(count($sliderImages) / 10), 1),
+            'pages_count' => max(ceil(count($sliderImages) / self::ITEM_PER_PAGE), 1),
             'route_params' => ['id' => 1],
         ];
 

@@ -23,6 +23,8 @@ class ArtistsController extends Controller
     private $em;
     private $artistRepository;
 
+    const ITEM_PER_PAGE = 5;
+
     public function __construct(EntityManagerInterface $em)
     {
         $this->em = $em;
@@ -38,12 +40,12 @@ class ArtistsController extends Controller
      */
     public function artistsIndex($page = 1)
     {
-        $artists = $this->artistRepository->findAllArtistsByPriority($page, 4);
+        $artists = $this->artistRepository->findAllArtistsByPriority($page, self::ITEM_PER_PAGE);
 
         $pagination = [
             'page' => $page,
             'route' => 'admin_artists_index',
-            'pages_count' => max(ceil(count($artists) / 4), 1),
+            'pages_count' => max(ceil($artists->count() / self::ITEM_PER_PAGE), 1),
             'route_params' => [],
         ];
 

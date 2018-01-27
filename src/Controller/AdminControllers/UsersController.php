@@ -20,6 +20,8 @@ class UsersController extends Controller
     private $em;
     private $userRepository;
 
+    const ITEM_PER_PAGE = 10;
+
     public function __construct(\Doctrine\ORM\EntityManagerInterface $em)
     {
         $this->em = $em;
@@ -35,12 +37,12 @@ class UsersController extends Controller
      */
     public function usersIndex($page = 1)
     {
-        $users = $this->userRepository->findAll($page, 10);
+        $users = $this->userRepository->findAll($page, self::ITEM_PER_PAGE);
 
         $pagination = [
             'page' => $page,
             'route' => 'admin_artists_index',
-            'pages_count' => max(ceil(count($users) / 10), 1),
+            'pages_count' => max(ceil(count($users) / self::ITEM_PER_PAGE), 1),
             'route_params' => [],
         ];
 

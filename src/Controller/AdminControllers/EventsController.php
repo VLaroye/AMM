@@ -25,6 +25,8 @@ class EventsController extends Controller
     private $eventsRepository;
     private $eventsCategoryRepository;
 
+    const ITEM_PER_PAGE = 3;
+
     public function __construct(EntityManagerInterface $em)
     {
         $this->em = $em;
@@ -41,13 +43,13 @@ class EventsController extends Controller
      */
     public function eventsIndex($page): Response
     {
-        $events = $this->eventsRepository->findAllByBeginningDateTime();
+        $events = $this->eventsRepository->findAllByBeginningDateTime($page, self::ITEM_PER_PAGE);
         $categories = $this->eventsCategoryRepository->findAll();
 
         $pagination = [
             'page' => $page,
             'route' => 'admin_events_index',
-            'pages_count' => max(ceil(count($events) / 10), 1),
+            'pages_count' => max(ceil($events->count() / self::ITEM_PER_PAGE), 1),
             'route_params' => [],
         ];
 
