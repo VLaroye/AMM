@@ -2,8 +2,6 @@
 
 namespace App\Entity;
 
-use Cocur\Slugify\Slugify;
-use Cocur\Slugify\SlugifyInterface;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -358,6 +356,4 @@ class Artist
     {
         $this->slugifiedName = $slugifiedName;
     }
-
-
 }

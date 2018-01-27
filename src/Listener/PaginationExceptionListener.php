@@ -17,6 +17,7 @@ class PaginationExceptionListener
 
     /**
      * @param GetResponseForExceptionEvent $event
+     *
      * @throws \Twig_Error_Loader
      * @throws \Twig_Error_Runtime
      * @throws \Twig_Error_Syntax

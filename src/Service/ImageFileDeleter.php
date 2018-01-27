@@ -17,6 +17,6 @@ class ImageFileDeleter
 
     public function deleteImageFile(string $imageFileName): void
     {
-        $this->fs->remove($this->imagesDirectory . '/' . $imageFileName);
+        $this->fs->remove($this->imagesDirectory.'/'.$imageFileName);
     }
 }

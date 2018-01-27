@@ -8,7 +8,6 @@ use App\Form\UserType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Exception\InvalidParameterException;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route as Route;
 
@@ -30,7 +29,9 @@ class UsersController extends Controller
 
     /**
      * @param int $page
+     *
      * @return Response
+     *
      * @throws PaginationException
      *
      * @Route("/{page}", requirements={"page" = "\d+"}, defaults={"page" = 1}, name="admin_users_index")

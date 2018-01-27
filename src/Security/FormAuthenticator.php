@@ -3,13 +3,11 @@
 namespace App\Security;
 
 use App\Entity\User;
-use App\Form\ArtistType;
 use App\Form\LoginType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RedirectResponse;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
@@ -22,7 +20,6 @@ use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Csrf\CsrfToken;
 use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
 use Symfony\Component\Security\Guard\Authenticator\AbstractFormLoginAuthenticator;
-use Twig\Template;
 
 class FormAuthenticator extends AbstractFormLoginAuthenticator
 {
@@ -107,7 +104,6 @@ class FormAuthenticator extends AbstractFormLoginAuthenticator
         }
 
         return true;
-
     }
 
     /**

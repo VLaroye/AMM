@@ -28,7 +28,7 @@ class ImageType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Image::class,
-            'validation_groups' => ['eventImage', 'eventCoverImage']
+            'validation_groups' => ['eventImage', 'eventCoverImage'],
         ]);
     }
 }

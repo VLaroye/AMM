@@ -30,7 +30,6 @@ class FacebookApiRequest
                 'default_access_token' => $this->accessToken,
             ]);
             $response = $fb->get($url);
-
         } catch (FacebookSDKException $exception) {
             return $exception->getMessage();
         }

@@ -14,7 +14,6 @@ use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route as Route;
-use Symfony\Component\Routing\Exception\InvalidParameterException;
 
 /**
  * @Route("/admin/evenements")
@@ -36,7 +35,9 @@ class EventsController extends Controller
 
     /**
      * @param $page
+     *
      * @return Response
+     *
      * @throws PaginationException
      *
      * @Route("/{page}", requirements={"page" = "\d+"}, defaults={"page" = 1}, name="admin_events_index")
@@ -54,7 +55,7 @@ class EventsController extends Controller
         ];
 
         if ($page < 1 || $page > $pagination['pages_count']) {
-            throw new PaginationException;
+            throw new PaginationException();
         }
 
         return $this->render('admin/events/admin_events_index.html.twig', [
@@ -80,7 +81,6 @@ class EventsController extends Controller
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-
             $eventCoverImageFileName = $imageUploader->upload($event->getCoverImage()->getFile());
             $eventImageFileName = $imageUploader->upload($event->getImage()->getFile());
 
@@ -140,7 +140,7 @@ class EventsController extends Controller
             if (!$event->getImage()->getFile()) {
                 $event->getImage()->setFileName($originalImage->getFileName());
             } else {
-                $fs->remove($this->getParameter('images_directory') . '/' . $originalImage->getFileName());
+                $fs->remove($this->getParameter('images_directory').'/'.$originalImage->getFileName());
                 $newImage = $imageUploader->upload($event->getImage()->getFile());
                 $event->getImage()->setFileName($newImage);
             }
@@ -148,7 +148,7 @@ class EventsController extends Controller
             if (!$event->getCoverImage()->getFile()) {
                 $event->getCoverImage()->setFileName($originalCoverImage->getFileName());
             } else {
-                $fs->remove($this->getParameter('images_directory') . '/' . $originalCoverImage->getFileName());
+                $fs->remove($this->getParameter('images_directory').'/'.$originalCoverImage->getFileName());
                 $newCoverImage = $imageUploader->upload($event->getCoverImage()->getFile());
                 $event->getCoverImage()->setFileName($newCoverImage);
             }

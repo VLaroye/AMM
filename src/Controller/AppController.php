@@ -29,8 +29,7 @@ class AppController extends Controller
         SliderImageRepository $sliderImageRepository,
         ArtistRepository $artistRepository,
         EventRepository $eventRepository
-        )
-    {
+        ) {
         $this->em = $em;
         $this->sliderImageRepository = $sliderImageRepository;
         $this->artistRepository = $artistRepository;
@@ -67,6 +66,7 @@ class AppController extends Controller
 
     /**
      * @param string $name
+     *
      * @return Response
      *
      * @Route("/artiste/{name}", name="artiste")
@@ -74,7 +74,7 @@ class AppController extends Controller
     public function artist(string $name): Response
     {
         $artist = $this->artistRepository->findOneBy([
-            'slugifiedName' => $name
+            'slugifiedName' => $name,
         ]);
 
         return $this->render('front/artist.html.twig', [
@@ -98,6 +98,7 @@ class AppController extends Controller
 
     /**
      * @param FacebookApiRequest $facebookApiRequest
+     *
      * @return Response
      *
      * @Route("/galerie", name="gallery")
@@ -115,7 +116,8 @@ class AppController extends Controller
     /**
      * @param $albumId
      * @param FacebookApiRequest $facebookApiRequest
-     * @param Request $request
+     * @param Request            $request
+     *
      * @return JsonResponse|Response
      *
      * @Route("/galerie/{albumId}", name="gallery_by_album")
@@ -153,8 +155,9 @@ class AppController extends Controller
     }
 
     /**
-     * @param Request $request
+     * @param Request           $request
      * @param ContactMailSender $mailSender
+     *
      * @return JsonResponse
      *
      * @Route("/contact", name="post_contact")
@@ -173,6 +176,7 @@ class AppController extends Controller
 
         if ($form->isValid()) {
             $mailSender->sendMail($contactMail);
+
             return new JsonResponse(['message' => 'Mail envoyé !'], 200);
         }
 

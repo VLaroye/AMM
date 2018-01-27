@@ -33,7 +33,9 @@ class ArtistsController extends Controller
 
     /**
      * @param int $page
+     *
      * @return Response
+     *
      * @throws PaginationException
      *
      * @Route("/{page}", requirements={"page" = "\d+"}, defaults={"page" = 1}, name="admin_artists_index")
@@ -132,7 +134,7 @@ class ArtistsController extends Controller
             if (!$artist->getImage()->getFile()) {
                 $artist->getImage()->setFileName($originalImage->getFileName());
             } else {
-                $fs->remove($this->getParameter('images_directory') . '/' . $originalImage->getFileName());
+                $fs->remove($this->getParameter('images_directory').'/'.$originalImage->getFileName());
                 $newImage = $imageUploader->upload($artist->getImage()->getFile());
                 $artist->getImage()->setFileName($newImage);
             }

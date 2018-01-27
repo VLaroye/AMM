@@ -54,10 +54,10 @@ class EventType extends AbstractType
                 'choice_label' => 'name',
             ])
             ->add('image', ImageType::class, [
-                'label' => 'Image'
+                'label' => 'Image',
             ])
             ->add('coverImage', ImageType::class, [
-                'label' => 'Photo de couverture'
+                'label' => 'Photo de couverture',
             ])
             ->add('submit', SubmitType::class, ['label' => 'Valider']);
     }
@@ -67,7 +67,7 @@ class EventType extends AbstractType
         $resolver->setDefaults([
             'data_class' => Event::class,
             'cascade_validation' => true,
-            'validation_groups' => ['eventImage', 'eventCoverImage', 'default']
+            'validation_groups' => ['eventImage', 'eventCoverImage', 'default'],
         ]);
     }
 }

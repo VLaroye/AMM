@@ -81,7 +81,7 @@ class Slider
 
         $slides = array_values($slides);
 
-        /**
+        /*
          * @var SliderImage
          */
         foreach ($slides as $index => $slide) {

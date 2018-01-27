@@ -2,8 +2,7 @@
 
 namespace App\Exception;
 
-use Symfony\Component\HttpFoundation\Response;
-use \Exception;
+use Exception;
 
 class PaginationException extends Exception
 {

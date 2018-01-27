@@ -37,7 +37,7 @@ class SecurityController extends Controller
 
         return $this->render('admin/login.html.twig', [
             'form' => $form->createView(),
-            'error' => $errorMessage
+            'error' => $errorMessage,
         ]);
     }
 
