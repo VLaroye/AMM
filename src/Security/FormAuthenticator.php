@@ -85,9 +85,7 @@ class FormAuthenticator extends AbstractFormLoginAuthenticator
         $user = $this->em->getRepository(User::class)
             ->findOneBy(['username' => $username]);
 
-        $toto = 1;
         if (is_null($user)) {
-            $toto = 1;
             throw  new CustomUserMessageAuthenticationException('Mauvais pseudo/Mot de passe');
         }
 
