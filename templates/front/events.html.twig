@@ -31,7 +31,7 @@
                             <h4 class="text-uppercase py-2 font-weight-bold text-center mt-3 mb-0">{{ event.name }}</h4>
                             <div class="row w-100 m-0 text-center bg-primary text-light py-2">
                                 <div class="col-6">
-                                    <p>Debut : : {{ event.beginningDateTime| date('d/m/Y')}} à {{ event.beginningDateTime|date('H:i') }}
+                                    <p>Debut : {{ event.beginningDateTime| date('d/m/Y')}} à {{ event.beginningDateTime|date('H:i') }}
                                 </div>
                                 <div class="col-6">
                                     {% if event.endingDateTime is not null %}

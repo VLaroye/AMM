@@ -31,7 +31,7 @@ class Event
      * )
      * @Assert\Length(
      *     groups={"default"},
-     *     max=50,
+     *     max=20,
      *     maxMessage="{{ limit }} caractères maximum."
      * )
      */

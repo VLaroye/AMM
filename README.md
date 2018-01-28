@@ -23,7 +23,7 @@ Par exemple : `xampp/htdocs` :
  ```
 
 ### Installation des dépendances
-Pour installer les dépendances, vous aurez besoin de <a href="METTRE ADRESSE DE COMPOSER">Composer</a> <br>
+Pour installer les dépendances, vous aurez besoin de <a href="https://getcomposer.org/">Composer</a> <br>
 Dans le répertoire du projet :
 
 ````
@@ -56,6 +56,7 @@ Pour démarrer, il faut donc créer un compte `super-admin`.
         php bin/console security:encode-password
         ````
         Entrer le mot de passe, puis appuyer sur Entrée. Le mot de passé encodé apparaît dans le terminal. Il ne reste plus qu'à Copier/Coller cette valeur dans le champ `password` de la base de donnée.
+    * `role` : `ROLE_SUPER_ADMIN`
     * Valider. Le compte a été créé.
     * Vous pouvez à présent vous connecter avec ces identifiants, et accèder au panneau d'administration.
     
