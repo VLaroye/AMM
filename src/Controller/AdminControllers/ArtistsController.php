@@ -21,14 +21,23 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route as Route;
 class ArtistsController extends Controller
 {
     private $em;
-    private $artistRepository;
+    private $imageUploader;
+    private $slugify;
+    private $fileSystem;
 
     const ITEM_PER_PAGE = 5;
 
-    public function __construct(EntityManagerInterface $em)
+    public function __construct(
+        EntityManagerInterface $em,
+        ImageUploader $imageUploader,
+        Slugify $slugify,
+        Filesystem $fs
+    )
     {
         $this->em = $em;
-        $this->artistRepository = $em->getRepository(Artist::class);
+        $this->imageUploader = $imageUploader;
+        $this->slugify = $slugify;
+        $this->fileSystem = $fs;
     }
 
     /**
@@ -42,7 +51,8 @@ class ArtistsController extends Controller
      */
     public function artistsIndex($page = 1)
     {
-        $artists = $this->artistRepository->findAllArtistsByPriority($page, self::ITEM_PER_PAGE);
+        $artistRepository = $this->em->getRepository(Artist::class);
+        $artists = $artistRepository->findAllArtistsByPriority($page, self::ITEM_PER_PAGE);
 
         $pagination = [
             'page' => $page,
@@ -63,13 +73,12 @@ class ArtistsController extends Controller
 
     /**
      * @param Request       $request
-     * @param ImageUploader $imageUploader
      *
      * @return Response
      *
      * @Route("/add", name="admin_artists_add")
      */
-    public function addArtist(Request $request, ImageUploader $imageUploader, Slugify $slugify): Response
+    public function addArtist(Request $request): Response
     {
         $artist = new Artist();
 
@@ -78,11 +87,11 @@ class ArtistsController extends Controller
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $imageFileName = $imageUploader->upload($artist->getImage()->getFile());
+            $imageFileName = $this->imageUploader->upload($artist->getImage()->getFile());
 
             $artist->getImage()->setFileName($imageFileName);
 
-            $artist->setSlugifiedName($slugify->slugify($artist->getName()));
+            $artist->setSlugifiedName($this->slugify->slugify($artist->getName()));
             $this->em->persist($artist);
 
             $this->em->flush();
@@ -122,7 +131,7 @@ class ArtistsController extends Controller
      *
      * @Route("/update/{id}", name="admin_artists_update")
      */
-    public function updateArtist(Artist $artist, Request $request, ImageUploader $imageUploader, Filesystem $fs, Slugify $slugify): Response
+    public function updateArtist(Artist $artist, Request $request): Response
     {
         $form = $this->createForm(ArtistType::class, $artist);
 
@@ -134,12 +143,12 @@ class ArtistsController extends Controller
             if (!$artist->getImage()->getFile()) {
                 $artist->getImage()->setFileName($originalImage->getFileName());
             } else {
-                $fs->remove($this->getParameter('images_directory').'/'.$originalImage->getFileName());
-                $newImage = $imageUploader->upload($artist->getImage()->getFile());
+                $this->fileSystem->remove($this->getParameter('images_directory').'/'.$originalImage->getFileName());
+                $newImage = $this->imageUploader->upload($artist->getImage()->getFile());
                 $artist->getImage()->setFileName($newImage);
             }
 
-            $artist->setSlugifiedName($slugify->slugify($artist->getName()));
+            $artist->setSlugifiedName($this->slugify->slugify($artist->getName()));
             $this->em->flush();
 
             $this->addFlash('success', 'L\'artiste a bien été modifié !');

@@ -23,16 +23,17 @@ use Symfony\Component\HttpFoundation\Response;
 class SliderController extends Controller
 {
     private $em;
-    private $sliderRepository;
-    private $sliderImageRepository;
+    private $imageUploader;
 
     const ITEM_PER_PAGE = 5;
 
-    public function __construct(EntityManagerInterface $em, SliderRepository $sliderRepository, SliderImageRepository $sliderImageRepository)
+    public function __construct(
+        EntityManagerInterface $em,
+        ImageUploader $imageUploader
+    )
     {
         $this->em = $em;
-        $this->sliderRepository = $sliderRepository;
-        $this->sliderImageRepository = $sliderImageRepository;
+        $this->imageUploader = $imageUploader;
     }
 
     /**
@@ -46,20 +47,23 @@ class SliderController extends Controller
      */
     public function manageSlider(int $page = 1)
     {
-        if (!$this->sliderRepository->find(1)) {
+        $sliderRepository = $this->em->getRepository(Slider::class);
+        $sliderImageRepository = $this->em->getRepository(SliderImage::class);
+
+        if (!$sliderRepository->find(1)) {
             $slider = new Slider();
             $this->em->persist($slider);
             $this->em->flush();
         } else {
-            $slider = $this->sliderRepository->find(1);
+            $slider = $sliderRepository->find(1);
         }
 
-        $sliderImages = $this->sliderImageRepository->getImagesByPosition($page, self::ITEM_PER_PAGE);
+        $sliderImages = $sliderImageRepository->getImagesByPosition($page, self::ITEM_PER_PAGE);
 
         $pagination = [
             'page' => $page,
             'route' => 'admin_slider_index',
-            'pages_count' => max(ceil(count($sliderImages) / self::ITEM_PER_PAGE), 1),
+            'pages_count' => max(ceil($sliderImages->count() / self::ITEM_PER_PAGE), 1),
             'route_params' => ['id' => 1],
         ];
 
@@ -77,14 +81,15 @@ class SliderController extends Controller
     /**
      * @param int           $sliderId
      * @param Request       $request
-     * @param ImageUploader $imageUploader
      *
      * @return Response
      *
      * @Route("/addImage/{sliderId}", name="admin_slider_image_add")
      */
-    public function addSliderImage($sliderId, Request $request, ImageUploader $imageUploader): Response
+    public function addSliderImage($sliderId, Request $request): Response
     {
+        $sliderRepository = $this->em->getRepository(Slider::class);
+
         $sliderImage = new SliderImage();
 
         $form = $this->createForm(SliderImageType::class, $sliderImage, [
@@ -95,9 +100,9 @@ class SliderController extends Controller
 
         if ($form->isSubmitted() && $form->isValid()) {
             /** @var Slider $slider * */
-            $slider = $this->sliderRepository->find($sliderId);
+            $slider = $sliderRepository->find($sliderId);
 
-            $imageFileName = $imageUploader->upload($sliderImage->getFile());
+            $imageFileName = $this->imageUploader->upload($sliderImage->getFile());
             $sliderImage->setFileName($imageFileName);
 
             $slider->addImage($sliderImage);
@@ -134,8 +139,10 @@ class SliderController extends Controller
      */
     public function updateSliderImage(Request $request, Slider $slider, SliderImage $sliderImage): Response
     {
+        $sliderImageRepository = $this->em->getRepository(SliderImage::class);
+
         /** Determine possible choices for the image position */
-        $images = $this->sliderImageRepository->getImagesByPosition();
+        $images = $sliderImageRepository->getImagesByPosition();
         $positions = [];
         foreach ($images as $index => $image) {
             $positions[] = $image->getPosition();
@@ -151,7 +158,7 @@ class SliderController extends Controller
 
         if ($form->isSubmitted() && $form->isValid()) {
             /** @var SliderImage $image */
-            $imageAtWantedPosition = $this->sliderImageRepository
+            $imageAtWantedPosition = $sliderImageRepository
                 ->findOneBy([
                     'position' => $sliderImage->getPosition(),
                 ]);

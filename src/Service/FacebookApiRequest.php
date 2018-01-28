@@ -20,7 +20,11 @@ class FacebookApiRequest
         $this->accessToken = $accessToken;
     }
 
-    public function facebookGetRequest($url)
+    /**
+     * @param string $url
+     * @return array|string
+     */
+    public function facebookGetRequest(string $url)
     {
         try {
             $fb = new Facebook([

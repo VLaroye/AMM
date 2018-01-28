@@ -2,7 +2,7 @@
 
 namespace App\Service;
 
-use App\Entity\ContactMail;
+use App\Model\ContactMail;
 use Swift_Message;
 
 class ContactMailSender

@@ -21,16 +21,20 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route as Route;
 class EventsController extends Controller
 {
     private $em;
-    private $eventsRepository;
-    private $eventsCategoryRepository;
+    private $imageUploader;
+    private $fileSystem;
 
     const ITEM_PER_PAGE = 3;
 
-    public function __construct(EntityManagerInterface $em)
+    public function __construct(
+        EntityManagerInterface $em,
+        ImageUploader $imageUploader,
+        Filesystem $fileSystem
+    )
     {
         $this->em = $em;
-        $this->eventsRepository = $em->getRepository(Event::class);
-        $this->eventsCategoryRepository = $em->getRepository(EventCategory::class);
+        $this->imageUploader = $imageUploader;
+        $this->fileSystem = $fileSystem;
     }
 
     /**
@@ -44,8 +48,10 @@ class EventsController extends Controller
      */
     public function eventsIndex($page): Response
     {
-        $events = $this->eventsRepository->findAllByBeginningDateTime($page, self::ITEM_PER_PAGE);
-        $categories = $this->eventsCategoryRepository->findAll();
+        $eventRepository = $this->em->getRepository(Event::class);
+        $eventCategoryRepository = $this->em->getRepository(EventCategory::class);
+        $events = $eventRepository->findAllByBeginningDateTime($page, self::ITEM_PER_PAGE);
+        $categories = $eventCategoryRepository->findAll();
 
         $pagination = [
             'page' => $page,
@@ -72,7 +78,7 @@ class EventsController extends Controller
      *
      * @Route ("/add", name="admin_events_add")
      */
-    public function addEvent(Request $request, ImageUploader $imageUploader): Response
+    public function addEvent(Request $request): Response
     {
         $event = new Event();
 
@@ -81,8 +87,8 @@ class EventsController extends Controller
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $eventCoverImageFileName = $imageUploader->upload($event->getCoverImage()->getFile());
-            $eventImageFileName = $imageUploader->upload($event->getImage()->getFile());
+            $eventCoverImageFileName = $this->imageUploader->upload($event->getCoverImage()->getFile());
+            $eventImageFileName = $this->imageUploader->upload($event->getImage()->getFile());
 
             $event->getCoverImage()->setFileName($eventCoverImageFileName);
             $event->getImage()->setFileName($eventImageFileName);
@@ -126,7 +132,7 @@ class EventsController extends Controller
      *
      * @Route("/update/{id}", name="admin_events_update")
      */
-    public function updateEvent(Event $event, Request $request, ImageUploader $imageUploader, Filesystem $fs): Response
+    public function updateEvent(Event $event, Request $request): Response
     {
         $form = $this->createForm(EventType::class, $event);
 
@@ -140,16 +146,16 @@ class EventsController extends Controller
             if (!$event->getImage()->getFile()) {
                 $event->getImage()->setFileName($originalImage->getFileName());
             } else {
-                $fs->remove($this->getParameter('images_directory').'/'.$originalImage->getFileName());
-                $newImage = $imageUploader->upload($event->getImage()->getFile());
+                $this->fileSystem->remove($this->getParameter('images_directory').'/'.$originalImage->getFileName());
+                $newImage = $this->imageUploader->upload($event->getImage()->getFile());
                 $event->getImage()->setFileName($newImage);
             }
 
             if (!$event->getCoverImage()->getFile()) {
                 $event->getCoverImage()->setFileName($originalCoverImage->getFileName());
             } else {
-                $fs->remove($this->getParameter('images_directory').'/'.$originalCoverImage->getFileName());
-                $newCoverImage = $imageUploader->upload($event->getCoverImage()->getFile());
+                $this->fileSystem->remove($this->getParameter('images_directory').'/'.$originalCoverImage->getFileName());
+                $newCoverImage = $this->imageUploader->upload($event->getCoverImage()->getFile());
                 $event->getCoverImage()->setFileName($newCoverImage);
             }
 
@@ -206,7 +212,8 @@ class EventsController extends Controller
      */
     public function eventsCategoryDelete(EventCategory $category): Response
     {
-        $events = $this->eventsRepository->findEventsByCategory($category->getId());
+        $eventRepository = $this->em->getRepository(Event::class);
+        $events = $eventRepository->findEventsByCategory($category->getId());
 
         if ($events != null) {
             $this->addFlash('warning', 'Impossible de supprimer une catégorie déjà associée à des évènements. Modifier la catégorie de ces évènements avant de supprimer la catégorie.');

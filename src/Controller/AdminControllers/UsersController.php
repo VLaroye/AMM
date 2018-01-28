@@ -5,6 +5,7 @@ namespace App\Controller\AdminControllers;
 use App\Entity\User;
 use App\Exception\PaginationException;
 use App\Form\UserType;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -17,14 +18,17 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route as Route;
 class UsersController extends Controller
 {
     private $em;
-    private $userRepository;
+    private $userPasswordEncoder;
 
     const ITEM_PER_PAGE = 10;
 
-    public function __construct(\Doctrine\ORM\EntityManagerInterface $em)
+    public function __construct(
+        EntityManagerInterface $em,
+        UserPasswordEncoderInterface $userPasswordEncoder
+    )
     {
         $this->em = $em;
-        $this->userRepository = $em->getRepository(User::class);
+        $this->userPasswordEncoder = $userPasswordEncoder;
     }
 
     /**
@@ -38,12 +42,13 @@ class UsersController extends Controller
      */
     public function usersIndex($page = 1)
     {
-        $users = $this->userRepository->findAll($page, self::ITEM_PER_PAGE);
+        $userRepository = $this->em->getRepository(User::class);
+        $users = $userRepository->findAll($page, self::ITEM_PER_PAGE);
 
         $pagination = [
             'page' => $page,
             'route' => 'admin_artists_index',
-            'pages_count' => max(ceil(count($users) / self::ITEM_PER_PAGE), 1),
+            'pages_count' => max(ceil($users->count() / self::ITEM_PER_PAGE), 1),
             'route_params' => [],
         ];
 
@@ -65,7 +70,7 @@ class UsersController extends Controller
      *
      * @Route("/add", name="admin_users_add")
      */
-    public function addUser(Request $request, UserPasswordEncoderInterface $encoder): Response
+    public function addUser(Request $request): Response
     {
         $user = new User();
 
@@ -76,7 +81,7 @@ class UsersController extends Controller
         if ($form->isSubmitted() && $form->isValid()) {
             $user = $form->getData();
 
-            $encodedPassword = $encoder->encodePassword($user, $user->getPassword());
+            $encodedPassword = $this->userPasswordEncoder->encodePassword($user, $user->getPassword());
 
             $user->setPassword($encodedPassword);
 

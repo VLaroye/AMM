@@ -2,11 +2,11 @@
 
 namespace App\Controller;
 
-use App\Entity\ContactMail;
+use App\Entity\Artist;
+use App\Model\ContactMail;
+use App\Entity\Event;
+use App\Entity\SliderImage;
 use App\Form\ContactType;
-use App\Repository\ArtistRepository;
-use App\Repository\EventRepository;
-use App\Repository\SliderImageRepository;
 use App\Service\FacebookApiRequest;
 use App\Service\ContactMailSender;
 use Doctrine\ORM\EntityManagerInterface;
@@ -20,20 +20,18 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route as Route;
 class AppController extends Controller
 {
     private $em;
-    private $sliderImageRepository;
-    private $artistRepository;
-    private $eventRepository;
+    private $facebookApiRequest;
+    private $contactMailSender;
 
     public function __construct(
         EntityManagerInterface $em,
-        SliderImageRepository $sliderImageRepository,
-        ArtistRepository $artistRepository,
-        EventRepository $eventRepository
-        ) {
+        FacebookApiRequest $facebookApiRequest,
+        ContactMailSender $contactMailSender
+    )
+    {
         $this->em = $em;
-        $this->sliderImageRepository = $sliderImageRepository;
-        $this->artistRepository = $artistRepository;
-        $this->eventRepository = $eventRepository;
+        $this->facebookApiRequest = $facebookApiRequest;
+        $this->contactMailSender = $contactMailSender;
     }
 
     /**
@@ -43,7 +41,8 @@ class AppController extends Controller
      */
     public function homepage(): Response
     {
-        $sliderImages = $this->sliderImageRepository->getImagesByPosition();
+        $sliderImageRepository = $this->em->getRepository(SliderImage::class);
+        $sliderImages = $sliderImageRepository->getImagesByPosition();
 
         return $this->render('front/homepage.html.twig', [
             'sliderImages' => $sliderImages,
@@ -57,7 +56,8 @@ class AppController extends Controller
      */
     public function festival(): Response
     {
-        $artists = $this->artistRepository->findAllArtistsByPriority();
+        $artistRepository = $this->em->getRepository(Artist::class);
+        $artists = $artistRepository->findAllArtistsByPriority();
 
         return $this->render('front/festival.html.twig', [
             'artists' => $artists,
@@ -73,7 +73,9 @@ class AppController extends Controller
      */
     public function artist(string $name): Response
     {
-        $artist = $this->artistRepository->findOneBy([
+        $artistRepository = $this->em->getRepository(Artist::class);
+
+        $artist = $artistRepository->findOneBy([
             'slugifiedName' => $name,
         ]);
 
@@ -89,7 +91,9 @@ class AppController extends Controller
      */
     public function events(): Response
     {
-        $events = $this->eventRepository->findAllFuturByBeginningDateTime();
+        $eventRepository = $this->em->getRepository(Event::class);
+
+        $events = $eventRepository->findAllFuturByBeginningDateTime();
 
         return $this->render('front/events.html.twig', [
             'events' => $events,
@@ -97,15 +101,13 @@ class AppController extends Controller
     }
 
     /**
-     * @param FacebookApiRequest $facebookApiRequest
-     *
      * @return Response
      *
      * @Route("/galerie", name="gallery")
      */
-    public function albumGallery(FacebookApiRequest $facebookApiRequest): Response
+    public function albumGallery(): Response
     {
-        $albumsData = $facebookApiRequest->facebookGetRequest('/167068823493165/albums/');
+        $albumsData = $this->facebookApiRequest->facebookGetRequest('/167068823493165/albums/');
         $albums = $albumsData['data'];
 
         return $this->render('front/gallery.html.twig', [
@@ -115,17 +117,16 @@ class AppController extends Controller
 
     /**
      * @param $albumId
-     * @param FacebookApiRequest $facebookApiRequest
      * @param Request            $request
      *
      * @return JsonResponse|Response
      *
      * @Route("/galerie/{albumId}", name="gallery_by_album")
      */
-    public function imagesGallery($albumId, FacebookApiRequest $facebookApiRequest, Request $request)
+    public function imagesGallery($albumId, Request $request)
     {
         if ($request->isXmlHttpRequest()) {
-            $images = $facebookApiRequest->facebookGetRequest('/'.$albumId.'/photos?fields=images,name');
+            $images = $this->facebookApiRequest->facebookGetRequest('/'.$albumId.'/photos?fields=images,name');
             $images = json_encode($images['data']);
 
             $response = new JsonResponse($images);
@@ -156,14 +157,13 @@ class AppController extends Controller
 
     /**
      * @param Request           $request
-     * @param ContactMailSender $mailSender
      *
      * @return JsonResponse
      *
      * @Route("/contact", name="post_contact")
      * @Method({"POST"})
      */
-    public function postContact(Request $request, ContactMailSender $mailSender)
+    public function postContact(Request $request)
     {
         if (!$request->isXmlHttpRequest()) {
             return new JsonResponse(['message' => 'Cette page n\'est accessible que depuis une requête Ajax.']);
@@ -175,7 +175,7 @@ class AppController extends Controller
         $form->handleRequest($request);
 
         if ($form->isValid()) {
-            $mailSender->sendMail($contactMail);
+            $this->contactMailSender->sendMail($contactMail);
 
             return new JsonResponse(['message' => 'Mail envoyé !'], 200);
         }
